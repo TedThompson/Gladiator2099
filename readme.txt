@@ -6,7 +6,8 @@ Version:       version 0.96
 Date:          1999-08-02
 Author:        Mr. Elusive
 Email:         MrElusive@botepidemic.com
-Bot Homepage:  http://www.botepidemic.com/gladiator
+Bot Homepage:  http://www.botepidemic.com/gladiator (defunct)-ed.
+               https://mrelusive.com/oldprojects/gladiator/gladiator.html
 
 
 Description
