@@ -18,7 +18,7 @@ nor support this source code.
 The Gladiator Bot game source code may NOT be sold or used in
 commercial products in ANY form.
 
-Please read the included liscense.txt for the copyright information
+Please read the included [liscense.txt](https://github.com/TedThompson/Gladiator2099/blob/master/liscense.txt) for the copyright information
 regarding those files belonging to Id Software, Inc.
 
 Contact David Wright for the copyright information regarding the
@@ -31,7 +31,8 @@ documentation included with your product.
 
     This product incorporates source code from the Gladiator bot.
     The Gladiator bot is available at the Gladiator Bot page
-    http://www.botepidemic.com/gladiator.
+    http://www.botepidemic.com/gladiator (defunct)-Ed.
+    https://mrelusive.com/oldprojects/gladiator/gladiator.html.
 
     This program is in NO way supported by MrElusive.
 
