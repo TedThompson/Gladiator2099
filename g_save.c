@@ -178,6 +178,7 @@ void InitGame (void)
 	gi.dprintf(" This game library contains the bot\n");
 	gi.dprintf("    library interface developed\n");
 	gi.dprintf("           by Mr Elusive.\n");
+	gi.dprintf("  (Jan Paul van Waveren, 1977-2017)\n");
 	gi.dprintf("=====================================\n\n");
 #endif //BOT
 
