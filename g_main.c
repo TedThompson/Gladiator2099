@@ -540,7 +540,7 @@ void G_RunFrame (void)
 	level.time = level.framenum*FRAMETIME;
 
 	// choose a client for monsters to target this frame
-	AI_SetSightClient ();
+//	AI_SetSightClient ();
 
 	// exit intermissions
 

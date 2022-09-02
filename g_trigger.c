@@ -131,12 +131,11 @@ void SP_trigger_multiple (edict_t *ent)
 	ent->movetype = MOVETYPE_NONE;
 	ent->svflags |= SVF_NOCLIENT;
 
-
-	if (ent->spawnflags & (TRIGGER_TRIGGERED
-#ifdef ROGUE
-				| TRIGGER_TOGGLE)
+#ifndef ROGUE
+	if (ent->spawnflags & (TRIGGER_TRIGGERED))
+#elif ROGUE
+	if (ent->spawnflags & (TRIGGER_TRIGGERED | TRIGGER_TOGGLE))
 #endif //ROGUE
-			)
 	{
 		ent->solid = SOLID_NOT;
 		ent->use = trigger_enable;

@@ -227,6 +227,7 @@ char *TeamPlayMenuString(void)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
+#ifdef ZOID
 char *BotCTFTeamString(void)
 {
 	if (botctfteam->value == 1)
@@ -236,6 +237,7 @@ char *BotCTFTeamString(void)
 	else
 		return "bot team          auto assign";
 } //end of the function BotCTFTeam
+#endif
 //========================================================================
 //
 // Parameter:				-
@@ -350,6 +352,7 @@ void MenuProc(edict_t *ent, int id)
 		case MID_DM_NO_NUKES: ToggleDMFlag("allow nukes", DF_NO_NUKES, 1, id); break;
 		case MID_DM_NO_SPHERES: ToggleDMFlag("allow spheres", DF_NO_SPHERES, 1, id); break;
 #endif //ROGUE
+#ifdef ZOID
 		case MID_CTF_BOTTEAM:
 		{
 			if (botctfteam->value == 1) gi.cvar_set("botctfteam", "2");
@@ -362,7 +365,8 @@ void MenuProc(edict_t *ent, int id)
 		case MID_CTF_ARMOR_PROTECT: ToggleDMFlag("armor protect", DF_ARMOR_PROTECT, 0, id); break;
 		case MID_CTF_NO_TECH: ToggleDMFlag("allow techs", DF_CTF_NO_TECH, 1, id); break;
 		case MID_CTF_HOOK: ToggleMenuCVarBoolean(gi.cvar("ctf_hook", "", 0), "offhand hook", id); BotLib_BotLibVarSet("usehook", ctf_hook->string); break;
-
+#endif
+#ifdef ROCKETARENA
 		case MID_RA2_BOTARENA:
 		{
 			if (arena->value < 1) arena->value = 1;
@@ -374,6 +378,7 @@ void MenuProc(edict_t *ent, int id)
 			ChangeMenuItemName(mainmenu, MID_RA2_BOTARENA, buf);
 			break;
 		} //end case
+#endif
 		case MID_RA2_BOTCYCLE: ToggleMenuCVarBoolean(gi.cvar("ra_botcycle", "", 0), "bot cycle", id); break;
 		case MID_RA2_SELFDAMAGE: ToggleMenuCVarBoolean(gi.cvar("selfdamage", "", 0), "self damage", id); break;
 		case MID_RA2_HEALTHPROTECT: ToggleMenuCVarBoolean(gi.cvar("healthprotect", "", 0), "health protect", id); break;
@@ -526,8 +531,11 @@ void CreateBotMenu(void)
 		QuakeAppendMenu(botmenu, MI_SEPERATOR, -1, NULL, "", NULL);
 		QuakeAppendMenu(botmenu, MI_SEPERATOR, -1, NULL, "", NULL);
 		QuakeAppendMenu(botmenu, MI_SEPERATOR, -1, NULL, "", NULL);
+#ifdef ZOID
 		if(ctf->value)
 			QuakeAppendMenu(botmenu, MI_ITEM, MID_CTF_BOTTEAM, NULL, BotCTFTeamString(), NULL);
+#endif
+#ifdef ROCKETARENA
 		else if (ra->value)
 		{
 			sprintf(buf, "%-18s%d", "bot arena", (int) arena->value);
@@ -535,11 +543,14 @@ void CreateBotMenu(void)
 		}
 		if(!ra->value)
 		{
+#endif
 			cvar_t *minplayers = gi.cvar("minimumplayers", "0", 0);
 			sprintf(buf, "%-18s%s", "minimum players", minplayers->value > 0 ? minplayers->string : "off");
 			QuakeAppendMenu(botmenu, MI_ITEM, MID_BOT_MIN_PLAYERS, NULL, buf, NULL);
 			CheckForNewBotFile();
+#ifdef ROCKETARENA
 		}
+#endif
 		QuakeAppendMenu(botmenu, MI_SUBMENU, MID_BOT_ADD, addmenu, "add bot", NULL);
 		QuakeAppendMenu(botmenu, MI_ITEM, MID_BOT_ADDRANDOM, NULL, "add random", NULL);
 		QuakeAppendMenu(botmenu, MI_SUBMENU, MID_BOT_REMOVE, removemenu, "remove bot", NULL);
@@ -564,10 +575,13 @@ void CreateBotMenu(void)
 		QuakeAppendMenu(dmmenu, MI_ITEM, MID_DM_QUAD_DROP, NULL, OnOffString("quad drop", (int) dmflags->value & DF_QUAD_DROP), NULL);
 		QuakeAppendMenu(dmmenu, MI_ITEM, MID_DM_FIXED_FOV, NULL, OnOffString("fixed FOV", (int) dmflags->value & DF_FIXED_FOV), NULL);
 		//Xatrix mission pack 1
+#ifdef XATRIX
 		if (xatrix->value)
 		{
 			QuakeAppendMenu(dmmenu, MI_ITEM, MID_DM_QUADFIRE_DROP, NULL, OnOffString("quad fire drop", (int) dmflags->value & DF_QUADFIRE_DROP), NULL);
 		} //end if
+#endif
+#ifdef ROGUE
 		//Rogue mission pack 2
 		if (rogue->value)
 		{
@@ -576,14 +590,17 @@ void CreateBotMenu(void)
 			QuakeAppendMenu(dmmenu, MI_ITEM, MID_DM_NO_NUKES, NULL, OnOffString("allow nukes", !((int) dmflags->value & DF_NO_NUKES)), NULL);
 			QuakeAppendMenu(dmmenu, MI_ITEM, MID_DM_NO_SPHERES, NULL, OnOffString("allow spheres", !((int) dmflags->value & DF_NO_SPHERES)), NULL);
 		} //end if
+#endif
 		QuakeAppendMenu(dmmenu, MI_SEPERATOR, -1, NULL, "-----------", NULL);
 		QuakeAppendMenu(dmmenu, MI_ITEM, MID_BACK, NULL, "back", NULL);
+#ifdef ZOID
 		//Capture The Flag
 		ctfmenu = QuakeCreateMenu(MID_CTF, "", "m_ctf");
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_CTF_FORCEJOIN, NULL, OnOffString("force join", (int) dmflags->value & DF_CTF_FORCEJOIN), NULL);
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_CTF_ARMOR_PROTECT, NULL, OnOffString("armor protect", (int) dmflags->value & DF_ARMOR_PROTECT), NULL);
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_CTF_NO_TECH, NULL, OnOffString("allow techs", !((int) dmflags->value & DF_CTF_NO_TECH)), NULL);
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_CTF_HOOK, NULL, OnOffString("offhand hook", (int) (gi.cvar("ctf_hook", "1", 0))->value), NULL);
+//#endif
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_DM_NO_HEALTH, NULL, OnOffString("allow health", !((int) dmflags->value & DF_NO_HEALTH)), NULL);
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_DM_NO_ITEMS, NULL, OnOffString("allow powerups", !((int) dmflags->value & DF_NO_ITEMS)), NULL);
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_DM_NO_ARMOR, NULL, OnOffString("allow armor", !((int) dmflags->value & DF_NO_ARMOR)), NULL);
@@ -600,7 +617,9 @@ void CreateBotMenu(void)
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_DM_FIXED_FOV, NULL, OnOffString("fixed FOV", (int) dmflags->value & DF_FIXED_FOV), NULL);
 		QuakeAppendMenu(ctfmenu, MI_SEPERATOR, -1, NULL, "-----------", NULL);
 		QuakeAppendMenu(ctfmenu, MI_ITEM, MID_BACK, NULL, "back", NULL);
+#endif
 		//Rocket Arena 2
+#ifdef ROCKETARENA
 		ra2menu = QuakeCreateMenu(MID_RA2, "", "m_ra2");
 		QuakeAppendMenu(ra2menu, MI_ITEM, MID_DM_TEAMPLAY, NULL, TeamPlayMenuString(), NULL);
 		QuakeAppendMenu(ra2menu, MI_ITEM, MID_RA2_BOTCYCLE, NULL, OnOffString("bot cycle", (int) (gi.cvar("ra_botcycle", "1", 0))->value), NULL);
@@ -620,6 +639,7 @@ void CreateBotMenu(void)
 		QuakeAppendMenu(ra2menu, MI_ITEM, MID_RA2_MSTART_AUTO, NULL, OnOffString("match auto-start", (int) (gi.cvar("mstart_auto", "0", 0))->value), NULL);
 		QuakeAppendMenu(ra2menu, MI_SEPERATOR, -1, NULL, "-----------", NULL);
 		QuakeAppendMenu(ra2menu, MI_ITEM, MID_BACK, NULL, "back", NULL);
+#endif
 	}
 	//
 	mainmenu = QuakeCreateMenu(MID_MAIN, "", "m_main"); //"Main menu"
@@ -631,10 +651,26 @@ void CreateBotMenu(void)
 	{
 		QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_BOT, botmenu, "Bots", NULL);
 		//
+#if defined ROCKETARENA && defined ZOID
 		if (!ctf->value && !ra->value) QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_DM, dmmenu, "DM", NULL);
+#endif
+#if !defined ZOID && defined ROCKETARENA
+		if (!ra->value) QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_DM, dmmenu, "DM", NULL);
+#endif
+#if !defined ROCKETARENA && defined ZOID
+		if (!ctf->value) QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_DM, dmmenu, "DM", NULL);
+#endif
+#ifdef ZOID
 		if (ctf->value) QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_CTF, ctfmenu, "CTF", NULL);
+#endif
+#ifdef ROCKETARENA
 		if (ra->value) QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_RA2, ra2menu, "RA2", NULL);
+#endif
+#if !defined ZOID && !defined ROCKETARENA
+		QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_DM, dmmenu, "DM", NULL);
+#endif
 	}
+
 	//
 	QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_HELP, helpmenu, "Help", NULL);
 	QuakeAppendMenu(mainmenu, MI_SUBMENU, MID_HELP, creditsmenu, "Credits", NULL);

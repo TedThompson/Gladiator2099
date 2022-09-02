@@ -245,11 +245,12 @@ static int CheckPowerArmor (edict_t *ent, vec3_t point, vec3_t normal, int damag
 
 	client = ent->client;
 
-	if (dflags & (DAMAGE_NO_ARMOR
-#ifdef ROGUE
-				| DAMAGE_NO_POWER_ARMOR)
+	
+#ifndef ROGUE
+	if (dflags & (DAMAGE_NO_ARMOR))
+#elif ROGUE
+	if (dflags & (DAMAGE_NO_ARMOR | DAMAGE_NO_POWER_ARMOR))
 #endif //ROGUE
-				)
 		return 0;
 
 	if (client)
@@ -332,12 +333,12 @@ static int CheckArmor (edict_t *ent, vec3_t point, vec3_t normal, int damage, in
 	if (!client)
 		return 0;
 
-	if (dflags & (DAMAGE_NO_ARMOR
-#ifdef ROGUE
+#ifndef ROGUE
+	if (dflags & (DAMAGE_NO_ARMOR))
+#elif ROGUE
 			// ROGUE - added DAMAGE_NO_REG_ARMOR for atf rifle
-			| DAMAGE_NO_REG_ARMOR)
+	if (dflags & (DAMAGE_NO_ARMOR | DAMAGE_NO_REG_ARMOR))
 #endif //ROGUE
-		)
 		return 0;
 
 	index = ArmorIndex (ent);

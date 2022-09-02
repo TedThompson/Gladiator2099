@@ -77,7 +77,7 @@ void SP_target_crosslevel_trigger (edict_t *ent);
 void SP_target_crosslevel_target (edict_t *ent);
 void SP_target_laser (edict_t *self);
 void SP_target_help (edict_t *ent);
-void SP_target_actor (edict_t *ent);
+//void SP_target_actor (edict_t *ent);
 void SP_target_lightramp (edict_t *self);
 void SP_target_earthquake (edict_t *ent);
 void SP_target_character (edict_t *ent);
@@ -97,11 +97,11 @@ void SP_point_combat (edict_t *self);
 void SP_misc_explobox (edict_t *self);
 void SP_misc_banner (edict_t *self);
 void SP_misc_satellite_dish (edict_t *self);
-void SP_misc_actor (edict_t *self);
+//void SP_misc_actor (edict_t *self);
 void SP_misc_gib_arm (edict_t *self);
 void SP_misc_gib_leg (edict_t *self);
 void SP_misc_gib_head (edict_t *self);
-void SP_misc_insane (edict_t *self);
+//void SP_misc_insane (edict_t *self);
 void SP_misc_deadsoldier (edict_t *self);
 void SP_misc_viper (edict_t *self);
 void SP_misc_viper_bomb (edict_t *self);
@@ -113,7 +113,7 @@ void SP_misc_blackhole (edict_t *self);
 void SP_misc_eastertank (edict_t *self);
 void SP_misc_easterchick (edict_t *self);
 void SP_misc_easterchick2 (edict_t *self);
-
+/*
 void SP_monster_berserk (edict_t *self);
 void SP_monster_gladiator (edict_t *self);
 void SP_monster_gunner (edict_t *self);
@@ -141,12 +141,13 @@ void SP_monster_commander_body (edict_t *self);
 void SP_turret_breach (edict_t *self);
 void SP_turret_base (edict_t *self);
 void SP_turret_driver (edict_t *self);
-
+*/
 #ifdef BOT
 void SP_bot(edict_t *self);
 #endif //BOT
 
 #ifdef XATRIX
+/*
 // RAFAEL 14-APR-98
 void SP_monster_soldier_hypergun (edict_t *self);
 void SP_monster_soldier_lasergun (edict_t *self);
@@ -155,7 +156,7 @@ void SP_monster_fixbot (edict_t *self);
 void SP_monster_gekk (edict_t *self);
 void SP_monster_chick_heat (edict_t *self);
 void SP_monster_gladb (edict_t *self);
-void SP_monster_boss5 (edict_t *self);
+void SP_monster_boss5 (edict_t *self); */
 void SP_rotating_light (edict_t *self);
 void SP_object_repair (edict_t *self);
 void SP_misc_crashviper (edict_t *ent);
@@ -176,8 +177,8 @@ void SP_info_player_coop_lava (edict_t *self);
 void SP_info_teleport_destination (edict_t *self);
 void SP_trigger_teleport (edict_t *self);
 void SP_trigger_disguise (edict_t *self);
-void SP_monster_stalker (edict_t *self);
-void SP_monster_turret (edict_t *self);
+//void SP_monster_stalker (edict_t *self);
+//void SP_monster_turret (edict_t *self);
 void SP_target_steam (edict_t *self);
 void SP_target_anger (edict_t *self);
 void SP_target_killplayers (edict_t *self);
@@ -187,9 +188,9 @@ void SP_target_orb (edict_t *self);
 // pmm
 //void SP_target_spawn (edict_t *self);
 void SP_hint_path (edict_t *self);
-void SP_monster_carrier (edict_t *self);
-void SP_monster_widow (edict_t *self);
-void SP_monster_widow2 (edict_t *self);
+//void SP_monster_carrier (edict_t *self);
+//void SP_monster_widow (edict_t *self);
+//void SP_monster_widow2 (edict_t *self);
 void SP_dm_tag_token (edict_t *self);
 void SP_dm_dball_goal (edict_t *self);
 void SP_dm_dball_ball (edict_t *self);
@@ -197,9 +198,9 @@ void SP_dm_dball_team1_start (edict_t *self);
 void SP_dm_dball_team2_start (edict_t *self);
 void SP_dm_dball_ball_start (edict_t *self);
 void SP_dm_dball_speed_change (edict_t *self);
-void SP_monster_kamikaze (edict_t *self);
-//void SP_monster_chick2 (edict_t *self);
-void SP_turret_invisible_brain (edict_t *self);
+//void SP_monster_kamikaze (edict_t *self);
+////void SP_monster_chick2 (edict_t *self);
+//void SP_turret_invisible_brain (edict_t *self);
 void SP_xatrix_item (edict_t *self);
 void SP_misc_nuke_core (edict_t *self);
 #endif //ROGUE
@@ -278,7 +279,7 @@ spawn_t	spawns[] = {
 	{"target_crosslevel_target", SP_target_crosslevel_target},
 	{"target_laser", SP_target_laser},
 	{"target_help", SP_target_help},
-	{"target_actor", SP_target_actor},
+	//{"target_actor", SP_target_actor},
 	{"target_lightramp", SP_target_lightramp},
 	{"target_earthquake", SP_target_earthquake},
 	{"target_character", SP_target_character},
@@ -306,11 +307,11 @@ spawn_t	spawns[] = {
 	{"misc_ctf_small_banner", SP_misc_ctf_small_banner},
 #endif //ZOID
 	{"misc_satellite_dish", SP_misc_satellite_dish},
-	{"misc_actor", SP_misc_actor},
+	//{"misc_actor", SP_misc_actor},
 	{"misc_gib_arm", SP_misc_gib_arm},
 	{"misc_gib_leg", SP_misc_gib_leg},
 	{"misc_gib_head", SP_misc_gib_head},
-	{"misc_insane", SP_misc_insane},
+	//{"misc_insane", SP_misc_insane},
 	{"misc_deadsoldier", SP_misc_deadsoldier},
 	{"misc_viper", SP_misc_viper},
 	{"misc_viper_bomb", SP_misc_viper_bomb},
@@ -337,7 +338,7 @@ spawn_t	spawns[] = {
 	// RAFAEL 12-MAY-98
 	{"misc_nuke", SP_misc_nuke},
 #endif //XATRIX
-
+/*
 	{"monster_berserk", SP_monster_berserk},
 	{"monster_gladiator", SP_monster_gladiator},
 	{"monster_gunner", SP_monster_gunner},
@@ -379,7 +380,7 @@ spawn_t	spawns[] = {
 	{"turret_breach", SP_turret_breach},
 	{"turret_base", SP_turret_base},
 	{"turret_driver", SP_turret_driver},
-
+*/
 #ifdef BOT
 	{"bot", SP_bot},
 #endif //BOT
@@ -394,8 +395,8 @@ spawn_t	spawns[] = {
 	{"trigger_disguise", SP_trigger_disguise},
 	{"info_teleport_destination", SP_info_teleport_destination},
 	{"info_player_coop_lava", SP_info_player_coop_lava},
-	{"monster_stalker", SP_monster_stalker},
-	{"monster_turret", SP_monster_turret},
+//	{"monster_stalker", SP_monster_stalker},
+//	{"monster_turret", SP_monster_turret},
 	{"target_steam", SP_target_steam},
 	{"target_anger", SP_target_anger},
 //	{"target_spawn", SP_target_spawn},
@@ -404,12 +405,12 @@ spawn_t	spawns[] = {
 	{"target_blacklight", SP_target_blacklight},
 	{"target_orb", SP_target_orb},
 	// pmm
-	{"monster_daedalus", SP_monster_hover},
+//	{"monster_daedalus", SP_monster_hover},
 	{"hint_path", SP_hint_path},
-	{"monster_carrier", SP_monster_carrier},
-	{"monster_widow", SP_monster_widow},
-	{"monster_widow2", SP_monster_widow2},
-	{"monster_medic_commander", SP_monster_medic},
+//	{"monster_carrier", SP_monster_carrier},
+//	{"monster_widow", SP_monster_widow},
+//	{"monster_widow2", SP_monster_widow2},
+//	{"monster_medic_commander", SP_monster_medic},
 	{"dm_tag_token", SP_dm_tag_token},
 	{"dm_dball_goal", SP_dm_dball_goal},
 	{"dm_dball_ball", SP_dm_dball_ball},
@@ -417,9 +418,9 @@ spawn_t	spawns[] = {
 	{"dm_dball_team2_start", SP_dm_dball_team2_start},
 	{"dm_dball_ball_start", SP_dm_dball_ball_start},
 	{"dm_dball_speed_change", SP_dm_dball_speed_change},
-	{"monster_kamikaze", SP_monster_kamikaze},
-//	{"monster_chick2", SP_monster_chick2},
-	{"turret_invisible_brain", SP_turret_invisible_brain},
+//	{"monster_kamikaze", SP_monster_kamikaze},
+////	{"monster_chick2", SP_monster_chick2},
+//	{"turret_invisible_brain", SP_turret_invisible_brain},
 	{"misc_nuke_core", SP_misc_nuke_core},
 
 	{"ammo_magslug", SP_xatrix_item},
@@ -1022,7 +1023,7 @@ char *dm_statusbar =
 "endif "
 ;
 
-#ifdef BOT
+#if defined BOT && defined ZOID
 void PrecacheCTFItems(void);
 #endif //BOT
 
@@ -1227,7 +1228,7 @@ void SP_worldspawn (edict_t *ent)
 	gi.modelindex ("models/objects/gibs/skull/tris.md2");
 	gi.modelindex ("models/objects/gibs/head2/tris.md2");
 
-#ifdef BOT
+#if defined BOT && defined ZOID
 	PrecacheCTFItems();
 #endif //BOT
 
@@ -1281,7 +1282,7 @@ void SP_worldspawn (edict_t *ent)
 //
 //ROGUE
 //
-
+/*
 //
 // Monster spawning code
 //
@@ -1338,7 +1339,7 @@ edict_t *CreateFlyMonster (vec3_t origin, vec3_t angles, vec3_t mins, vec3_t max
 // are bad things down there or not
 //
 // this is from m_move.c
-#define	STEPSIZE	18
+//#define	STEPSIZE	18 //moved to g_local.h
 
 edict_t *CreateGroundMonster (vec3_t origin, vec3_t angles, vec3_t entMins, vec3_t entMaxs, char *classname, int height)
 {
@@ -1372,7 +1373,7 @@ edict_t *CreateGroundMonster (vec3_t origin, vec3_t angles, vec3_t entMins, vec3
 
 	return newEnt;
 }
-
+*/
 
 // FindSpawnPoint
 // PMM - this is used by the medic commander (possibly by the carrier) to find a good spawn point
@@ -1397,13 +1398,13 @@ qboolean FindSpawnPoint (vec3_t startpoint, vec3_t mins, vec3_t maxs, vec3_t spa
 
 		VectorCopy (startpoint, top);
 		top[2] += maxMoveUp;
-/*
-		gi.WriteByte (svc_temp_entity);
-		gi.WriteByte (TE_DEBUGTRAIL);
-		gi.WritePosition (top);
-		gi.WritePosition (startpoint);
-		gi.multicast (startpoint, MULTICAST_ALL);	
-*/
+
+//		gi.WriteByte (svc_temp_entity);
+//		gi.WriteByte (TE_DEBUGTRAIL);
+//		gi.WritePosition (top);
+//		gi.WritePosition (startpoint);
+//		gi.multicast (startpoint, MULTICAST_ALL);	
+
 		tr = gi.trace (top, mins, maxs, startpoint, NULL, MASK_MONSTERSOLID);
 		if (tr.startsolid || tr.allsolid)
 		{
@@ -1493,13 +1494,13 @@ qboolean CheckGroundSpawnPoint (vec3_t origin, vec3_t entMins, vec3_t entMaxs, f
 	// FIXME - gravity vector
 	stop[2] = origin[2] + entMins[2] - height;
 
-	/*
-	gi.WriteByte (svc_temp_entity);
-	gi.WriteByte (TE_DEBUGTRAIL);
-	gi.WritePosition (origin);
-	gi.WritePosition (stop);
-	gi.multicast (start, MULTICAST_ALL);
-	*/
+	
+//	gi.WriteByte (svc_temp_entity);
+//	gi.WriteByte (TE_DEBUGTRAIL);
+//	gi.WritePosition (origin);
+//	gi.WritePosition (stop);
+//	gi.multicast (start, MULTICAST_ALL);
+	
 
 	tr = gi.trace (origin, entMins, entMaxs, stop, NULL, MASK_MONSTERSOLID | MASK_WATER);
 	// it's not going to be all solid or start solid, since that's checked above
@@ -1580,13 +1581,13 @@ realcheck:
 				start[0] = stop[0] = x ? maxs[0] : mins[0];
 				start[1] = stop[1] = y ? maxs[1] : mins[1];
 				
-				/*
-				gi.WriteByte (svc_temp_entity);
-				gi.WriteByte (TE_DEBUGTRAIL);
-				gi.WritePosition (start);
-				gi.WritePosition (stop);
-				gi.multicast (start, MULTICAST_ALL);	
-				*/
+				
+//				gi.WriteByte (svc_temp_entity);
+//				gi.WriteByte (TE_DEBUGTRAIL);
+//				gi.WritePosition (start);
+//				gi.WritePosition (stop);
+//				gi.multicast (start, MULTICAST_ALL);	
+				
 				tr = gi.trace (start, vec3_origin, vec3_origin, stop, NULL, MASK_MONSTERSOLID);
 
 //PGM
@@ -1747,7 +1748,7 @@ void SpawnGrow_Spawn (vec3_t startpos, int size)
 // ****************************
 // WidowLeg stuff
 // ****************************
-
+/*
 #define	MAX_LEGSFRAME	23
 #define	LEG_WAIT_TIME	1
 
@@ -1858,5 +1859,5 @@ void Widowlegs_Spawn (vec3_t startpos, vec3_t angles)
 
 	ent->nextthink = level.time + FRAMETIME;
 	gi.linkentity (ent);
-}
+}*/
 #endif //ROGUE

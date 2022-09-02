@@ -72,9 +72,9 @@ void AI_SetSightClient (void)
 ai_move
 
 Move the specified distance at current facing.
-This replaces the QC functions: ai_forward, ai_back, ai_pain, and ai_painforward
+This replaces the QC functions: ai_forward, ai_back, ai_pain, and ai_painforward.
 ==============
-*/
+
 void ai_move (edict_t *self, float dist)
 {
 	M_walkmove (self, self->s.angles[YAW], dist);
@@ -88,7 +88,7 @@ ai_stand
 Used for standing around and looking for players
 Distance is for slight position adjustments needed by the animations
 ==============
-*/
+
 void ai_stand (edict_t *self, float dist)
 {
 	vec3_t	v;
@@ -176,7 +176,7 @@ ai_walk
 
 The monster is walking it's beat
 =============
-*/
+
 void ai_walk (edict_t *self, float dist)
 {
 	M_MoveToGoal (self, dist);
@@ -207,7 +207,7 @@ ai_charge
 Turns towards target and advances
 Use this call with a distnace of 0 to replace ai_face
 ==============
-*/
+
 void ai_charge (edict_t *self, float dist)
 {
 	vec3_t	v;
@@ -289,7 +289,7 @@ ai_turn
 don't move, but turn towards ideal_yaw
 Distance is for slight position adjustments needed by the animations
 =============
-*/
+
 void ai_turn (edict_t *self, float dist)
 {
 	if (dist)
@@ -500,7 +500,7 @@ To avoid spending too much time, only a single client (or fakeclient) is
 checked each frame.  This means multi player games will have slightly
 slower noticing monsters.
 ============
-*/
+
 qboolean FindTarget (edict_t *self)
 {
 	edict_t		*client;
@@ -980,7 +980,7 @@ ai_run_slide
 
 Strafe sideways, but stay at aproximately the same range
 =============
-*/
+
 void ai_run_slide(edict_t *self, float distance)
 {
 #ifdef ROGUE
@@ -1010,18 +1010,18 @@ void ai_run_slide(edict_t *self, float distance)
 	if (!(self->monsterinfo.aiflags & AI_MANUAL_STEERING))
 		M_ChangeYaw (self);
 
-	/*
-	if (!(self->flags & FL_FLY))
-	{
-		if (M_walkmove (self, self->ideal_yaw + ofs, distance))
-			return;
-	}
-	else
-	{
-		if (M_walkmove (self, self->ideal_yaw, distance))
-			return;
-	}
-	*/
+	
+//	if (!(self->flags & FL_FLY))
+//	{
+//		if (M_walkmove (self, self->ideal_yaw + ofs, distance))
+//			return;
+//	}
+//	else
+//	{
+//		if (M_walkmove (self, self->ideal_yaw, distance))
+//			return;
+//	}
+	
 	// PMM - clamp maximum sideways move for non flyers to make them look less jerky
 	if (!self->flags & FL_FLY)
 		distance = min (distance, MAX_SIDESTEP);
@@ -1045,15 +1045,15 @@ void ai_run_slide(edict_t *self, float distance)
 
 	// PMM - the move failed, so signal the caller (ai_run) to try going straight
 	self->monsterinfo.attack_state = AS_STRAIGHT;
-	/*
-	if (!(self->flags & FL_FLY))
-	{
-		M_walkmove (self, self->ideal_yaw + ofs, distance);
-	}
-	else
-	{
-		M_walkmove (self, self->ideal_yaw, distance);
-	}*/
+	
+//	if (!(self->flags & FL_FLY))
+//	{
+//		M_walkmove (self, self->ideal_yaw + ofs, distance);
+//	}
+//	else
+//	{
+//		M_walkmove (self, self->ideal_yaw, distance);
+//	}
 #else //ROGUE
 	float	ofs;
 	
@@ -1292,7 +1292,7 @@ ai_run
 
 The monster has an enemy it is trying to kill
 =============
-*/
+
 void ai_run (edict_t *self, float dist)
 {
 	vec3_t		v;
@@ -1744,3 +1744,4 @@ void ai_run (edict_t *self, float dist)
 	if (self)
 		self->goalentity = save;
 }
+*/

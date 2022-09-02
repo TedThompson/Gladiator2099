@@ -2,19 +2,19 @@
 
 //-------------------------------------------------------------
 #define BOT								//Gladiator Bot
-#define BOT_IMPORT					//game import redirection
+#define BOT_IMPORT						//game import redirection
 //#define BOT_DEBUG						//bot debug
-#define TRIGGER_COUNTING			//trigger counting
-#define TRIGGER_LOG					//trigger log
-#define FUNC_BUTTON_ROTATING		//rotating button
-#define LOGFILE						//log file
+//#define TRIGGER_COUNTING				//trigger counting
+//#define TRIGGER_LOG					//trigger log
+//#define FUNC_BUTTON_ROTATING			//rotating button
+#define LOGFILE							//log file
 #define CLIENTLAG						//client lag
-#define ZOID							//CTF
-#define CTF_HOOK						//CTF direct hook
-#define ROCKETARENA					//Rocket Arena 2
+//#define ZOID							//CTF
+//#define CTF_HOOK						//CTF direct hook
+//#define ROCKETARENA					//Rocket Arena 2
 #define CH								//Colored Hitman
-#define XATRIX							//Xatrix mission pack 1
-#define ROGUE							//Rogue mission pack 2
+//#define XATRIX						//Xatrix mission pack 1
+//#define ROGUE							//Rogue mission pack 2
 //-------------------------------------------------------------
 
 #define UGLADQ2_VERSION			"0.99u"
@@ -792,13 +792,13 @@ extern	cvar_t	*gamerules;
 extern	cvar_t	*huntercam;
 extern	cvar_t	*strong_mines;
 extern	cvar_t	*randomrespawn;
-
+#endif
 #ifdef BOT
 extern int paused;
 extern qboolean sp_bots_queued;
 extern cvar_t *sp_dm;
 #endif //BOT
-
+#ifdef ROGUE
 // this is for the count of monsters
 #define ENT_SLOTS_LEFT		(ent->monsterinfo.monster_slots - ent->monsterinfo.monster_used)
 #define SELF_SLOTS_LEFT		(self->monsterinfo.monster_slots - self->monsterinfo.monster_used)
@@ -1194,6 +1194,7 @@ void fire_doppleganger (edict_t *ent, vec3_t start, vec3_t aimdir);
 //
 // g_spawn.c
 //
+#define STEPSIZE	18
 edict_t *CreateMonster(vec3_t origin, vec3_t angles, char *classname);
 edict_t *CreateFlyMonster (vec3_t origin, vec3_t angles, vec3_t mins, vec3_t maxs, char *classname);
 edict_t *CreateGroundMonster (vec3_t origin, vec3_t angles, vec3_t mins, vec3_t maxs, char *classname, int height);

@@ -1133,8 +1133,9 @@ void Cmd_Say_f (edict_t *ent, qboolean team, qboolean arg0)
 			ParseSayText(ent, text); // this will parse the % variables, and again check 300 limit afterwards -FB
 	} //end if
 	else
-#endif //AQ2
 	{
+#endif //AQ2
+	
 		// don't let text be too long for malicious reasons
 		if (strlen(text) > 150)
 			text[150] = 0;
@@ -1145,9 +1146,11 @@ void Cmd_Say_f (edict_t *ent, qboolean team, qboolean arg0)
 			CTFSay_Team(ent, text, outtext);
 			strcpy(text, outtext);
 		} //end if
-	} //end else
-#endif //CTF
 
+#endif //CTF
+#ifdef AQ2
+	} //end else
+#endif
 	strcat(text, "\n");
 
 	if (flood_msgs->value) {
@@ -1464,7 +1467,11 @@ void ClientCommand (edict_t *ent)
 	{
 #ifdef BOT
 		//assume team message if in a teamplay game
+#ifndef ZOID
+		if ((int)(dmflags->value) & (DF_MODELTEAMS | DF_SKINTEAMS))
+#elif ZOID 
 		if (((int)(dmflags->value) & (DF_MODELTEAMS | DF_SKINTEAMS)) || ctf->value)
+#endif
 		{
 			Cmd_Say_f(ent, true, true);
 		} //end if
