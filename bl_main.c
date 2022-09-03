@@ -1148,7 +1148,7 @@ void BotUnloadAllLibraries(void)
 bot_library_t *BotUseLibrary(char *path)
 {
 	cvar_t *cvar;
-	char botlibdir[MAX_PATH] = "";
+	char botlibdir[MAX_PATH] = { '\0' };// "";
 	bot_library_t *lib;
 
 	//if the file is not directly accessable

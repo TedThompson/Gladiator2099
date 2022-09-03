@@ -15,6 +15,7 @@
 #define CH								//Colored Hitman
 //#define XATRIX						//Xatrix mission pack 1
 //#define ROGUE							//Rogue mission pack 2
+//#define OBSERVER						//Sadly p_observer.c seems to be missing :(
 //-------------------------------------------------------------
 
 #define UGLADQ2_VERSION			"0.99u"

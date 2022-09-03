@@ -29,8 +29,11 @@ void check_dodge (edict_t *self, vec3_t start, vec3_t dir, int speed)
 	{
 		VectorSubtract (tr.endpos, start, v);
 		eta = (VectorLength(v) - tr.ent->maxs[0]) / speed;
-//		tr.ent->monsterinfo.dodge (tr.ent, self, eta);
+#ifndef ROGUE
+		tr.ent->monsterinfo.dodge (tr.ent, self, eta);
+#else
 		tr.ent->monsterinfo.dodge (tr.ent, self, eta, &tr);
+#endif
 	}
 }
 
