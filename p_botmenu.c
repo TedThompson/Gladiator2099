@@ -13,11 +13,11 @@
 #include "bl_redirgi.h"
 #include "bl_botcfg.h"
 
-#define MAX_DISPLAYEDMENUITEMS	16
+#define MAX_DISPLAYEDMENUITEMS		16
 #define MENUCHANGE_MOVE				1
 //menu IDs
-#define MID_MAIN						0
-#define MID_GAME						1
+#define MID_MAIN					0
+#define MID_GAME					1
 #define MID_GAME_TIMELIMIT			2
 #define MID_GAME_FRAGLIMIT			3
 #define MID_BOT						4
@@ -29,16 +29,16 @@
 #define MID_BOT_ADD_FIRST			256
 #define MID_BOT_ADD_LAST			511
 #define MID_BOT_REMOVE_FIRST		512
-#define MID_BOT_REMOVE_LAST		1024
-#define MID_DM							9
+#define MID_BOT_REMOVE_LAST			1024
+#define MID_DM						9
 #define MID_DM_TEAMPLAY				10
 #define MID_DM_NO_HEALTH			11
 #define MID_DM_NO_ITEMS				12
-#define MID_DM_WEAPONS_STAY		13
+#define MID_DM_WEAPONS_STAY			13
 #define MID_DM_NO_FALLING			14
 #define MID_DM_INSTANT_ITEMS		15
 #define MID_DM_SAME_LEVEL			16
-#define MID_DM_NO_FRIENDLY_FIRE	17
+#define MID_DM_NO_FRIENDLY_FIRE		17
 #define MID_DM_SPAWN_FARTHEST		18
 #define MID_DM_FORCE_RESPAWN		19
 #define MID_DM_NO_ARMOR				20
@@ -48,7 +48,7 @@
 #define MID_DM_FIXED_FOV			24
 #define MID_DM_QUADFIRE_DROP		25
 #define MID_DM_NO_MINES				26
-#define MID_DM_NO_STACK_DOUBLE	27
+#define MID_DM_NO_STACK_DOUBLE		27
 #define MID_DM_NO_NUKES				28
 #define MID_DM_NO_SPHERES			29
 #define MID_CTF						30
@@ -67,17 +67,17 @@
 #define MID_RA2_SUPERSHOTGUN		43
 #define MID_RA2_MACHINEGUN			44
 #define MID_RA2_CHAINGUN			45
-#define MID_RA2_GRENADELAUNCHER	46
-#define MID_RA2_ROCKETLAUNCHER	47
+#define MID_RA2_GRENADELAUNCHER		46
+#define MID_RA2_ROCKETLAUNCHER		47
 #define MID_RA2_HYPERBLASTER		48
 #define MID_RA2_RAILGUN				49
 #define MID_RA2_BFG					50
 #define MID_RA2_FASTSWITCH			56
 #define MID_RA2_MSTART_AUTO			57
-#define MID_HELP						51
+#define MID_HELP					51
 #define MID_CREDITS					52
-#define MID_EXIT						53
-#define MID_BACK						54
+#define MID_EXIT					53
+#define MID_BACK					54
 
 menu_t *mainmenu;
 

@@ -39,9 +39,6 @@
     <ClCompile Include="g_misc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="g_monster.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="g_phys.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,13 +111,7 @@
     <ClCompile Include="p_lag.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="p_menu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="p_menulib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="m_move.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -165,9 +156,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="p_lag.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="p_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="p_menulib.h">

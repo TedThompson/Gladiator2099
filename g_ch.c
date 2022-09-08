@@ -13,15 +13,15 @@
 
 #define STAT_COLOR		 30	//Colored Hitman color stat
 
-cvar_t *ch;
-cvar_t *ch_maxcolors;
-cvar_t *ch_colortime;
+cvar_t* ch;
+cvar_t* ch_maxcolors;
+cvar_t* ch_colortime;
 
 int lastnumplayers;
 float colortime;
 
 
-char *ch_statusbar =
+char* ch_statusbar =
 "yb	-24 "
 
 // health
@@ -86,12 +86,12 @@ char *ch_statusbar =
 // Colored Hitman color
 "yb -102 "
 "if 30 "
-  "xr -26 "
-  "pic 30 "
+"xr -26 "
+"pic 30 "
 "endif "
 ;
 
-char *ch_colors[] =
+char* ch_colors[] =
 {
 	"red",
 	"blue",
@@ -128,11 +128,11 @@ void PrecacheColoredHitman(void)
 // Returns:					-
 // Changes Globals:		-
 //===========================================================================
-char *ColorImageName(int color)
+char* ColorImageName(int color)
 {
 	int i;
 
-	for (i = 0; i < color-1 && ch_colors[i]; i++) ;
+	for (i = 0; i < color - 1 && ch_colors[i]; i++);
 
 	if (ch_colors[i]) return ch_colors[i];
 	return ch_colors[0];
@@ -147,7 +147,7 @@ int ColorImage(int color)
 {
 	int i;
 
-	for (i = 0; i < color-1 && ch_colors[i]; i++) ;
+	for (i = 0; i < color - 1 && ch_colors[i]; i++);
 
 	if (ch_colors[i]) return gi.imageindex(ch_colors[i]);
 	return gi.imageindex(ch_colors[0]);
@@ -163,7 +163,7 @@ int ColorModel(int color)
 	int i;
 	char buf[144];
 
-	for (i = 0; i < color-1 && ch_colors[i]; i++) ;
+	for (i = 0; i < color - 1 && ch_colors[i]; i++);
 
 	if (ch_colors[i]) sprintf(buf, "models/%s/tris.md2", ch_colors[i]);
 	else sprintf(buf, "models/%s/tris.md2", ch_colors[0]);
@@ -175,7 +175,7 @@ int ColorModel(int color)
 // Returns:					-
 // Changes Globals:		-
 //===========================================================================
-void ColoredHitmanEffects(edict_t *ent)
+void ColoredHitmanEffects(edict_t* ent)
 {
 	if (!ent->client) return;
 	ent->s.modelindex3 = ColorModel(ent->client->chcolor);
@@ -186,7 +186,7 @@ void ColoredHitmanEffects(edict_t *ent)
 // Returns:					-
 // Changes Globals:		-
 //===========================================================================
-void ColoredHitmanStats(edict_t *ent)
+void ColoredHitmanStats(edict_t* ent)
 {
 	if (!ent->client) return;
 	//set the color image in the status bar
@@ -201,7 +201,7 @@ void ColoredHitmanStats(edict_t *ent)
 int NumPlayers(void)
 {
 	int i, numplayers;
-	edict_t *cl_ent;
+	edict_t* cl_ent;
 
 	numplayers = 0;
 	for (i = 0; i < maxclients->value; i++)
@@ -242,7 +242,7 @@ int MaxColors(void)
 void ResetPlayerColors(void)
 {
 	int numplayers, maxcolors, color, i, j, rnd;
-	edict_t *cl_ent;
+	edict_t* cl_ent;
 
 	maxcolors = MaxColors();
 	numplayers = NumPlayers();
@@ -270,7 +270,7 @@ void ResetPlayerColors(void)
 	for (i = 0; i < numplayers; i++)
 	{
 		//select a player randomly
-		rnd = floor((numplayers-i) * random());
+		rnd = floor((numplayers - i) * random());
 		for (j = 0; j < maxclients->value && rnd >= 0; j++)
 		{
 			cl_ent = g_edicts + 1 + j;
@@ -299,7 +299,7 @@ void ResetPlayerColors(void)
 int InvalidColors(void)
 {
 	int i;
-	edict_t *cl_ent;
+	edict_t* cl_ent;
 
 	for (i = 0; i < maxclients->value; i++)
 	{
@@ -334,14 +334,14 @@ void UpdateColoredHitman(void)
 	//if the number of players changed or someone has an invalid color
 	//or it's time to change colors
 	if (numplayers != lastnumplayers || InvalidColors() ||
-			level.time > colortime + ch_colortime->value)
+		level.time > colortime + ch_colortime->value)
 	{
 		lastnumplayers = numplayers;
 		colortime = level.time;
 		//reset the player colors
 		ResetPlayerColors();
 		//play sound to attent everyone about the color change
-		gi.sound(world, CHAN_RELIABLE+CHAN_NO_PHS_ADD+CHAN_VOICE, gi.soundindex("ch/flagcap.wav"), 1, ATTN_NONE, 0);
+		gi.sound(world, CHAN_RELIABLE + CHAN_NO_PHS_ADD + CHAN_VOICE, gi.soundindex("ch/flagcap.wav"), 1, ATTN_NONE, 0);
 		gi.dprintf("ch changed colors\n");
 	} //end if
 } //end of the function UpdateColoredHitman
