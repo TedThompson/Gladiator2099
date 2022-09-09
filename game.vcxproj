@@ -351,10 +351,6 @@
     </ClCompile>
     <ClCompile Include="p_lag.c" />
     <ClCompile Include="p_menulib.c" />
-    <ClCompile Include="p_trail.c">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug Alpha|Win32'"> /QA21164 /MTd   /QA21164 /MTd </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release Alpha|Win32'"> /QA21164   /QA21164 </AdditionalOptions>
-    </ClCompile>
     <ClCompile Include="p_view.c">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug Alpha|Win32'"> /QA21164 /MTd   /QA21164 /MTd </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release Alpha|Win32'"> /QA21164   /QA21164 </AdditionalOptions>

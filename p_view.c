@@ -327,49 +327,35 @@ void SV_CalcGunOffset (edict_t *ent)
 {
 	int		i;
 	float	delta;
-#ifdef ROGUE
-	static gitem_t	*heatbeam;
 
-	if (!heatbeam)
-		heatbeam = FindItemByClassname ("weapon_plasmabeam");
-
-	//ROGUE - heatbeam shouldn't bob so the beam looks right
-	if (ent->client->pers.weapon == heatbeam)
+	// gun angles from bobbing
+	ent->client->ps.gunangles[ROLL] = xyspeed * bobfracsin * 0.005;
+	ent->client->ps.gunangles[YAW] = xyspeed * bobfracsin * 0.01;
+	if (bobcycle & 1)
 	{
-		for (i=0; i<3; i++)
-			ent->client->ps.gunangles[i] = 0;
+		ent->client->ps.gunangles[ROLL] = -ent->client->ps.gunangles[ROLL];
+		ent->client->ps.gunangles[YAW] = -ent->client->ps.gunangles[YAW];
 	}
-	else
-#endif //ROGUE
+
+	ent->client->ps.gunangles[PITCH] = xyspeed * bobfracsin * 0.005;
+
+	// gun angles from delta movement
+	for (i=0 ; i<3 ; i++)
 	{
-		// gun angles from bobbing
-		ent->client->ps.gunangles[ROLL] = xyspeed * bobfracsin * 0.005;
-		ent->client->ps.gunangles[YAW] = xyspeed * bobfracsin * 0.01;
-		if (bobcycle & 1)
-		{
-			ent->client->ps.gunangles[ROLL] = -ent->client->ps.gunangles[ROLL];
-			ent->client->ps.gunangles[YAW] = -ent->client->ps.gunangles[YAW];
-		}
-
-		ent->client->ps.gunangles[PITCH] = xyspeed * bobfracsin * 0.005;
-
-		// gun angles from delta movement
-		for (i=0 ; i<3 ; i++)
-		{
-			delta = ent->client->oldviewangles[i] - ent->client->ps.viewangles[i];
-			if (delta > 180)
-				delta -= 360;
-			if (delta < -180)
-				delta += 360;
-			if (delta > 45)
-				delta = 45;
-			if (delta < -45)
-				delta = -45;
-			if (i == YAW)
-				ent->client->ps.gunangles[ROLL] += 0.1*delta;
-			ent->client->ps.gunangles[i] += 0.2 * delta;
-		}
+		delta = ent->client->oldviewangles[i] - ent->client->ps.viewangles[i];
+		if (delta > 180)
+			delta -= 360;
+		if (delta < -180)
+			delta += 360;
+		if (delta > 45)
+			delta = 45;
+		if (delta < -45)
+			delta = -45;
+		if (i == YAW)
+			ent->client->ps.gunangles[ROLL] += 0.1*delta;
+		ent->client->ps.gunangles[i] += 0.2 * delta;
 	}
+
 	// gun height
 	VectorClear (ent->client->ps.gunoffset);
 //	ent->ps->gunorigin[2] += bob;
@@ -443,28 +429,6 @@ void SV_CalcBlend (edict_t *ent)
 		if (remaining > 30 || (remaining & 4) )
 			SV_AddBlend (0, 0, 1, 0.08, ent->client->ps.blend);
 	}
-#ifdef XATRIX
-	// RAFAEL
-	else if (ent->client->quadfire_framenum > level.framenum)
-	{
-		remaining = ent->client->quadfire_framenum - level.framenum;
-		if (remaining == 30)	// beginning to fade
-			gi.sound(ent, CHAN_ITEM, gi.soundindex("items/quadfire2.wav"), 1, ATTN_NORM, 0);
-		if (remaining > 30 || (remaining & 4) )
-			SV_AddBlend (1, 0.2, 0.5, 0.08, ent->client->ps.blend);
-	}
-#endif //XATRIX
-#ifdef ROGUE
-	// PMM - double damage
-	else if (ent->client->double_framenum > level.framenum)
-	{
-		remaining = ent->client->double_framenum - level.framenum;
-		if (remaining == 30)	// beginning to fade
-			gi.sound(ent, CHAN_ITEM, gi.soundindex("misc/ddamage2.wav"), 1, ATTN_NORM, 0);
-		if (remaining > 30 || (remaining & 4) )
-			SV_AddBlend (0.9, 0.7, 0, 0.08, ent->client->ps.blend);
-	}
-#endif //ROGUE
 	else if (ent->client->invincible_framenum > level.framenum)
 	{
 		remaining = ent->client->invincible_framenum - level.framenum;
@@ -489,29 +453,6 @@ void SV_CalcBlend (edict_t *ent)
 		if (remaining > 30 || (remaining & 4) )
 			SV_AddBlend (0.4, 1, 0.4, 0.04, ent->client->ps.blend);
 	}
-#ifdef ROGUE
-	if(ent->client->nuke_framenum > level.framenum)
-	{
-		float brightness;
-		brightness = (ent->client->nuke_framenum - level.framenum) / 20.0;
-		SV_AddBlend (1, 1, 1, brightness, ent->client->ps.blend);
-	}
-	if (ent->client->ir_framenum > level.framenum)
-	{
-		remaining = ent->client->ir_framenum - level.framenum;
-		if(remaining > 30 || (remaining & 4))
-		{
-			ent->client->ps.rdflags |= RDF_IRGOGGLES;
-			SV_AddBlend (1, 0, 0, 0.2, ent->client->ps.blend);
-		}
-		else
-			ent->client->ps.rdflags &= ~RDF_IRGOGGLES;
-	}
-	else
-	{
-		ent->client->ps.rdflags &= ~RDF_IRGOGGLES;
-	}
-#endif //ROGUE
 
 	// add for damage
 	if (ent->client->damage_alpha > 0)
@@ -561,14 +502,6 @@ void P_FallingDamage (edict_t *ent)
 		delta = ent->velocity[2] - ent->client->oldvelocity[2];
 	}
 	delta = delta*delta * 0.0001;
-
-#ifdef ZOID
-	// never take damage if just release grapple or on grapple
-	if (ctf->value && ((level.time - ent->client->ctf_grapplereleasetime <= FRAMETIME * 2) ||
-		(ent->client->ctf_grapple && 
-		ent->client->ctf_grapplestate > CTF_GRAPPLE_STATE_FLY)))
-		return;
-#endif //ZOID
 
 	// never take falling damage if completely underwater
 	if (ent->waterlevel == 3)
@@ -648,7 +581,7 @@ void P_WorldEffects (void)
 	//
 	if (!old_waterlevel && waterlevel)
 	{
-		PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
+		//PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
 		if (current_player->watertype & CONTENTS_LAVA)
 			gi.sound (current_player, CHAN_BODY, gi.soundindex("player/lava_in.wav"), 1, ATTN_NORM, 0);
 		else if (current_player->watertype & CONTENTS_SLIME)
@@ -666,7 +599,7 @@ void P_WorldEffects (void)
 	//
 	if (old_waterlevel && ! waterlevel)
 	{
-		PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
+		//PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
 		gi.sound (current_player, CHAN_BODY, gi.soundindex("player/watr_out.wav"), 1, ATTN_NORM, 0);
 		current_player->flags &= ~FL_INWATER;
 	}
@@ -687,7 +620,7 @@ void P_WorldEffects (void)
 		if (current_player->air_finished < level.time)
 		{	// gasp for air
 			gi.sound (current_player, CHAN_VOICE, gi.soundindex("player/gasp1.wav"), 1, ATTN_NORM, 0);
-			PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
+			//PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
 		}
 		else  if (current_player->air_finished < level.time + 11)
 		{	// just break surface
@@ -712,7 +645,7 @@ void P_WorldEffects (void)
 				else
 					gi.sound (current_player, CHAN_AUTO, gi.soundindex("player/u_breath2.wav"), 1, ATTN_NORM, 0);
 				current_client->breather_sound ^= 1;
-				PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
+				//PlayerNoise(current_player, current_player->s.origin, PNOISE_SELF);
 				//FIXME: release a bubble?
 			}
 		}
@@ -798,24 +731,8 @@ void G_SetClientEffects (edict_t *ent)
 	ent->s.effects = 0;
 	ent->s.renderfx = 0;
 
-#ifdef ROGUE
-	// PGM - player is always ir visible, even dead.
-	ent->s.renderfx = RF_IR_VISIBLE;
-#endif //ROGUE
-
 	if (ent->health <= 0 || level.intermissiontime)
 		return;
-
-#ifdef ROGUE
-	if(ent->flags & FL_DISGUISED)
-		ent->s.renderfx |= RF_USE_DISGUISE;
-
-	if (gamerules && gamerules->value)
-	{
-		if(DMGame.PlayerEffects)
-			DMGame.PlayerEffects(ent);
-	}
-#endif //ROGUE
 
 	if (ent->powerarmor_time > level.time)
 	{
@@ -835,52 +752,14 @@ void G_SetClientEffects (edict_t *ent)
 	if (ch->value) ColoredHitmanEffects(ent);
 #endif //CH
 
-#ifdef ZOID
-	if (ctf->value) CTFEffects(ent);
-#endif //ZOID
-
-	if (ent->client->quad_framenum > level.framenum
-#ifdef ZOID
-		&& (!ctf->value || (level.framenum & 8))
-#endif //ZOID
-		)
+	if (ent->client->quad_framenum > level.framenum)
 	{
 		remaining = ent->client->quad_framenum - level.framenum;
 		if (remaining > 30 || (remaining & 4) )
 			ent->s.effects |= EF_QUAD;
 	}
 
-#ifdef XATRIX
-	// RAFAEL
-	if (ent->client->quadfire_framenum > level.framenum)
-	{
-		remaining = ent->client->quadfire_framenum - level.framenum;
-		if (remaining > 30 || (remaining & 4) )
-			ent->s.effects |= EF_QUAD;
-	}
-#endif //XATRIX
-#ifdef ROGUE
-	if (ent->client->double_framenum > level.framenum)
-	{
-		remaining = ent->client->double_framenum - level.framenum;
-		if (remaining > 30 || (remaining & 4) )
-			ent->s.effects |= EF_DOUBLE;
-	}
-	if ((ent->client->owned_sphere) && (ent->client->owned_sphere->spawnflags == 1))
-	{
-		ent->s.effects |= EF_HALF_DAMAGE;
-	}
-	if (ent->client->tracker_pain_framenum > level.framenum)
-	{
-		ent->s.effects |= EF_TRACKERTRAIL;
-	}
-#endif //ROGUE
-
-	if (ent->client->invincible_framenum > level.framenum
-#ifdef ZOID
-		&& (!ctf->value || (level.framenum & 8))
-#endif //ZOID
-		)
+	if (ent->client->invincible_framenum > level.framenum)
 	{
 		remaining = ent->client->invincible_framenum - level.framenum;
 		if (remaining > 30 || (remaining & 4) )
@@ -894,15 +773,22 @@ void G_SetClientEffects (edict_t *ent)
 		ent->s.renderfx |= (RF_SHELL_RED|RF_SHELL_GREEN|RF_SHELL_BLUE);
 	}
 #ifdef BOT
-	//* NOTE: disabled because using a 3d card translucent entities turn invisible
+	// NOTE: disabled because using a 3d card translucent entities turn invisible
+	// NOTE, NOTE: now GLOW instead...
 	if (ent->client && (ent->flags & FL_BOT))
 	{
 		if (!strcmp("Demigoddess", ent->client->pers.netname))
 		{
 			ent->s.renderfx |= RF_GLOW; //RF_TRANSLUCENT |
 		} //end if
+		if (!strcmp("player", ent->client->pers.netname)) //TODO Broken - I want flies damn it.
+		{
+			ent->s.renderfx |= RF_GLOW;
+			ent->s.effects |= EF_FLIES;
+			ent->s.effects |= EF_GIB;
+			ent->s.sound = gi.soundindex("infantry/inflies1.wav");
+		}
 	} //end if
-	//*/
 #endif //BOT
 }
 
@@ -1035,15 +921,6 @@ newanim:
 
 	if (!ent->groundentity)
 	{
-#ifdef ZOID //: if on grapple, don't go into jump frame, go into standing
-//frame
-		if (client->ctf_grapple)
-		{
-			ent->s.frame = FRAME_stand01;
-			client->anim_end = FRAME_stand40;
-		}
-		else
-#endif //ZOID
 		{
 			client->anim_priority = ANIM_JUMP;
 			if (ent->s.frame != FRAME_jump2)
@@ -1189,32 +1066,11 @@ void ClientEndServerFrame (edict_t *ent)
 	SV_CalcBlend (ent);
 
 	// chase cam stuff
-	if (ent->client->resp.spectator
-#ifdef ZOID
-		|| ent->client->chase_target
-#endif //ZOID
-		)
+	if (ent->client->resp.spectator)
 		G_SetSpectatorStats(ent);
 	else
 		G_SetStats (ent);
 	G_CheckChaseStats(ent);
-
-#ifdef ZOID
-	if (ctf->value)
-	{
-		//update chasecam follower stats
-		for (i = 1; i <= maxclients->value; i++)
-		{
-			edict_t *e = g_edicts + i;
-			if (!ent->inuse || e->client->chase_target != ent) continue;
-			memcpy(e->client->ps.stats, 
-				ent->client->ps.stats, 
-				sizeof(ent->client->ps.stats));
-			e->client->ps.stats[STAT_LAYOUTS] = 1;
-			break;
-		} //end for
-	} //end if
-#endif //ZOID
 
 	G_SetClientEvent (ent);
 
@@ -1235,7 +1091,8 @@ void ClientEndServerFrame (edict_t *ent)
 	//make sure bots never get to see the score board
 	if (ent->flags & FL_BOT)
 	{
-		if (ent->client->showscores) ent->client->showscores = false;
+		if (ent->client->showscores) 
+			ent->client->showscores = false;
 	} //end if
 
 	if (ent->client->showmenu)
@@ -1247,14 +1104,7 @@ void ClientEndServerFrame (edict_t *ent)
 	// if the scoreboard is up, update it
 	if (ent->client->showscores && !(level.framenum & 31) )
 	{
-#ifdef ZOID
-		if (ent->client->menu)
-		{
-			PMenu_Update(ent);
-		} //end if
-		else
-#endif //ZOID
-			DeathmatchScoreboardMessage (ent, ent->enemy);
+		DeathmatchScoreboardMessage (ent, ent->enemy);
 		gi.unicast (ent, false);
 	}
 

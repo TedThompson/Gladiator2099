@@ -182,8 +182,8 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 					gi.WriteDir (tr.plane.normal);
 					gi.multicast (tr.endpos, MULTICAST_PVS);
 
-					if (self->client)
-						PlayerNoise(self, tr.endpos, PNOISE_IMPACT);
+					//if (self->client)
+					//	PlayerNoise(self, tr.endpos, PNOISE_IMPACT);
 				}
 			}
 		}
@@ -264,8 +264,8 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 		return;
 	}
 
-	if (self->owner->client)
-		PlayerNoise(self->owner, self->s.origin, PNOISE_IMPACT);
+	//if (self->owner->client)
+	//	PlayerNoise(self->owner, self->s.origin, PNOISE_IMPACT);
 
 	if (other->takedamage)
 	{
@@ -348,8 +348,8 @@ void Grenade_Explode (edict_t *ent)
 	vec3_t		origin;
 	int			mod;
 
-	if (ent->owner->client)
-		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
+	//if (ent->owner->client)
+	//	PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
 
 	//FIXME: if we are onground then raise our Z just a bit since we are a point?
 	if (ent->enemy)
@@ -528,8 +528,8 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 		return;
 	}
 
-	if (ent->owner->client)
-		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
+	//if (ent->owner->client)
+	//	PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
 
 	// calculate position for the explosion entity
 	VectorMA (ent->s.origin, -0.02, ent->velocity, origin);
@@ -658,8 +658,8 @@ void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick
 		gi.multicast (tr.endpos, MULTICAST_PHS);
 	}
 
-	if (self->client)
-		PlayerNoise(self, tr.endpos, PNOISE_IMPACT);
+	//if (self->client)
+		//PlayerNoise(self, tr.endpos, PNOISE_IMPACT);
 }
 
 
@@ -724,8 +724,8 @@ void bfg_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf
 		return;
 	}
 
-	if (self->owner->client)
-		PlayerNoise(self->owner, self->s.origin, PNOISE_IMPACT);
+	//if (self->owner->client)
+		//PlayerNoise(self->owner, self->s.origin, PNOISE_IMPACT);
 
 	// core explosion - prevents firing it into the wall/floor
 	if (other->takedamage)

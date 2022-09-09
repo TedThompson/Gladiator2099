@@ -11,7 +11,7 @@
 
 //ROGUE -- added for things that are damageable, but not monsters
 // right now, only the tesla has this
-#define SVF_DAMAGEABLE			0x00000008
+//#define SVF_DAMAGEABLE			0x00000008
 //ROGUE end
 
 // edict->solid values

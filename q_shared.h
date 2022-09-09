@@ -550,17 +550,16 @@ typedef struct
 #define	EF_PENT				0x00010000
 #define	EF_TELEPORTER		0x00020000		// particle fountain
 #define EF_SPINNINGLIGHTS	0x00800000		// Stolen from Xatrix
-#ifdef foobar
+/*
+//ZOID
 #define EF_FLAG1			0x00040000
 #define EF_FLAG2			0x00080000
 // RAFAEL
 #define EF_IONRIPPER		0x00100000
 #define EF_GREENGIB			0x00200000
 #define	EF_BLUEHYPERBLASTER 0x00400000
-
 #define EF_PLASMA			0x01000000
 #define EF_TRAP				0x02000000
-
 //ROGUE
 #define EF_TRACKER			0x04000000
 #define	EF_DOUBLE			0x08000000
@@ -568,8 +567,7 @@ typedef struct
 #define EF_TAGTRAIL			0x20000000
 #define EF_HALF_DAMAGE		0x40000000
 #define EF_TRACKERTRAIL		0x80000000
-//ROGUE
-#endif
+*/
 // entity_state_t->renderfx flags
 #define	RF_MINLIGHT			1		// allways have some light (viewmodel)
 #define	RF_VIEWERMODEL		2		// don't draw through eyes, only mirrors
@@ -585,21 +583,9 @@ typedef struct
 #define	RF_SHELL_GREEN		2048
 #define RF_SHELL_BLUE		4096
 
-#ifdef ROGUE
-#define RF_IR_VISIBLE		0x00008000		// 32768
-#define	RF_SHELL_DOUBLE		0x00010000		// 65536
-#define	RF_SHELL_HALF_DAM	0x00020000
-#define RF_USE_DISGUISE		0x00040000
-#endif //ROGUE
-
 // player_state_t->refdef flags
 #define	RDF_UNDERWATER		1		// warp the screen as apropriate
 #define RDF_NOWORLDMODEL	2		// used for player configuration screen
-
-#ifdef ROGUE
-#define	RDF_IRGOGGLES		4
-#define RDF_UVGOGGLES		8
-#endif //ROGUE
 
 //
 // muzzle flashes / player effects
@@ -621,14 +607,13 @@ typedef struct
 #define	MZ_HYPERBLASTER		14
 #define	MZ_ITEMRESPAWN		15
 #define MZ_SILENCED			128		// bit flag ORed with one of the above numbers
-
-#ifdef XATRIX
+/*
+// XATRIX
 #define MZ_IONRIPPER		16
 #define MZ_BLUEHYPERBLASTER 17
 #define MZ_PHALANX			18
 
-#endif
-#ifdef ROGUE
+// ROGUE
 #define MZ_ETF_RIFLE		30
 #define MZ_UNUSED			31
 #define MZ_SHOTGUN2			32
@@ -639,8 +624,8 @@ typedef struct
 #define	MZ_NUKE2			37
 #define	MZ_NUKE4			38
 #define	MZ_NUKE8			39
-#endif //ROGUE
-#ifdef foobar
+
+
 //
 // monster muzzle flashes
 //
@@ -811,7 +796,10 @@ typedef struct
 #define	MZ2_WIDOW_DISRUPTOR				148
 #define	MZ2_WIDOW_BLASTER				149
 #define	MZ2_WIDOW_RAIL					150
-#define	MZ2_WIDOW_PLASMABEAM			151		// PMM - not used
+
+// PPM Not used
+#define	MZ2_WIDOW_PLASMABEAM			151
+
 #define	MZ2_CARRIER_MACHINEGUN_L2		152
 #define	MZ2_CARRIER_MACHINEGUN_R2		153
 #define	MZ2_WIDOW_RAIL_LEFT				154
@@ -872,7 +860,7 @@ typedef struct
 #define	MZ2_WIDOW2_BEAM_SWEEP_10		209
 #define	MZ2_WIDOW2_BEAM_SWEEP_11		210
 #endif
-// ROGUE
+*/
 
 //extern	vec3_t monster_flash_offset [];
 
@@ -914,8 +902,8 @@ typedef enum
 	TE_GREENBLOOD,
 	TE_BLUEHYPERBLASTER,
 	TE_PLASMA_EXPLOSION,
-	TE_TUNNEL_SPARKS,
-#ifdef ROGUE
+	TE_TUNNEL_SPARKS//,
+/*
 	TE_BLASTER2,
 	TE_RAILTRAIL2,
 	TE_FLAME,
@@ -942,7 +930,7 @@ typedef enum
 	TE_EXPLOSION1_BIG,
 	TE_EXPLOSION1_NP,
 	TE_FLECHETTE
-#endif //ROGUE
+*/ //ROGUE
 } temp_event_t;
 
 #define SPLASH_UNKNOWN		0
@@ -1015,14 +1003,12 @@ typedef enum
 #define DF_QUAD_DROP		0x00004000	// 16384
 #define DF_FIXED_FOV		0x00008000	// 32768
 
-#ifdef XATRIX
-#define	DF_QUADFIRE_DROP	0x00010000	// 65536
-#endif
-#ifdef ROGUE
-#define DF_NO_MINES			0x00020000
-#define DF_NO_STACK_DOUBLE	0x00040000
-#define DF_NO_NUKES			0x00080000
-#define DF_NO_SPHERES		0x00100000
+//#define	DF_QUADFIRE_DROP	0x00010000	// 65536
+
+//#define DF_NO_MINES			0x00020000
+//#define DF_NO_STACK_DOUBLE	0x00040000
+//#define DF_NO_NUKES			0x00080000
+//#define DF_NO_SPHERES		0x00100000
 
 
 /*
@@ -1053,11 +1039,11 @@ ROGUE - VERSIONS
 
 9999	08/20/1998		Internal Use
 */
-#define ROGUE_VERSION_ID		1278
+//#define ROGUE_VERSION_ID		1278
 
-#define ROGUE_VERSION_STRING	"08/21/1998 Beta 2 for Ensemble"
-#endif
+//#define ROGUE_VERSION_STRING	"08/21/1998 Beta 2 for Ensemble"
 // ROGUE
+
 /*
 ==========================================================
 

@@ -69,9 +69,6 @@
     <ClCompile Include="p_hud.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="p_trail.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="p_view.c">
       <Filter>Source Files</Filter>
     </ClCompile>

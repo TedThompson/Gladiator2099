@@ -21,9 +21,9 @@
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-menuitem_t *GetMenuItemWithId(menu_t *menu, int id)
+menuitem_t* GetMenuItemWithId(menu_t* menu, int id)
 {
-	menuitem_t *mi, *found;
+	menuitem_t* mi, * found;
 
 	for (mi = menu->firstmenuitem; mi; mi = mi->next)
 	{
@@ -49,10 +49,10 @@ menuitem_t *GetMenuItemWithId(menu_t *menu, int id)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-menu_t *GetMenuWithId(menu_t *mainmenu, int id)
+menu_t* GetMenuWithId(menu_t* mainmenu, int id)
 {
-	menuitem_t *mi;
-	menu_t *found;
+	menuitem_t* mi;
+	menu_t* found;
 
 	if (mainmenu->id == id) return mainmenu;
 	for (mi = mainmenu->firstmenuitem; mi; mi = mi->next)
@@ -74,9 +74,9 @@ menu_t *GetMenuWithId(menu_t *mainmenu, int id)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-menu_t *GetCurrentMenu(menustate_t *menustate)
+menu_t* GetCurrentMenu(menustate_t* menustate)
 {
-	menu_t *menu;
+	menu_t* menu;
 
 	menu = GetMenuWithId(menustate->mainmenu, menustate->menuid);
 	if (!menu) return menustate->mainmenu;
@@ -88,9 +88,9 @@ menu_t *GetCurrentMenu(menustate_t *menustate)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void ChangeMenuItemName(menu_t *menu, int id, char *name)
+void ChangeMenuItemName(menu_t* menu, int id, char* name)
 {
-	menuitem_t *mi;
+	menuitem_t* mi;
 
 	mi = GetMenuItemWithId(menu, id);
 	if (!mi) return;
@@ -103,9 +103,9 @@ void ChangeMenuItemName(menu_t *menu, int id, char *name)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-char *MenuItemName(menu_t *menu, int id)
+char* MenuItemName(menu_t* menu, int id)
 {
-	menuitem_t *mi;
+	menuitem_t* mi;
 
 	mi = GetMenuItemWithId(menu, id);
 	if (!mi) return NULL;
@@ -117,9 +117,9 @@ char *MenuItemName(menu_t *menu, int id)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-menuitem_t *GetMenuItem(menu_t *menu, int item)
+menuitem_t* GetMenuItem(menu_t* menu, int item)
 {
-	menuitem_t *i;
+	menuitem_t* i;
 
 	for (i = menu->firstmenuitem; i; i = i->next)
 	{
@@ -136,9 +136,9 @@ menuitem_t *GetMenuItem(menu_t *menu, int item)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-menu_t *QuakeCreateMenu(int id, char *title, char *background)
+menu_t* QuakeCreateMenu(int id, char* title, char* background)
 {
-	menu_t *m;
+	menu_t* m;
 
 	m = gi.TagMalloc(sizeof(menu_t), TAG_GAME);
 	memset(m, 0, sizeof(menu_t));
@@ -158,9 +158,9 @@ menu_t *QuakeCreateMenu(int id, char *title, char *background)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void QuakeDeleteMenu(menu_t *menu)
+void QuakeDeleteMenu(menu_t* menu)
 {
-	menuitem_t *mi;
+	menuitem_t* mi;
 
 	for (mi = menu->firstmenuitem; mi; mi = menu->firstmenuitem)
 	{
@@ -176,10 +176,10 @@ void QuakeDeleteMenu(menu_t *menu)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void QuakeAppendMenu(menu_t *menu, unsigned char type, int id,
-         menu_t *submenu, char *name, char *bitmap)
+void QuakeAppendMenu(menu_t* menu, unsigned char type, int id,
+	menu_t* submenu, char* name, char* bitmap)
 {
-	menuitem_t *mi;
+	menuitem_t* mi;
 
 	mi = gi.TagMalloc(sizeof(menuitem_t), TAG_GAME);
 	memset(mi, 0, sizeof(menu_t));
@@ -206,10 +206,10 @@ void QuakeAppendMenu(menu_t *menu, unsigned char type, int id,
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-menu_t *QuakeCopyMenu(menu_t *menu)
+menu_t* QuakeCopyMenu(menu_t* menu)
 {
-	menuitem_t *mi;
-	menu_t *newmenu, *submenu;
+	menuitem_t* mi;
+	menu_t* newmenu, * submenu;
 
 	newmenu = QuakeCreateMenu(menu->id, menu->title, menu->background);
 	for (mi = menu->firstmenuitem; mi; mi = mi->next)
@@ -229,9 +229,9 @@ menu_t *QuakeCopyMenu(menu_t *menu)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void QuakeRemoveMenuItem(menu_t *menu, int id)
+void QuakeRemoveMenuItem(menu_t* menu, int id)
 {
-	menuitem_t *mi;
+	menuitem_t* mi;
 
 	mi = GetMenuItemWithId(menu, id);
 	if (!mi) return;
@@ -249,10 +249,10 @@ void QuakeRemoveMenuItem(menu_t *menu, int id)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void SendStatusBar(edict_t *ent, char *bar)
+void SendStatusBar(edict_t* ent, char* bar)
 {
-//	gi.WriteByte(0x0D);		//configstring
-//	gi.WriteShort(5);			//status bar index
+	//	gi.WriteByte(0x0D);		//configstring
+	//	gi.WriteShort(5);			//status bar index
 	gi.WriteByte(svc_layout);
 	gi.WriteString(bar);
 	gi.unicast(ent, false);
@@ -263,18 +263,18 @@ void SendStatusBar(edict_t *ent, char *bar)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void DisplayMenu(edict_t *ent, menu_t *menu, int highlighteditem, int firstdisplayeditem)
+void DisplayMenu(edict_t* ent, menu_t* menu, int highlighteditem, int firstdisplayeditem)
 {
 	int i, yoffset;
 	char menustring[1400];
-	menuitem_t *menuitem;
+	menuitem_t* menuitem;
 
 	if (!menu) return;
 	//background pic
 	if (menu->background && strlen(menu->background)) sprintf(menustring, "xv 32 yv 4 picn %s ", menu->background);
 	else sprintf(menustring, "");
 	//menu title
-	sprintf(menustring+strlen(menustring), "xv 0 yv 24 cstring \"%s\" ", menu->title);
+	sprintf(menustring + strlen(menustring), "xv 0 yv 24 cstring \"%s\" ", menu->title);
 	//first menu item
 	menuitem = menu->firstmenuitem;
 	//go to the first menu item
@@ -283,21 +283,21 @@ void DisplayMenu(edict_t *ent, menu_t *menu, int highlighteditem, int firstdispl
 	yoffset = MENUITEMTEXT_YOFFSET;
 	if (firstdisplayeditem)
 	{
-		sprintf(menustring+strlen(menustring), "xv %d yv %d string \"... more ...\"", MENUITEMTEXT_XOFFSET, MENUITEMTEXT_YOFFSET-8);
+		sprintf(menustring + strlen(menustring), "xv %d yv %d string \"... more ...\"", MENUITEMTEXT_XOFFSET, MENUITEMTEXT_YOFFSET - 8);
 	} //end if
 	//show the menu items
 	for (i = 0; i < MAX_DISPLAYEDMENUITEMS && menuitem; i++)
 	{
 		if (firstdisplayeditem + i == highlighteditem)
 		{
-			sprintf(menustring+strlen(menustring), "xv %d yv %d string \"%c\"", MENUITEMTEXT_XOFFSET-16, yoffset, 13 + 128);
+			sprintf(menustring + strlen(menustring), "xv %d yv %d string \"%c\"", MENUITEMTEXT_XOFFSET - 16, yoffset, 13 + 128);
 		} //end if
 		//print the menu option
-		sprintf(menustring+strlen(menustring), "xv %d yv %d string \"%-16s\" ", MENUITEMTEXT_XOFFSET, yoffset, menuitem->name);
+		sprintf(menustring + strlen(menustring), "xv %d yv %d string \"%-16s\" ", MENUITEMTEXT_XOFFSET, yoffset, menuitem->name);
 		//
 		if (menuitem->type == MI_SUBMENU)
 		{
-			sprintf(menustring+strlen(menustring), "xv %d yv %d string \"%c\"", MENUITEMTEXT_XOFFSET+128, yoffset, 13);
+			sprintf(menustring + strlen(menustring), "xv %d yv %d string \"%c\"", MENUITEMTEXT_XOFFSET + 128, yoffset, 13);
 		} //end if
 		//
 		menuitem = menuitem->next;
@@ -305,12 +305,12 @@ void DisplayMenu(edict_t *ent, menu_t *menu, int highlighteditem, int firstdispl
 	} //end for
 	if (menuitem)
 	{
-		sprintf(menustring+strlen(menustring), "xv %d yv %d string \"... more ...\"", MENUITEMTEXT_XOFFSET, MENUITEMTEXT_YOFFSET + MAX_DISPLAYEDMENUITEMS * 8);
+		sprintf(menustring + strlen(menustring), "xv %d yv %d string \"... more ...\"", MENUITEMTEXT_XOFFSET, MENUITEMTEXT_YOFFSET + MAX_DISPLAYEDMENUITEMS * 8);
 	} //end if
 	//keep the show loading image if present
 	if (ent->client->showloading)
 	{
-		sprintf(menustring+strlen(menustring), "xv 104 yv 128 picn loading");
+		sprintf(menustring + strlen(menustring), "xv 104 yv 128 picn loading");
 	} //end if
 	SendStatusBar(ent, menustring);
 } //end of the function DisplayMenu
@@ -320,9 +320,9 @@ void DisplayMenu(edict_t *ent, menu_t *menu, int highlighteditem, int firstdispl
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void BoundHighlightedItem(menustate_t *menustate, menu_t *menu)
+void BoundHighlightedItem(menustate_t* menustate, menu_t* menu)
 {
-	menuitem_t *mi;
+	menuitem_t* mi;
 
 	if (menustate->highlighteditem >= menu->nummenuitems)
 	{
@@ -330,9 +330,9 @@ void BoundHighlightedItem(menustate_t *menustate, menu_t *menu)
 	} //end if
 	if (menustate->highlighteditem < 0)
 	{
-		menustate->highlighteditem = menu->nummenuitems-1;
+		menustate->highlighteditem = menu->nummenuitems - 1;
 	} //end if
-	while((mi = GetMenuItem(menu, menustate->highlighteditem)) != NULL)
+	while ((mi = GetMenuItem(menu, menustate->highlighteditem)) != NULL)
 	{
 		if (mi->type == MI_SEPERATOR) menustate->highlighteditem++;
 		else break;
@@ -348,7 +348,7 @@ void BoundHighlightedItem(menustate_t *menustate, menu_t *menu)
 	} //end if
 	if (menustate->firstdisplayeditem < 0)
 	{
-		menustate->firstdisplayeditem = menu->nummenuitems-1;
+		menustate->firstdisplayeditem = menu->nummenuitems - 1;
 	} //end if
 } //end of the function BoundHighlightedItem
 //========================================================================
@@ -357,11 +357,11 @@ void BoundHighlightedItem(menustate_t *menustate, menu_t *menu)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-int MenuForward(edict_t *ent)
+int MenuForward(edict_t* ent)
 {
-	menuitem_t *mi;
-	menustate_t *menustate;
-	menu_t *menu;
+	menuitem_t* mi;
+	menustate_t* menustate;
+	menu_t* menu;
 
 	menustate = &ent->client->menustate;
 	if (!menustate->showmenu) return false;
@@ -391,12 +391,12 @@ int MenuForward(edict_t *ent)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-int MenuBack(edict_t *ent)
+int MenuBack(edict_t* ent)
 {
 	int i;
-	menuitem_t *mi;
-	menustate_t *menustate;
-	menu_t *menu;
+	menuitem_t* mi;
+	menustate_t* menustate;
+	menu_t* menu;
 
 	menustate = &ent->client->menustate;
 	if (!menustate->showmenu) return false;
@@ -430,11 +430,11 @@ int MenuBack(edict_t *ent)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-int MenuDown(edict_t *ent)
+int MenuDown(edict_t* ent)
 {
-	menuitem_t *mi;
-	menustate_t *menustate;
-	menu_t *menu;
+	menuitem_t* mi;
+	menustate_t* menustate;
+	menu_t* menu;
 
 	menustate = &ent->client->menustate;
 	if (!menustate->showmenu) return false;
@@ -446,7 +446,7 @@ int MenuDown(edict_t *ent)
 		menustate->highlighteditem = 0;
 		menustate->firstdisplayeditem = 0;
 	} //end if
-	while((mi = GetMenuItem(menu, menustate->highlighteditem)) != NULL)
+	while ((mi = GetMenuItem(menu, menustate->highlighteditem)) != NULL)
 	{
 		if (mi->type == MI_SEPERATOR) menustate->highlighteditem++;
 		else break;
@@ -471,11 +471,11 @@ int MenuDown(edict_t *ent)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-int MenuUp(edict_t *ent)
+int MenuUp(edict_t* ent)
 {
-	menuitem_t *mi;
-	menustate_t *menustate;
-	menu_t *menu;
+	menuitem_t* mi;
+	menustate_t* menustate;
+	menu_t* menu;
 
 	menustate = &ent->client->menustate;
 	if (!menustate->showmenu) return false;
@@ -484,17 +484,17 @@ int MenuUp(edict_t *ent)
 	menustate->highlighteditem--;
 	if (menustate->highlighteditem < 0)
 	{
-		menustate->highlighteditem = menu->nummenuitems-1;
+		menustate->highlighteditem = menu->nummenuitems - 1;
 		menustate->firstdisplayeditem = menustate->highlighteditem - MAX_DISPLAYEDMENUITEMS + 1;
 		if (menustate->firstdisplayeditem < 0) menustate->firstdisplayeditem = 0;
 	} //end if
-	while((mi = GetMenuItem(menu, menustate->highlighteditem)) != NULL)
+	while ((mi = GetMenuItem(menu, menustate->highlighteditem)) != NULL)
 	{
 		if (mi->type == MI_SEPERATOR) menustate->highlighteditem--;
 		else break;
 		if (menustate->highlighteditem < 0)
 		{
-			menustate->highlighteditem = menu->nummenuitems-1;
+			menustate->highlighteditem = menu->nummenuitems - 1;
 			menustate->firstdisplayeditem = menustate->highlighteditem - MAX_DISPLAYEDMENUITEMS + 1;
 			if (menustate->firstdisplayeditem < 0) menustate->firstdisplayeditem = 0;
 			break;
@@ -514,10 +514,10 @@ int MenuUp(edict_t *ent)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void DoMenu(edict_t *ent, usercmd_t *ucmd)
+void DoMenu(edict_t* ent, usercmd_t* ucmd)
 {
-	menustate_t *menustate;
-	menu_t *menu;
+	menustate_t* menustate;
+	menu_t* menu;
 
 	menustate = &ent->client->menustate;
 
@@ -526,7 +526,7 @@ void DoMenu(edict_t *ent, usercmd_t *ucmd)
 	if (!menu) return;
 	//
 	if ((ucmd->forwardmove || ucmd->sidemove)
-			&& (menustate->lastchange_time + 0.21 < level.time))
+		&& (menustate->lastchange_time + 0.21 < level.time))
 	{
 		menustate->lastchange_time = level.time;
 		//if activate menu item
@@ -565,10 +565,10 @@ void DoMenu(edict_t *ent, usercmd_t *ucmd)
 // Returns:					-
 // Changes Globals:		-
 //========================================================================
-void ShowMenu(edict_t *ent)
+void ShowMenu(edict_t* ent)
 {
-	menustate_t *menustate;
-	menu_t *menu;
+	menustate_t* menustate;
+	menu_t* menu;
 
 	menustate = &ent->client->menustate;
 	if (menustate->redrawmenu)

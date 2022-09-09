@@ -639,7 +639,7 @@ void SpawnEntities(char* mapname, char* entities, char* spawnpoint)
 
 	G_FindTeams();
 
-	PlayerTrail_Init();
+	//PlayerTrail_Init();
 
 #ifdef BOT
 	//

@@ -899,26 +899,26 @@ int BotInitLibrary(bot_library_t *lib)
 	lib->funcs.BotLibVarSet("dmflags", dmflags->string);
 	sprintf(buf, "DMFLAGS %s", dmflags->string);
 	lib->funcs.BotDefine(buf);
-#ifdef ZOID
-	lib->funcs.BotLibVarSet("ctf", ctf->string);
-	if (ctf->value)
-	{
-		lib->funcs.BotLibVarSet("usehook", ctf_hook->string);
-		lib->funcs.BotLibVarSet("runes", "1");
-	} //end if
-#endif //ZOID
+//#ifdef ZOID
+//	lib->funcs.BotLibVarSet("ctf", ctf->string);
+//	if (ctf->value)
+//	{
+//		lib->funcs.BotLibVarSet("usehook", ctf_hook->string);
+//		lib->funcs.BotLibVarSet("runes", "1");
+//	} //end if
+//#endif //ZOID
 #ifdef CH
 	lib->funcs.BotLibVarSet("ch", ch->string);
 #endif //CH
-#ifdef ROCKETARENA
-	lib->funcs.BotLibVarSet("ra", ra->string);
-#endif //ROCKETARENA
-#ifdef XATRIX
-	lib->funcs.BotLibVarSet("xatrix", xatrix->string);
-#endif //XATRIX
-#ifdef ROGUE
-	lib->funcs.BotLibVarSet("rogue", rogue->string);
-#endif //ROGUE
+//#ifdef ROCKETARENA
+//	lib->funcs.BotLibVarSet("ra", ra->string);
+//#endif //ROCKETARENA
+//#ifdef XATRIX
+//	lib->funcs.BotLibVarSet("xatrix", xatrix->string);
+//#endif //XATRIX
+//#ifdef ROGUE
+//	lib->funcs.BotLibVarSet("rogue", rogue->string);
+//#endif //ROGUE
 	//log file
 	cvar = gi.cvar("log", "", 0);
 	lib->funcs.BotLibVarSet("log", cvar->string);
@@ -969,26 +969,26 @@ int BotInitLibrary(bot_library_t *lib)
 																MAX_SOUNDINDEXES, soundindexes,
 																MAX_IMAGEINDEXES, imageindexes);
 	if (errnum != BLERR_NOERROR) return false;
-#ifdef TOURNEY
-	// Handle the Tourney hook --JKK
-	if((int)hook_enable->value)
-	{
-		lib->funcs.BotLibVarSet("usehook", "1");
-		lib->funcs.BotLibVarSet("laserhook", "1");
-	} //end if
-	else
-	{
-		lib->funcs.BotLibVarSet("usehook", "0");
-		lib->funcs.BotLibVarSet("laserhook", "0");
-	} //end else
-
-	if(m_mode == MODE_TEAM)
-		lib->funcs.BotLibVarSet("teamplay", "1");
-	else
-		lib->funcs.BotLibVarSet("teamplay", "0");
-
-	lib->funcs.BotLibVarSet("log", "0");
-#endif //TOURNEY
+//#ifdef TOURNEY
+//	// Handle the Tourney hook --JKK
+//	if((int)hook_enable->value)
+//	{
+//		lib->funcs.BotLibVarSet("usehook", "1");
+//		lib->funcs.BotLibVarSet("laserhook", "1");
+//	} //end if
+//	else
+//	{
+//		lib->funcs.BotLibVarSet("usehook", "0");
+//		lib->funcs.BotLibVarSet("laserhook", "0");
+//	} //end else
+//
+//	if(m_mode == MODE_TEAM)
+//		lib->funcs.BotLibVarSet("teamplay", "1");
+//	else
+//		lib->funcs.BotLibVarSet("teamplay", "0");
+//
+//	lib->funcs.BotLibVarSet("log", "0");
+//#endif //TOURNEY
 	return true;
 } //end of the function BotInitLibrary
 //===========================================================================

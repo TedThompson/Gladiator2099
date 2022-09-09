@@ -1,21 +1,27 @@
 // g_local.h -- local definitions for game module
 
 //-------------------------------------------------------------
+// Main Toggles
 #define BOT								//Gladiator Bot
 #define BOT_IMPORT						//game import redirection
+#define RAILGUNRELOAD					//Adds unused Railgun reloading sound, Y not?
+#define LOGFILE							//log file
+#define CLIENTLAG						//client lag
+#define CH								//Colored Hitman
 //#define BOT_DEBUG						//bot debug
 //#define TRIGGER_COUNTING				//trigger counting
 //#define TRIGGER_LOG					//trigger log
 //#define FUNC_BUTTON_ROTATING			//rotating button
-#define LOGFILE							//log file
-#define CLIENTLAG						//client lag
+//#define OBSERVER						//Sadly p_observer.c seems to be missing :(
+// 
+// Disabled or removed
 //#define ZOID							//CTF
 //#define CTF_HOOK						//CTF direct hook
 //#define ROCKETARENA					//Rocket Arena 2
-#define CH								//Colored Hitman
 //#define XATRIX						//Xatrix mission pack 1
 //#define ROGUE							//Rogue mission pack 2
-//#define OBSERVER						//Sadly p_observer.c seems to be missing :(
+
+
 //-------------------------------------------------------------
 
 #define UGLADQ2_VERSION			"0.99u"
