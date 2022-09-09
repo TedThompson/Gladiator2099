@@ -8,61 +8,61 @@
 //===========================================================================
 
 #ifndef MAX_PATH
-#define MAX_PATH		144
+#define MAX_PATH        144
 #endif
 
 //first entity is the world, then the client entities follow
-#define DF_ENTNUMBER(x)			(x - g_edicts)
-#define DF_ENTCLIENT(x)			(x - 1 - g_edicts)
-#define DF_NUMBERENT(x)			(&g_edicts[x])
-#define DF_CLIENTENT(x)			(&g_edicts[x + 1])
+#define DF_ENTNUMBER(x)         (x - g_edicts)
+#define DF_ENTCLIENT(x)         (x - 1 - g_edicts)
+#define DF_NUMBERENT(x)         (&g_edicts[x])
+#define DF_CLIENTENT(x)         (&g_edicts[x + 1])
 
 //bot library
 typedef struct bot_library_s
 {
-	char path[MAX_PATH];				//path to the library
+    char path[MAX_PATH];                //path to the library
 #if defined(WIN32) || defined(_WIN32)
-	HANDLE handle;						//Win32 handle to the bot library
+    HANDLE handle;                      //Win32 handle to the bot library
 #else
-	void *handle;
+    void *handle;
 #endif
-	bot_export_t funcs;				//functions exported from the bot library
-	int users;							//number of bots using the library
-	struct bot_library_s *prev;	//links in the library list
-	struct bot_library_s *next;
+    bot_export_t funcs;         //functions exported from the bot library
+    int users;                  //number of bots using the library
+    struct bot_library_s *prev; //links in the library list
+    struct bot_library_s *next;
 } bot_library_t;
 
 //bot state
 typedef struct bot_state_s
 {
-	qboolean active;					//true if a bot is active for this client
-	qboolean started;					//true if the bot has started
-	bot_library_t *library;			//used library by the bot
+    qboolean active;            //true if a bot is active for this client
+    qboolean started;           //true if the bot has started
+    bot_library_t *library;     //used library by the bot
 } bot_state_t;
 
 //bot globals
 typedef struct bot_globals_s
 {
-	int numbots;						//number of bots
-	bot_state_t *botstates;			//bot states
-	bot_input_t *botinputs;			//bot inputs
-	qboolean *botnewinput;			//array with flags, true if input is new
-	bot_import_t gamebotimport;	//bot library import functions
-	bot_library_t *firstbotlib;	//first bot libary
-	int nocldouble;					//no double client movement frames
-	//
+    int numbots;                //number of bots
+    bot_state_t *botstates;     //bot states
+    bot_input_t *botinputs;     //bot inputs
+    qboolean *botnewinput;      //array with flags, true if input is new
+    bot_import_t gamebotimport; //bot library import functions
+    bot_library_t *firstbotlib; //first bot libary
+    int nocldouble;             //no double client movement frames
+    //
 #ifdef BOT_DEBUG
-	int notest;							//don't call the library test function
-	int framecount;
-	int timeframes;
-	clock_t starttime;
-	int nobotinput;					//true if bot input isn't processed
-	int nobotai;						//true if bots don't execute ai
-	//
-	int debug_ainet;
-	int debug_goalai;
-	int debug_moveai;
-	int debug_weapai;
+    int notest;                 //don't call the library test function
+    int framecount;
+    int timeframes;
+    clock_t starttime;
+    int nobotinput;             //true if bot input isn't processed
+    int nobotai;                //true if bots don't execute ai
+    //
+    int debug_ainet;
+    int debug_goalai;
+    int debug_moveai;
+    int debug_weapai;
 #endif //BOT_DEBUG
 } bot_globals_t;
 

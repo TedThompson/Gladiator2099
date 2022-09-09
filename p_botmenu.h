@@ -1,10 +1,10 @@
 //===========================================================================
 //
-// Name:				p_botmenu.h
-// Function:		menu
-// Programmer:		Mr Elusive (MrElusive@demigod.demon.nl)
-// Last update:	1998-01-12
-// Tab Size:		3
+// Name:            p_botmenu.h
+// Function:        menu
+// Programmer:      Mr Elusive (MrElusive@demigod.demon.nl)
+// Last update:     1998-01-12
+// Tab Size:        3
 //===========================================================================
 
 //create the bot menu
