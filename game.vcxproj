@@ -365,6 +365,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="game.def" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="anorms.h" />
     <ClInclude Include="bl_botcfg.h" />
     <ClInclude Include="bl_cmd.h" />
@@ -382,9 +385,6 @@
     <ClInclude Include="p_lag.h" />
     <ClInclude Include="p_menulib.h" />
     <ClInclude Include="q_shared.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="game.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

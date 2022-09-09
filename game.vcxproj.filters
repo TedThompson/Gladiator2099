@@ -113,22 +113,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="g_local.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="q_shared.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <CustomBuild Include="game.def">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="anorms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bl_botcfg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bl_spawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bl_cmd.h">
@@ -143,10 +136,25 @@
     <ClInclude Include="bl_redirgi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bl_spawn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="botlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="g_ch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="g_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="p_botmenu.h">
@@ -158,16 +166,8 @@
     <ClInclude Include="p_menulib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="g_ch.h">
+    <ClInclude Include="q_shared.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="game.def">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>
