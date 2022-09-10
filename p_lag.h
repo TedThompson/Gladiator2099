@@ -1,10 +1,10 @@
 //===========================================================================
 //
-// Name:				p_lag.h
-// Function:		client lag
-// Programmer:		Mr Elusive (MrElusive@demigod.demon.nl)
-// Last update:	1999-04-02
-// Tab Size:		3
+// Name:        p_lag.h
+// Function:    client lag
+// Programmer:  Mr Elusive (MrElusive@demigod.demon.nl)
+// Last update: 1999-04-02
+// Tab Size:    3
 //===========================================================================
 
 

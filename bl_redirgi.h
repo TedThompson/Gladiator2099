@@ -7,9 +7,9 @@
 // Tab Size:     3
 //===========================================================================
 
-#define MAX_MODELINDEXES				256
-#define MAX_SOUNDINDEXES				256
-#define MAX_IMAGEINDEXES				256
+#define MAX_MODELINDEXES                256
+#define MAX_SOUNDINDEXES                256
+#define MAX_IMAGEINDEXES                256
 
 //global botimport structure
 extern game_import_t newgameimport;
@@ -44,15 +44,15 @@ void BotDumpSoundindex(void);
 void BotDumpImageindex(void);
 
 #ifdef TOURNEY
-#define TECH1_MODEL	"models/ctf/resistance/tris.md2"
-#define TECH2_MODEL	"models/ctf/strength/tris.md2"
-#define TECH3_MODEL	"models/ctf/haste/tris.md2"
-#define TECH4_MODEL	"models/ctf/regeneration/tris.md2"
-#define TECH5_MODEL	"models/ctf/vampire/tris.md2"
+#define TECH1_MODEL "models/ctf/resistance/tris.md2"
+#define TECH2_MODEL "models/ctf/strength/tris.md2"
+#define TECH3_MODEL "models/ctf/haste/tris.md2"
+#define TECH4_MODEL "models/ctf/regeneration/tris.md2"
+#define TECH5_MODEL "models/ctf/vampire/tris.md2"
 
-#define TECH1_INDEX	251
-#define TECH2_INDEX	252
-#define TECH3_INDEX	253
-#define TECH4_INDEX	254
-#define TECH4_INDEX	255
+#define TECH1_INDEX 251
+#define TECH2_INDEX 252
+#define TECH3_INDEX 253
+#define TECH4_INDEX 254
+#define TECH4_INDEX 255
 #endif //TOURNEY

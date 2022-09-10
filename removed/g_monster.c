@@ -1,10 +1,9 @@
 #include "g_local.h"
 
-
 //
 // monster weapons
 //
-
+/*
 //FIXME mosnters should call these with a totally accurate direction
 // and we can mess it up based on skill.  Spread should be for normal
 // and we can tighten or loosen based on skill.  We could muck with
@@ -259,29 +258,29 @@ void monster_fire_bfg (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 	gi.WriteByte (flashtype);
 	gi.multicast (start, MULTICAST_PVS);
 }
-
+*/
 
 
 //
 // Monster utility functions
 //
 
-static void M_FliesOff (edict_t *self)
-{
-	self->s.effects &= ~EF_FLIES;
-	self->s.sound = 0;
-}
-
-static void M_FliesOn (edict_t *self)
-{
-	if (self->waterlevel)
-		return;
-	self->s.effects |= EF_FLIES;
-	self->s.sound = gi.soundindex ("infantry/inflies1.wav");
-	self->think = M_FliesOff;
-	self->nextthink = level.time + 60;
-}
-
+//static void M_FliesOff (edict_t *self)
+//{
+//	self->s.effects &= ~EF_FLIES;
+//	self->s.sound = 0;
+//}
+//
+//static void M_FliesOn (edict_t *self)
+//{
+//	if (self->waterlevel)
+//		return;
+//	self->s.effects |= EF_FLIES;
+//	self->s.sound = gi.soundindex ("infantry/inflies1.wav");
+//	self->think = M_FliesOff;
+//	self->nextthink = level.time + 60;
+//}
+/*
 void M_FlyCheck (edict_t *self)
 {
 	if (self->waterlevel)
@@ -292,120 +291,120 @@ void M_FlyCheck (edict_t *self)
 
 	self->think = M_FliesOn;
 	self->nextthink = level.time + 5 + 10 * random();
-}
+}*/
 
-void AttackFinished (edict_t *self, float time)
-{
-	self->monsterinfo.attack_finished = level.time + time;
-}
+//void AttackFinished (edict_t *self, float time)
+//{
+//	self->monsterinfo.attack_finished = level.time + time;
+//}
 
 
-void M_CheckGround (edict_t *ent)
-{
-	vec3_t		point;
-	trace_t		trace;
-
-	if (ent->flags & (FL_SWIM|FL_FLY))
-		return;
-
-#ifdef ROGUE_GRAVITY
-	if ((ent->velocity[2] * ent->gravityVector[2]) < -100)		// PGM
-#else
-	if (ent->velocity[2] > 100)
-#endif
-	{
-		ent->groundentity = NULL;
-		return;
-	}
-
-// if the hull point one-quarter unit down is solid the entity is on ground
-	point[0] = ent->s.origin[0];
-	point[1] = ent->s.origin[1];
-#ifdef ROGUE_GRAVITY
-	point[2] = ent->s.origin[2] + (0.25 * ent->gravityVector[2]);	//PGM
-#else
-	point[2] = ent->s.origin[2] - 0.25;
-#endif
-
-	trace = gi.trace (ent->s.origin, ent->mins, ent->maxs, point, ent, MASK_MONSTERSOLID);
-
-	// check steepness
-#ifdef ROGUE_GRAVITY
-//PGM
-	if ( ent->gravityVector[2] < 0)		// normal gravity
-	{
-		if ( trace.plane.normal[2] < 0.7 && !trace.startsolid)
-		{
-			ent->groundentity = NULL;
-			return;
-		}
-	}
-	else								// inverted gravity
-	{
-		if ( trace.plane.normal[2] > -0.7 && !trace.startsolid)
-		{
-			ent->groundentity = NULL;
-			return;
-		}
-	}
-//PGM
-#else
-	if ( trace.plane.normal[2] < 0.7 && !trace.startsolid)
-	{
-		ent->groundentity = NULL;
-		return;
-	}
-#endif
-
-//	ent->groundentity = trace.ent;
-//	ent->groundentity_linkcount = trace.ent->linkcount;
+//void M_CheckGround (edict_t *ent)
+//{
+//	vec3_t		point;
+//	trace_t		trace;
+//	gi.dprintf("M_Checkground\n");
+//	if (ent->flags & (FL_SWIM|FL_FLY))
+//		return;
+//
+//#ifdef ROGUE_GRAVITY
+//	if ((ent->velocity[2] * ent->gravityVector[2]) < -100)		// PGM
+//#else
+//	if (ent->velocity[2] > 100)
+//#endif
+//	{
+//		ent->groundentity = NULL;
+//		return;
+//	}
+//
+//// if the hull point one-quarter unit down is solid the entity is on ground
+//	point[0] = ent->s.origin[0];
+//	point[1] = ent->s.origin[1];
+//#ifdef ROGUE_GRAVITY
+//	point[2] = ent->s.origin[2] + (0.25 * ent->gravityVector[2]);	//PGM
+//#else
+//	point[2] = ent->s.origin[2] - 0.25;
+//#endif
+//
+//	trace = gi.trace (ent->s.origin, ent->mins, ent->maxs, point, ent, MASK_MONSTERSOLID);
+//
+//	// check steepness
+//#ifdef ROGUE_GRAVITY
+////PGM
+//	if ( ent->gravityVector[2] < 0)		// normal gravity
+//	{
+//		if ( trace.plane.normal[2] < 0.7 && !trace.startsolid)
+//		{
+//			ent->groundentity = NULL;
+//			return;
+//		}
+//	}
+//	else								// inverted gravity
+//	{
+//		if ( trace.plane.normal[2] > -0.7 && !trace.startsolid)
+//		{
+//			ent->groundentity = NULL;
+//			return;
+//		}
+//	}
+////PGM
+//#else
+//	if ( trace.plane.normal[2] < 0.7 && !trace.startsolid)
+//	{
+//		ent->groundentity = NULL;
+//		return;
+//	}
+//#endif
+//
+////	ent->groundentity = trace.ent;
+////	ent->groundentity_linkcount = trace.ent->linkcount;
+////	if (!trace.startsolid && !trace.allsolid)
+////		VectorCopy (trace.endpos, ent->s.origin);
 //	if (!trace.startsolid && !trace.allsolid)
+//	{
 //		VectorCopy (trace.endpos, ent->s.origin);
-	if (!trace.startsolid && !trace.allsolid)
-	{
-		VectorCopy (trace.endpos, ent->s.origin);
-		ent->groundentity = trace.ent;
-		ent->groundentity_linkcount = trace.ent->linkcount;
-		ent->velocity[2] = 0;
-	}
-}
+//		ent->groundentity = trace.ent;
+//		ent->groundentity_linkcount = trace.ent->linkcount;
+//		ent->velocity[2] = 0;
+//	}
+//}
 
 
-void M_CatagorizePosition (edict_t *ent)
-{
-	vec3_t		point;
-	int			cont;
-
+//void M_CatagorizePosition (edict_t *ent)
+//{
+//	vec3_t		point;
+//	int			cont;
 //
-// get waterlevel
+////
+//// get waterlevel
+////
+//	point[0] = ent->s.origin[0];
+//	point[1] = ent->s.origin[1];
+//	point[2] = ent->s.origin[2] + ent->mins[2] + 1;	
+//	cont = gi.pointcontents (point);
 //
-	point[0] = ent->s.origin[0];
-	point[1] = ent->s.origin[1];
-	point[2] = ent->s.origin[2] + ent->mins[2] + 1;	
-	cont = gi.pointcontents (point);
-
-	if (!(cont & MASK_WATER))
-	{
-		ent->waterlevel = 0;
-		ent->watertype = 0;
-		return;
-	}
-
-	ent->watertype = cont;
-	ent->waterlevel = 1;
-	point[2] += 26;
-	cont = gi.pointcontents (point);
-	if (!(cont & MASK_WATER))
-		return;
-
-	ent->waterlevel = 2;
-	point[2] += 22;
-	cont = gi.pointcontents (point);
-	if (cont & MASK_WATER)
-		ent->waterlevel = 3;
-}
-
-
+//	if (!(cont & MASK_WATER))
+//	{
+//		ent->waterlevel = 0;
+//		ent->watertype = 0;
+//		return;
+//	}
+//
+//	ent->watertype = cont;
+//	ent->waterlevel = 1;
+//	point[2] += 26;
+//	cont = gi.pointcontents (point);
+//	if (!(cont & MASK_WATER))
+//		return;
+//
+//	ent->waterlevel = 2;
+//	point[2] += 22;
+//	cont = gi.pointcontents (point);
+//	if (cont & MASK_WATER)
+//		ent->waterlevel = 3;
+//}
+#ifdef foobar
+/*
 void M_WorldEffects (edict_t *ent)
 {
 	int		dmg;
@@ -496,47 +495,47 @@ void M_WorldEffects (edict_t *ent)
 		ent->damage_debounce_time = 0;
 	}
 }
-
-
-void M_droptofloor (edict_t *ent)
-{
-	vec3_t		end;
-	trace_t		trace;
-
-#ifdef ROGUE_GRAVITY
-//PGM
-	if(ent->gravityVector[2] < 0)
-	{
-		ent->s.origin[2] += 1;
-		VectorCopy (ent->s.origin, end);
-		end[2] -= 256;
-	}
-	else
-	{
-		ent->s.origin[2] -= 1;
-		VectorCopy (ent->s.origin, end);
-		end[2] += 256;
-	}
-//PGM
-#else
-	ent->s.origin[2] += 1;
-	VectorCopy (ent->s.origin, end);
-	end[2] -= 256;
+*/
 #endif
-	
-	trace = gi.trace (ent->s.origin, ent->mins, ent->maxs, end, ent, MASK_MONSTERSOLID);
-
-	if (trace.fraction == 1 || trace.allsolid)
-		return;
-
-	VectorCopy (trace.endpos, ent->s.origin);
-
-	gi.linkentity (ent);
-	M_CheckGround (ent);
-	M_CatagorizePosition (ent);
-}
-
-
+//void M_droptofloor (edict_t *ent)
+//{
+//	vec3_t		end;
+//	trace_t		trace;
+//
+//#ifdef ROGUE_GRAVITY
+////PGM
+//	if(ent->gravityVector[2] < 0)
+//	{
+//		ent->s.origin[2] += 1;
+//		VectorCopy (ent->s.origin, end);
+//		end[2] -= 256;
+//	}
+//	else
+//	{
+//		ent->s.origin[2] -= 1;
+//		VectorCopy (ent->s.origin, end);
+//		end[2] += 256;
+//	}
+////PGM
+//#else
+//	ent->s.origin[2] += 1;
+//	VectorCopy (ent->s.origin, end);
+//	end[2] -= 256;
+//#endif
+//	
+//	trace = gi.trace (ent->s.origin, ent->mins, ent->maxs, end, ent, MASK_MONSTERSOLID);
+//
+//	if (trace.fraction == 1 || trace.allsolid)
+//		return;
+//
+//	VectorCopy (trace.endpos, ent->s.origin);
+//
+//	gi.linkentity (ent);
+//	M_CheckGround (ent);
+//	M_CatagorizePosition (ent);
+//}
+#ifdef foobar
+/*
 void M_SetEffects (edict_t *ent)
 {
 #ifdef ROGUE
@@ -600,49 +599,49 @@ void M_SetEffects (edict_t *ent)
 	// PMM - testing
 //	ent->s.effects |= EF_COLOR_SHELL;
 //	ent->s.renderfx |= RF_SHELL_HALF_DAM;
-/*
-	if (fmod (level.time, 4.0) > 2.0)
-	{
-		gi.dprintf ("invulnerable ");
-		ent->s.renderfx |= RF_SHELL_RED;
-	}
-	else
-		ent->s.renderfx &= ~RF_SHELL_RED;
 
-	if (fmod (level.time, 8.0) > 4.0)
-	{
-		gi.dprintf ("shield ");
-		ent->s.renderfx |= RF_SHELL_GREEN;
-	}
-	else
-		ent->s.renderfx &= ~RF_SHELL_GREEN;
+	//if (fmod (level.time, 4.0) > 2.0)
+	//{
+	//	gi.dprintf ("invulnerable ");
+	//	ent->s.renderfx |= RF_SHELL_RED;
+	//}
+	//else
+	//	ent->s.renderfx &= ~RF_SHELL_RED;
 
-	if (fmod (level.time, 16.0) > 8.0)
-	{
-		gi.dprintf ("quad ");
-		ent->s.renderfx |= RF_SHELL_BLUE;\
-	}
-	else
-		ent->s.renderfx &= ~RF_SHELL_BLUE;
+	//if (fmod (level.time, 8.0) > 4.0)
+	//{
+	//	gi.dprintf ("shield ");
+	//	ent->s.renderfx |= RF_SHELL_GREEN;
+	//}
+	//else
+	//	ent->s.renderfx &= ~RF_SHELL_GREEN;
 
-	if (fmod (level.time, 32.0) > 16.0)
-	{
-		gi.dprintf ("double ");
-		ent->s.renderfx |= RF_SHELL_DOUBLE;
-	}
-	else
-		ent->s.renderfx &= ~RF_SHELL_DOUBLE;
+	//if (fmod (level.time, 16.0) > 8.0)
+	//{
+	//	gi.dprintf ("quad ");
+	//	ent->s.renderfx |= RF_SHELL_BLUE;\
+	//}
+	//else
+	//	ent->s.renderfx &= ~RF_SHELL_BLUE;
 
-	if (fmod (level.time, 64.0) > 32.0)
-	{
-		gi.dprintf ("half ");
-		ent->s.renderfx |= RF_SHELL_HALF_DAM;
-	}
-	else
-		ent->s.renderfx &= ~RF_SHELL_HALF_DAM;
+	//if (fmod (level.time, 32.0) > 16.0)
+	//{
+	//	gi.dprintf ("double ");
+	//	ent->s.renderfx |= RF_SHELL_DOUBLE;
+	//}
+	//else
+	//	ent->s.renderfx &= ~RF_SHELL_DOUBLE;
 
-	gi.dprintf ("\n");
-*/
+	//if (fmod (level.time, 64.0) > 32.0)
+	//{
+	//	gi.dprintf ("half ");
+	//	ent->s.renderfx |= RF_SHELL_HALF_DAM;
+	//}
+	//else
+	//	ent->s.renderfx &= ~RF_SHELL_HALF_DAM;
+
+	//gi.dprintf ("\n");
+
 #endif //ROGUE
 }
 
@@ -704,7 +703,7 @@ void M_MoveFrame (edict_t *self)
 		move->frame[index].thinkfunc (self);
 }
 
-
+*/
 void monster_think (edict_t *self)
 {
 	M_MoveFrame (self);
@@ -725,7 +724,7 @@ monster_use
 
 Using a monster makes it angry at the current activator
 ================
-*/
+*//*
 void monster_use (edict_t *self, edict_t *other, edict_t *activator)
 {
 	if (self->enemy)
@@ -808,8 +807,8 @@ void monster_triggered_start (edict_t *self)
 	self->nextthink = 0;
 	self->use = monster_triggered_spawn_use;
 }
-
-
+*/
+#endif
 /*
 ================
 monster_death_use
@@ -818,26 +817,26 @@ When a monster dies, it fires all of its targets with the current
 enemy as activator.
 ================
 */
-void monster_death_use (edict_t *self)
-{
-	self->flags &= ~(FL_FLY|FL_SWIM);
-	self->monsterinfo.aiflags &= AI_GOOD_GUY;
-
-	if (self->item)
-	{
-		Drop_Item (self, self->item);
-		self->item = NULL;
-	}
-
-	if (self->deathtarget)
-		self->target = self->deathtarget;
-
-	if (!self->target)
-		return;
-
-	G_UseTargets (self, self->enemy);
-}
-
+//void monster_death_use (edict_t *self)
+//{
+//	self->flags &= ~(FL_FLY|FL_SWIM);
+//	self->monsterinfo.aiflags &= AI_GOOD_GUY;
+//
+//	if (self->item)
+//	{
+//		Drop_Item (self, self->item);
+//		self->item = NULL;
+//	}
+//
+//	if (self->deathtarget)
+//		self->target = self->deathtarget;
+//
+//	if (!self->target)
+//		return;
+//
+//	G_UseTargets (self, self->enemy);
+//}
+#ifdef foobar
 
 //============================================================================
 
@@ -1136,3 +1135,4 @@ void monster_done_dodge (edict_t *self)
 	self->monsterinfo.aiflags &= ~AI_DODGING;
 }
 #endif //ROGUE
+#endif

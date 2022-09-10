@@ -53,7 +53,7 @@ qboolean blocked_checkshot (edict_t *self, float shotChance)
 		return false;
 
 	// PMM - special handling for the parasite
-	if (!strcmp(self->classname, "monster_parasite"))
+/*	if (!strcmp(self->classname, "monster_parasite"))
 	{
 		vec3_t	f, r, offset, start, end;
 		trace_t	tr;
@@ -85,7 +85,7 @@ qboolean blocked_checkshot (edict_t *self, float shotChance)
 			self->monsterinfo.aiflags &= ~AI_BLOCKED;
 			return true;
 		}
-	}
+	}*/
 
 	playerVisible = visible (self, self->enemy);
 	// always shoot at teslas

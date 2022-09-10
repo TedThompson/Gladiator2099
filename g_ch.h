@@ -7,12 +7,12 @@
 // Tab Size:     3
 //===========================================================================
 
-extern cvar_t *ch;
-extern char *ch_statusbar;
+extern cvar_t* ch;
+extern char* ch_statusbar;
 
-char *ColorImageName(int color);
+char* ColorImageName(int color);
 void InitColoredHitman(void);
 void PrecacheColoredHitman(void);
 void UpdateColoredHitman(void);
-void ColoredHitmanStats(edict_t *ent);
-void ColoredHitmanEffects(edict_t *ent);
+void ColoredHitmanStats(edict_t* ent);
+void ColoredHitmanEffects(edict_t* ent);
