@@ -183,20 +183,6 @@ void DestroyVisibleBoundingBox(visiblebbox_t *box)
 //===========================================================================
 void ToggleVisibleBoundingBox(edict_t *ent)
 {
-#ifdef OBSERVER
-    edict_t *cam;
-
-    if (ent->flags & FL_OBSERVER)
-    {
-        cam = ent->client->camera.ent;
-        if (cam != ent)
-        {
-            if (cam->box.created) DestroyVisibleBoundingBox(&cam->box);
-            else CreateVisibleBoundingBox(&cam->box);
-            return;
-        } //end if
-    } //end if
-#endif
     if (ent->box.created) DestroyVisibleBoundingBox(&ent->box);
     else CreateVisibleBoundingBox(&ent->box);
 } //end of the function ToggleVisibleBoundingBox

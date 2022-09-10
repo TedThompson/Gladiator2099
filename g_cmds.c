@@ -11,6 +11,22 @@
 #include "p_lag.h"
 #endif //CLIENTLAG
 
+void ToggleSpectating(edict_t* ent)
+{
+    if (ent->client->pers.spectator)
+    {
+        gi.WriteByte(svc_stufftext);
+        gi.WriteString("spectator 0\n");
+        gi.unicast(ent, true);
+    }
+    else
+    {
+        gi.WriteByte(svc_stufftext);
+        gi.WriteString("spectator 1\n");
+        gi.unicast(ent, true);
+    }
+}
+
 
 char* ClientTeam(edict_t* ent)
 {
@@ -901,13 +917,8 @@ void Cmd_Say_f(edict_t* ent, qboolean team, qboolean arg0)
             continue;
         if (team)
         {
-#ifdef OBSERVER
-            if (!(ent->flags & FL_OBSERVER) && (other->flags & FL_OBSERVER)) continue;
-            else if ((ent->flags & FL_OBSERVER) && !(other->flags & FL_OBSERVER)) continue;
-            else if (!((ent->flags & FL_OBSERVER) && (other->flags & FL_OBSERVER)))
-#endif //OBSERVER
-                if (!OnSameTeam(ent, other))
-                    continue;
+            if (!OnSameTeam(ent, other))
+                continue;
         }
         gi.cprintf(other, PRINT_CHAT, "%s", text);
     }
@@ -1046,18 +1057,15 @@ void ClientCommand(edict_t* ent)
         Cmd_Wave_f(ent);
     else if (Q_stricmp(cmd, "playerlist") == 0)
         Cmd_PlayerList_f(ent);
+    else if (Q_stricmp(cmd, "spectate") == 0)
+        ToggleSpectating(ent);
+
 #ifdef CLIENTLAG
     else if (Q_stricmp(cmd, "lag") == 0)
         Lag_SetClientLag(ent, atoi(gi.argv(1)));
     else if (Q_stricmp(cmd, "lagvariance") == 0)
         Lag_SetClientLagVariance(ent, atoi(gi.argv(1)));
 #endif //CLIENTLAG
-
-#ifdef OBSERVER
-    else if (ClientObserverCmd(cmd, ent))
-    {
-    } //end else if
-#endif //OBSERVER
 
 #ifdef BOT
     //bot commands

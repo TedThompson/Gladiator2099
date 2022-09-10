@@ -110,9 +110,6 @@ void TeamHelp_f(edict_t *ent)
 
     if (!ent) return;
     if (!ent->client) return;
-#ifdef OBSERVER
-    if (ent->flags & FL_OBSERVER) return;
-#endif //OBSERVER
 
     radius = 500;
 

@@ -210,10 +210,6 @@ int NumPlayers(void)
         //if not an active client
         if (!cl_ent->inuse) continue;
         if (!cl_ent->client) continue;
-#ifdef OBSERVER
-        //if in observer mode
-        if (cl_ent->flags & FL_OBSERVER) continue;
-#endif //OBSERVER
         //
         numplayers++;
     } //end for
@@ -258,10 +254,6 @@ void ResetPlayerColors(void)
         //if not an active client
         if (!cl_ent->inuse) continue;
         if (!cl_ent->client) continue;
-#ifdef OBSERVER
-        //if in observer mode
-        if (cl_ent->flags & FL_OBSERVER) continue;
-#endif //OBSERVER
         cl_ent->client->chcolor = 0;
     } //end for
     //start with the first color
@@ -277,10 +269,6 @@ void ResetPlayerColors(void)
             //if not an active client
             if (!cl_ent->inuse) continue;
             if (!cl_ent->client) continue;
-#ifdef OBSERVER
-            //if in observer mode
-            if (cl_ent->flags & FL_OBSERVER) continue;
-#endif //OBSERVER
             if (cl_ent->client->chcolor) continue;
             //
             rnd--;
@@ -307,10 +295,6 @@ int InvalidColors(void)
         //if not an active client
         if (!cl_ent->inuse) continue;
         if (!cl_ent->client) continue;
-#ifdef OBSERVER
-        //if in observer mode
-        if (cl_ent->flags & FL_OBSERVER) continue;
-#endif //OBSERVER
         //
         if (!cl_ent->client->chcolor)
         {

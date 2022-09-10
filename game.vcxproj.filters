@@ -18,9 +18,6 @@
     <ClCompile Include="g_ai.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="g_chase.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="g_cmds.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -109,6 +106,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="p_menulib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_aqcam.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

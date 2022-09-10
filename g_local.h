@@ -8,11 +8,12 @@
 #define LOGFILE                         //log file
 #define CLIENTLAG                       //client lag
 #define CH                              //Colored Hitman
+#define MOTD                            //MOTD support
+
 //#define BOT_DEBUG                     //bot debug
 //#define TRIGGER_COUNTING              //trigger counting
 //#define TRIGGER_LOG                   //trigger log
 //#define FUNC_BUTTON_ROTATING          //rotating button
-//#define OBSERVER                      //Sadly p_observer.c seems to be missing :(
 // 
 // Disabled or removed
 //#define ZOID                          //CTF
@@ -108,13 +109,8 @@
 #ifdef BOT
 #define FL_BOT                  0x00002000  // set when entity is a bot
 #define FL_BOTINPUT             0x00004000  // set when executing bot input
-#endif //BOT
-#ifdef BOT
 #define FL_OLDORGNOTSET         0x00008000  // set when oldorigin may not be set
 #endif //BOT
-#ifdef OBSERVER
-#define FL_OBSERVER             0x00010000  // set when client is observer
-#endif //OBSERVER
 
 #define FL_RESPAWN              0x80000000  // used for item respawning
 
@@ -556,6 +552,7 @@ extern  int body_armor_index;
 
 extern  int meansOfDeath;
 
+extern char* dm_statusbar;
 
 extern  edict_t* g_edicts;
 
@@ -737,17 +734,17 @@ void T_RadiusDamage(edict_t* inflictor, edict_t* attacker, float damage, edict_t
 //
 // g_monster.c
 //
-void M_droptofloor(edict_t* ent);
-void monster_think(edict_t* self);
-void walkmonster_start(edict_t* self);
-void swimmonster_start(edict_t* self);
-void flymonster_start(edict_t* self);
-void AttackFinished(edict_t* self, float time);
-void monster_death_use(edict_t* self);
-void M_CatagorizePosition(edict_t* ent);
-qboolean M_CheckAttack(edict_t* self);
-void M_FlyCheck(edict_t* self);
-void M_CheckGround(edict_t* ent);
+//void M_droptofloor(edict_t* ent);
+//void monster_think(edict_t* self);
+//void walkmonster_start(edict_t* self);
+//void swimmonster_start(edict_t* self);
+//void flymonster_start(edict_t* self);
+//void AttackFinished(edict_t* self, float time);
+//void monster_death_use(edict_t* self);
+//void M_CatagorizePosition(edict_t* ent);
+//qboolean M_CheckAttack(edict_t* self);
+//void M_FlyCheck(edict_t* self);
+//void M_CheckGround(edict_t* ent);
 
 //
 // g_misc.c
@@ -760,12 +757,13 @@ void BecomeExplosion1(edict_t* self);
 //
 // g_ai.c
 //
-int range(edict_t* self, edict_t* other);
+//int range(edict_t* self, edict_t* other);
+//void FoundTarget(edict_t* self);
+//qboolean infront(edict_t* self, edict_t* other);
 
-void FoundTarget(edict_t* self);
-qboolean infront(edict_t* self, edict_t* other);
 qboolean visible(edict_t* self, edict_t* other);
-qboolean FacingIdeal(edict_t* self);
+
+//qboolean FacingIdeal(edict_t* self);
 
 //
 // g_weapon.c
@@ -784,12 +782,12 @@ void fire_bfg(edict_t* self, vec3_t start, vec3_t dir, int damage, int speed, fl
 //
 // g_ptrail.c
 //
-void PlayerTrail_Init(void);
-void PlayerTrail_Add(vec3_t spot);
-void PlayerTrail_New(vec3_t spot);
-edict_t* PlayerTrail_PickFirst(edict_t* self);
-edict_t* PlayerTrail_PickNext(edict_t* self);
-edict_t* PlayerTrail_LastSpot(void);
+//void PlayerTrail_Init(void);
+//void PlayerTrail_Add(vec3_t spot);
+//void PlayerTrail_New(vec3_t spot);
+//edict_t* PlayerTrail_PickFirst(edict_t* self);
+//edict_t* PlayerTrail_PickNext(edict_t* self);
+//edict_t* PlayerTrail_LastSpot(void);
 
 //
 // g_client.c
@@ -861,6 +859,12 @@ void ChaseNext(edict_t* ent);
 void ChasePrev(edict_t* ent);
 void GetChaseTarget(edict_t* ent);
 
+//
+// s_cam.c
+//
+void CheckChasecam_Viewent(edict_t* ent);
+void Cmd_Chasecam_Toggle(edict_t* ent);
+
 //============================================================================
 
 // client_t->anim_priority
@@ -919,36 +923,11 @@ typedef struct
     int         score;              // frags, etc
     vec3_t      cmd_angles;         // angles sent over in the last command
     qboolean    spectator;          // client is a spectator
-} client_respawn_t;
 
-#ifdef OBSERVER
-typedef struct camera_s
-{
-    edict_t* ent;                       //observed client
-    vec3_t angles;                      //camera angles
-    vec3_t origin;                      //camera origin
-    vec3_t ent_angles;                  //observed client angles
-    vec3_t chaseoffset;                 //offset for the chasecamera
-    int flags;                          //camera flags
-    //autocam fields
-    edict_t* lastent;                   //targeted entity (player, bot etc)
-    edict_t* goalent;                   //previous targeted entity
-    vec3_t dest;                        //current expected camera position
-    vec3_t viewtarget;                  //current expected camera view target
-    vec3_t dest2;                       //next target in Idle Mode
-    int state;                          //the state of the camera
-    float pause_time;                   //delay measure
-    float delay;                        //how long to keep current target / idle mode
-    float search_time;                  //when to drop from current mode
-    float maxflybydist;                 //maximum distance in flyby mode
-    int cnt;                            //entity passing counter
-    //
-    float lasttime;                     //last time camera was updated
-    float lastcycle;                    //last time camera was cycled
-    vec3_t clientangles;                //angles of the client using this camera
-    vec3_t clientorigin;                //origin of the client using this camera
-} camera_t;
-#endif //OBSERVER
+    edict_t*    last_chase_target;  // AQCAM
+
+
+} client_respawn_t;
 
 // this structure is cleared on each PutClientInServer(),
 // except for 'client->pers'
@@ -1033,13 +1012,10 @@ struct gclient_s
 
     float       respawn_time;       // can respawn when time > this
 
-    edict_t* chase_target;      // player we are chasing
+    edict_t*    chase_target;       // player we are chasing
     qboolean    update_chase;       // need to update chase info?
 
-#ifdef OBSERVER
-    //for the eye and chase cam
-    camera_t camera;
-#endif //OBSERVER
+    int         chase_mode;         //AQCAM
 
 #ifdef BOT
     qboolean showmenu;

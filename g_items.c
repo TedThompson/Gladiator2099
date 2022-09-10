@@ -764,10 +764,6 @@ void Touch_Item(edict_t* ent, edict_t* other, cplane_t* plane, csurface_t* surf)
     if (!ent->item->pickup)
         return;     // not a grabbable item?
 
-#ifdef OBSERVER
-    if (other->flags & FL_OBSERVER) return;
-#endif //OBSERVER
-
     taken = ent->item->pickup(ent, other);
 
     if (taken)

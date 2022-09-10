@@ -27,15 +27,6 @@ void SP_misc_teleporter_dest(edict_t* ent);
 // we use carnal knowledge of the maps to fix the coop spot targetnames to match
 // that of the nearest named single player spot
 
-
-
-
-
-
-
-
-
-
 static void SP_FixCoopSpots(edict_t* self)
 {
     edict_t* spot;
@@ -1211,10 +1202,6 @@ void CopyToBodyQue(edict_t* ent)
 
     gi.unlinkentity(body);
 
-#ifdef OBSERVER
-    if (ent->client) ent->goalentity = body;
-#endif //OBSERVER
-
     body->s = ent->s;
     body->s.number = body - g_edicts;
 
@@ -1277,7 +1264,8 @@ void spectator_respawn(edict_t* ent)
         char* value = Info_ValueForKey(ent->client->pers.userinfo, "spectator");
         if (*spectator_password->string &&
             strcmp(spectator_password->string, "none") &&
-            strcmp(spectator_password->string, value)) {
+            strcmp(spectator_password->string, value)) 
+        {
             gi.cprintf(ent, PRINT_HIGH, "Spectator password incorrect.\n");
             ent->client->pers.spectator = false;
             gi.WriteByte(svc_stufftext);
@@ -1291,7 +1279,8 @@ void spectator_respawn(edict_t* ent)
             if (g_edicts[i].inuse && g_edicts[i].client->pers.spectator)
                 numspec++;
 
-        if (numspec >= maxspectators->value) {
+        if (numspec >= maxspectators->value) 
+        {
             gi.cprintf(ent, PRINT_HIGH, "Server spectator limit is full.");
             ent->client->pers.spectator = false;
             // reset his spectator var
@@ -1300,13 +1289,16 @@ void spectator_respawn(edict_t* ent)
             gi.unicast(ent, true);
             return;
         }
+        else
+            gi.configstring(CS_STATUSBAR, ""); // kill statusbar in spectator view
     }
     else {
         // he was a spectator and wants to join the game
         // he must have the right password
         char* value = Info_ValueForKey(ent->client->pers.userinfo, "password");
         if (*password->string && strcmp(password->string, "none") &&
-            strcmp(password->string, value)) {
+            strcmp(password->string, value)) 
+        {
             gi.cprintf(ent, PRINT_HIGH, "Password incorrect.\n");
             ent->client->pers.spectator = true;
             gi.WriteByte(svc_stufftext);
@@ -1314,6 +1306,13 @@ void spectator_respawn(edict_t* ent)
             gi.unicast(ent, true);
             return;
         }
+        // we're in, so get the status bar back (No SP SB BC NO SP)
+        else if (ch->value)
+            gi.configstring(CS_STATUSBAR, ch_statusbar);
+        else
+            gi.configstring(CS_STATUSBAR, dm_statusbar);
+
+
     }
 
     // clear client on respawn
@@ -1338,7 +1337,7 @@ void spectator_respawn(edict_t* ent)
     ent->client->respawn_time = level.time;
 
     if (ent->client->pers.spectator)
-        gi.bprintf(PRINT_HIGH, "%s has moved to the sidelines\n", ent->client->pers.netname);
+        gi.bprintf(PRINT_HIGH, "%s likes to watch\n", ent->client->pers.netname);
     else
         gi.bprintf(PRINT_HIGH, "%s joined the game\n", ent->client->pers.netname);
 }
@@ -1542,6 +1541,14 @@ deathmatch mode, so clear everything out before starting them.
 */
 void ClientBeginDeathmatch(edict_t* ent)
 {
+#ifdef MOTD
+    FILE* motd_file;
+    char filepath[80];
+    char motd[500];
+    char line[80];
+    cvar_t* game;
+#endif
+
     G_InitEdict(ent);
 
     InitClientResp(ent->client);
@@ -1563,7 +1570,34 @@ void ClientBeginDeathmatch(edict_t* ent)
     }
 
     gi.bprintf(PRINT_HIGH, "%s entered the game\n", ent->client->pers.netname);
+#ifdef MOTD
+    game = gi.cvar("game", "", 0);
 
+    if (!*game->string)
+        sprintf(filepath, "%s/motd.txt", GAMEVERSION);
+    else
+        sprintf(filepath, "%s/motd.txt", game->string);
+
+    if (motd_file = fopen(filepath, "r"))
+    {
+        // we successfully opened the file "motd.txt"
+        if (fgets(motd, 500, motd_file))
+        {
+            // we successfully read a line from "motd.txt" into motd
+            // ... read the remaining lines now
+            while (fgets(line, 80, motd_file))
+            {
+                // add each new line to motd, to create a BIG message string.
+                strcat(motd, line);
+            }
+
+            // print our message.
+            gi.centerprintf(ent, "\n\n\n\n\n\n\n%s", motd);
+        }
+        // be good now ! ... close the file
+        fclose(motd_file);
+    }
+#endif
     // make sure all view stuff is valid
     ClientEndServerFrame(ent);
 }
@@ -1730,11 +1764,6 @@ qboolean ClientConnect(edict_t* ent, char* userinfo)
         if (!BotMoveToFreeClientEdict(ent)) return false;
     } //end if
 #endif //BOT
-
-#ifdef OBSERVER
-    //never connect as an observer
-    ent->flags &= ~FL_OBSERVER;
-#endif //OBSERVER
 
     // check to see if they are on the banned IP list
     value = Info_ValueForKey(userinfo, "ip");
@@ -1949,9 +1978,6 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
 #ifdef BOT
         DoMenu(ent, ucmd);
 #endif //BOT
-#ifdef OBSERVER
-        DoObserver(ent, ucmd);
-#endif //OBSERVER
 
         pm.s = client->ps.pmove;
 
@@ -2059,28 +2085,42 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
             ent->light_level = ucmd->lightlevel;
 
             // fire weapon from final position if needed
-            if (client->latched_buttons & BUTTON_ATTACK
-#ifdef OBSERVER
-                && !(ent->flags & FL_OBSERVER)
-#endif //OBSERVER
-                && ent->movetype != MOVETYPE_NOCLIP)
+            if ((client->latched_buttons & BUTTON_ATTACK) 
+                || (!client->chase_mode && client->pers.spectator))
             {
-                if (client->resp.spectator)
+                if (ent->solid == SOLID_NOT && ent->deadflag != DEAD_DEAD)
                 {
                     client->latched_buttons = 0;
-                    if (client->chase_target)
+                    if (client->chase_mode)
                     {
-                        client->chase_target = NULL;
-                        client->ps.pmove.pm_flags &= ~PMF_NO_PREDICTION;
+                        if (client->chase_mode == 1)
+                        {
+                            client->ps.fov = 90;
+                            client->chase_mode++;
+                        }
+                        else
+                        {
+                            client->ps.fov = 90;
+                            client->chase_mode = 1;
+
+                        }
                     }
                     else
+                    {
+                        client->chase_target = NULL;
                         GetChaseTarget(ent);
-                } //end if
+                        if (client->chase_target != NULL)
+                        {
+                            client->chase_mode = 1;
+                            UpdateChaseCam(ent);
+                        }
+                    }
+                }
                 else if (!client->weapon_thunk)
                 {
                     client->weapon_thunk = true;
                     Think_Weapon(ent);
-                } //end else if
+                }
             } //end if
 #ifdef CLIENTLAG
         } //end while
@@ -2089,7 +2129,7 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
     }
 #endif //CLIENTLAG
 
-    if (client->resp.spectator)
+    if (client->chase_mode)
     {
         if (ucmd->upmove >= 10)
         {
@@ -2097,15 +2137,23 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
             {
                 client->ps.pmove.pm_flags |= PMF_JUMP_HELD;
                 if (client->chase_target)
+                {
                     ChaseNext(ent);
+                }
                 else
+                {
                     GetChaseTarget(ent);
+                    UpdateChaseCam(ent);
+                }
             }
         }
         else
             client->ps.pmove.pm_flags &= ~PMF_JUMP_HELD;
-    }
 
+//FIREBLADE
+        ChaseTargetGone(ent);  // run a check...result not important.
+//FIREBLADE
+    }
     // update chase cam if being followed
     for (i = 1; i <= maxclients->value; i++)
     {
@@ -2141,11 +2189,7 @@ void ClientBeginServerFrame(edict_t* ent)
     }
 
     // run weapon animations if it hasn't been done by a ucmd_t
-    if (!client->weapon_thunk && !client->resp.spectator
-#ifdef OBSERVER
-        && !(ent->flags & FL_OBSERVER)
-#endif //OBSERVER
-        && ent->movetype != MOVETYPE_NOCLIP)
+    if (!client->weapon_thunk && !client->resp.spectator && ent->movetype != MOVETYPE_NOCLIP)
         Think_Weapon(ent);
     else
         client->weapon_thunk = false;

@@ -170,9 +170,6 @@ void DeathmatchScoreboardMessage(edict_t* ent, edict_t* killer)
         cl_ent = g_edicts + 1 + i;
         if (!cl_ent->inuse || game.clients[i].resp.spectator)
             continue;
-#ifdef OBSERVER
-        if (cl_ent->flags & FL_OBSERVER) continue;
-#endif //OBSERVER
         score = game.clients[i].resp.score;
         for (j = 0; j < total; j++)
         {
@@ -392,107 +389,113 @@ void G_SetStats(edict_t* ent)
     int         index, cells;
     int         power_armor_type;
 
-    //
-    // health
-    //
-    ent->client->ps.stats[STAT_HEALTH_ICON] = level.pic_health;
-    ent->client->ps.stats[STAT_HEALTH] = ent->health;
 
-    //
-    // ammo
-    //
-    if (!ent->client->ammo_index /* || !ent->client->pers.inventory[ent->client->ammo_index] */)
+    if (!ent->client->chase_mode)
     {
-        ent->client->ps.stats[STAT_AMMO_ICON] = 0;
-        ent->client->ps.stats[STAT_AMMO] = 0;
-    }
-    else
-    {
-        item = &itemlist[ent->client->ammo_index];
-        ent->client->ps.stats[STAT_AMMO_ICON] = gi.imageindex(item->icon);
-        ent->client->ps.stats[STAT_AMMO] = ent->client->pers.inventory[ent->client->ammo_index];
-    }
+        //
+        // health
+        //
+        ent->client->ps.stats[STAT_HEALTH_ICON] = level.pic_health;
+        ent->client->ps.stats[STAT_HEALTH] = ent->health;
 
-    //
-    // armor
-    //
-    power_armor_type = PowerArmorType(ent);
-    if (power_armor_type)
-    {
-        cells = ent->client->pers.inventory[ITEM_INDEX(FindItem("cells"))];
-        if (cells == 0)
-        {   // ran out of cells for power armor
-            ent->flags &= ~FL_POWER_ARMOR;
-            gi.sound(ent, CHAN_ITEM, gi.soundindex("misc/power2.wav"), 1, ATTN_NORM, 0);
-            power_armor_type = 0;;
+        //
+        // ammo
+        //
+        if (!ent->client->ammo_index /* || !ent->client->pers.inventory[ent->client->ammo_index] */)
+        {
+            ent->client->ps.stats[STAT_AMMO_ICON] = 0;
+            ent->client->ps.stats[STAT_AMMO] = 0;
         }
+        else
+        {
+            item = &itemlist[ent->client->ammo_index];
+            ent->client->ps.stats[STAT_AMMO_ICON] = gi.imageindex(item->icon);
+            ent->client->ps.stats[STAT_AMMO] = ent->client->pers.inventory[ent->client->ammo_index];
+        }
+
+        //
+        // armor
+        //
+        power_armor_type = PowerArmorType(ent);
+        if (power_armor_type)
+        {
+            cells = ent->client->pers.inventory[ITEM_INDEX(FindItem("cells"))];
+            if (cells == 0)
+            {   // ran out of cells for power armor
+                ent->flags &= ~FL_POWER_ARMOR;
+                gi.sound(ent, CHAN_ITEM, gi.soundindex("misc/power2.wav"), 1, ATTN_NORM, 0);
+                power_armor_type = 0;;
+            }
+        }
+
+        index = ArmorIndex(ent);
+        if (power_armor_type && (!index || (level.framenum & 8)))
+        {   // flash between power armor and other armor icon
+            ent->client->ps.stats[STAT_ARMOR_ICON] = gi.imageindex("i_powershield");
+            ent->client->ps.stats[STAT_ARMOR] = cells;
+        }
+        else if (index)
+        {
+            item = GetItemByIndex(index);
+            ent->client->ps.stats[STAT_ARMOR_ICON] = gi.imageindex(item->icon);
+            ent->client->ps.stats[STAT_ARMOR] = ent->client->pers.inventory[index];
+        }
+        else
+        {
+            ent->client->ps.stats[STAT_ARMOR_ICON] = 0;
+            ent->client->ps.stats[STAT_ARMOR] = 0;
+        }
+
+        //
+        // pickup message
+        //
+        if (level.time > ent->client->pickup_msg_time)
+        {
+            ent->client->ps.stats[STAT_PICKUP_ICON] = 0;
+            ent->client->ps.stats[STAT_PICKUP_STRING] = 0;
+        }
+
+        //
+        // timers
+        //
+        if (ent->client->quad_framenum > level.framenum)
+        {
+            ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_quad");
+            ent->client->ps.stats[STAT_TIMER] = (ent->client->quad_framenum - level.framenum) / 10;
+        }
+        else if (ent->client->invincible_framenum > level.framenum)
+        {
+            ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_invulnerability");
+            ent->client->ps.stats[STAT_TIMER] = (ent->client->invincible_framenum - level.framenum) / 10;
+        }
+        else if (ent->client->enviro_framenum > level.framenum)
+        {
+            ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_envirosuit");
+            ent->client->ps.stats[STAT_TIMER] = (ent->client->enviro_framenum - level.framenum) / 10;
+        }
+        else if (ent->client->breather_framenum > level.framenum)
+        {
+            ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_rebreather");
+            ent->client->ps.stats[STAT_TIMER] = (ent->client->breather_framenum - level.framenum) / 10;
+        }
+        else
+        {
+            ent->client->ps.stats[STAT_TIMER_ICON] = 0;
+            ent->client->ps.stats[STAT_TIMER] = 0;
+        }
+
+        //
+        // selected item
+        //
+        if (ent->client->pers.selected_item == -1)
+            ent->client->ps.stats[STAT_SELECTED_ICON] = 0;
+        else
+            ent->client->ps.stats[STAT_SELECTED_ICON] = gi.imageindex(itemlist[ent->client->pers.selected_item].icon);
+
+        ent->client->ps.stats[STAT_SELECTED_ITEM] = ent->client->pers.selected_item;
     }
 
-    index = ArmorIndex(ent);
-    if (power_armor_type && (!index || (level.framenum & 8)))
-    {   // flash between power armor and other armor icon
-        ent->client->ps.stats[STAT_ARMOR_ICON] = gi.imageindex("i_powershield");
-        ent->client->ps.stats[STAT_ARMOR] = cells;
-    }
-    else if (index)
-    {
-        item = GetItemByIndex(index);
-        ent->client->ps.stats[STAT_ARMOR_ICON] = gi.imageindex(item->icon);
-        ent->client->ps.stats[STAT_ARMOR] = ent->client->pers.inventory[index];
-    }
-    else
-    {
-        ent->client->ps.stats[STAT_ARMOR_ICON] = 0;
-        ent->client->ps.stats[STAT_ARMOR] = 0;
-    }
 
-    //
-    // pickup message
-    //
-    if (level.time > ent->client->pickup_msg_time)
-    {
-        ent->client->ps.stats[STAT_PICKUP_ICON] = 0;
-        ent->client->ps.stats[STAT_PICKUP_STRING] = 0;
-    }
-
-    //
-    // timers
-    //
-    if (ent->client->quad_framenum > level.framenum)
-    {
-        ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_quad");
-        ent->client->ps.stats[STAT_TIMER] = (ent->client->quad_framenum - level.framenum) / 10;
-    }
-    else if (ent->client->invincible_framenum > level.framenum)
-    {
-        ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_invulnerability");
-        ent->client->ps.stats[STAT_TIMER] = (ent->client->invincible_framenum - level.framenum) / 10;
-    }
-    else if (ent->client->enviro_framenum > level.framenum)
-    {
-        ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_envirosuit");
-        ent->client->ps.stats[STAT_TIMER] = (ent->client->enviro_framenum - level.framenum) / 10;
-    }
-    else if (ent->client->breather_framenum > level.framenum)
-    {
-        ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex("p_rebreather");
-        ent->client->ps.stats[STAT_TIMER] = (ent->client->breather_framenum - level.framenum) / 10;
-    }
-    else
-    {
-        ent->client->ps.stats[STAT_TIMER_ICON] = 0;
-        ent->client->ps.stats[STAT_TIMER] = 0;
-    }
-
-    //
-    // selected item
-    //
-    if (ent->client->pers.selected_item == -1)
-        ent->client->ps.stats[STAT_SELECTED_ICON] = 0;
-    else
-        ent->client->ps.stats[STAT_SELECTED_ICON] = gi.imageindex(itemlist[ent->client->pers.selected_item].icon);
-
-    ent->client->ps.stats[STAT_SELECTED_ITEM] = ent->client->pers.selected_item;
 
     //
     // layouts
@@ -573,6 +576,7 @@ void G_SetSpectatorStats(edict_t* ent)
 
     // layouts are independant in spectator
     cl->ps.stats[STAT_LAYOUTS] = 0;
+
     if (cl->pers.health <= 0 || level.intermissiontime || cl->showscores)
         cl->ps.stats[STAT_LAYOUTS] |= 1;
     if (cl->showinventory && cl->pers.health > 0)
