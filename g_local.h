@@ -91,6 +91,17 @@
 #define SPAWNFLAG_NOT_DEATHMATCH    0x00000800
 #define SPAWNFLAG_NOT_COOP          0x00001000
 
+#ifdef BOT
+#define SPAWNFLAG_SP_DM_T1          0x00000001
+#define SPAWNFLAG_SP_DM_T2          0x00000002
+#define SPAWNFLAG_SP_DM_T3          0x00000004
+#define SPAWNFLAG_SP_DM_T4          0x00000008
+#define SPAWNFLAG_SP_DM_T5          0x00000010
+#define SPAWNFLAG_SP_DM_T6          0x00000020
+#define SPAWNFLAG_SP_DM_T7          0x00000040
+#define SPAWNFLAG_SP_DM_T8          0x00000080
+#endif
+
 // edict->flags
 #define FL_FLY                  0x00000001
 #define FL_SWIM                 0x00000002  // implied immunity to drowining
@@ -481,7 +492,7 @@ typedef struct
     void        (*attack)(edict_t* self);
     void        (*melee)(edict_t* self);
     void        (*sight)(edict_t* self, edict_t* other);
-    qboolean(*checkattack)(edict_t* self);
+    qboolean    (*checkattack)(edict_t* self);
 
     float       pausetime;
     float       attack_finished;
@@ -606,6 +617,7 @@ extern  cvar_t* sv_maplist;
 extern int paused;
 extern qboolean sp_bots_queued;
 extern cvar_t* sp_dm;
+extern cvar_t* sp_dm_tier;
 #endif //BOT
 
 #define world   (&g_edicts[0])
@@ -734,17 +746,17 @@ void T_RadiusDamage(edict_t* inflictor, edict_t* attacker, float damage, edict_t
 //
 // g_monster.c
 //
-//void M_droptofloor(edict_t* ent);
-//void monster_think(edict_t* self);
-//void walkmonster_start(edict_t* self);
-//void swimmonster_start(edict_t* self);
-//void flymonster_start(edict_t* self);
-//void AttackFinished(edict_t* self, float time);
-//void monster_death_use(edict_t* self);
-//void M_CatagorizePosition(edict_t* ent);
-//qboolean M_CheckAttack(edict_t* self);
-//void M_FlyCheck(edict_t* self);
-//void M_CheckGround(edict_t* ent);
+void M_droptofloor(edict_t* ent);
+void monster_think(edict_t* self);
+void walkmonster_start(edict_t* self);
+void swimmonster_start(edict_t* self);
+void flymonster_start(edict_t* self);
+void AttackFinished(edict_t* self, float time);
+void monster_death_use(edict_t* self);
+void M_CatagorizePosition(edict_t* ent);
+qboolean M_CheckAttack(edict_t* self);
+void M_FlyCheck(edict_t* self);
+void M_CheckGround(edict_t* ent);
 
 //
 // g_misc.c
@@ -757,13 +769,19 @@ void BecomeExplosion1(edict_t* self);
 //
 // g_ai.c
 //
-//int range(edict_t* self, edict_t* other);
-//void FoundTarget(edict_t* self);
-//qboolean infront(edict_t* self, edict_t* other);
+void AI_SetSightClient (void);
+void ai_stand(edict_t* self, float dist);
+void ai_move(edict_t* self, float dist);
+void ai_walk(edict_t* self, float dist);
+void ai_turn(edict_t* self, float dist);
+void ai_run(edict_t* self, float dist);
+void ai_charge(edict_t* self, float dist);
+int range(edict_t* self, edict_t* other);
 
+void FoundTarget(edict_t* self);
+qboolean infront(edict_t* self, edict_t* other);
 qboolean visible(edict_t* self, edict_t* other);
-
-//qboolean FacingIdeal(edict_t* self);
+qboolean FacingIdeal(edict_t* self);
 
 //
 // g_weapon.c
@@ -782,12 +800,12 @@ void fire_bfg(edict_t* self, vec3_t start, vec3_t dir, int damage, int speed, fl
 //
 // g_ptrail.c
 //
-//void PlayerTrail_Init(void);
-//void PlayerTrail_Add(vec3_t spot);
-//void PlayerTrail_New(vec3_t spot);
-//edict_t* PlayerTrail_PickFirst(edict_t* self);
-//edict_t* PlayerTrail_PickNext(edict_t* self);
-//edict_t* PlayerTrail_LastSpot(void);
+void PlayerTrail_Init(void);
+void PlayerTrail_Add(vec3_t spot);
+void PlayerTrail_New(vec3_t spot);
+edict_t* PlayerTrail_PickFirst(edict_t* self);
+edict_t* PlayerTrail_PickNext(edict_t* self);
+edict_t* PlayerTrail_LastSpot(void);
 
 //
 // g_client.c
@@ -852,18 +870,12 @@ void SaveClientData(void);
 void FetchClientEntData(edict_t* ent);
 
 //
-// g_chase.c
+// g_aqcam.c (previously g_chase.c)
 //
 void UpdateChaseCam(edict_t* ent);
 void ChaseNext(edict_t* ent);
 void ChasePrev(edict_t* ent);
 void GetChaseTarget(edict_t* ent);
-
-//
-// s_cam.c
-//
-void CheckChasecam_Viewent(edict_t* ent);
-void Cmd_Chasecam_Toggle(edict_t* ent);
 
 //============================================================================
 

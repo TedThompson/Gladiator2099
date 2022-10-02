@@ -603,7 +603,11 @@ void SP_misc_insane (edict_t *self)
 {
 //	static int skin = 0;	//@@
 
-	if (deathmatch->value)
+	if (deathmatch->value
+#ifdef BOT
+        && !sp_dm->value
+#endif
+        )
 	{
 		G_FreeEdict (self);
 		return;

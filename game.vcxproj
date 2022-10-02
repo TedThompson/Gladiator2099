@@ -305,6 +305,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug Alpha|Win32'"> /QA21164 /MTd   /QA21164 /MTd </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release Alpha|Win32'"> /QA21164   /QA21164 </AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="g_monster.c" />
     <ClCompile Include="g_phys.c">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug Alpha|Win32'"> /QA21164 /MTd   /QA21164 /MTd </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release Alpha|Win32'"> /QA21164   /QA21164 </AdditionalOptions>
@@ -337,6 +338,8 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug Alpha|Win32'"> /QA21164 /MTd   /QA21164 /MTd </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release Alpha|Win32'"> /QA21164   /QA21164 </AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="m_insane.c" />
+    <ClCompile Include="m_move.c" />
     <ClCompile Include="p_botmenu.c" />
     <ClCompile Include="p_client.c">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug Alpha|Win32'"> /QA21164 /MTd   /QA21164 /MTd </AdditionalOptions>
@@ -348,6 +351,7 @@
     </ClCompile>
     <ClCompile Include="p_lag.c" />
     <ClCompile Include="p_menulib.c" />
+    <ClCompile Include="p_trail.c" />
     <ClCompile Include="p_view.c">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug Alpha|Win32'"> /QA21164 /MTd   /QA21164 /MTd </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release Alpha|Win32'"> /QA21164   /QA21164 </AdditionalOptions>
@@ -377,6 +381,7 @@
     <ClInclude Include="g_ch.h" />
     <ClInclude Include="g_local.h" />
     <ClInclude Include="g_log.h" />
+    <ClInclude Include="m_insane.h" />
     <ClInclude Include="m_player.h" />
     <ClInclude Include="p_botmenu.h" />
     <ClInclude Include="p_lag.h" />

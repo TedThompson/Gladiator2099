@@ -186,7 +186,7 @@ void InitGame(void)
     if (!deathmatch->value)
     {
         gi.dprintf("Forcing deathmatch\n");
-        gi.cvar_set("deathmatch", "1");
+        //gi.cvar_set("deathmatch", "1");
     }
     //force coop off
     if (coop->value)
@@ -241,7 +241,8 @@ void InitGame(void)
 #endif //CH
 
 #ifdef BOT
-    sp_dm = gi.cvar("sp_dm", "1", 0);
+    sp_dm = gi.cvar("sp_dm", "0", 0);
+    sp_dm_tier = gi.cvar("sp_dm_tier", "", CVAR_ARCHIVE);
     BotSetup();
     CreateBotMenu();
 #endif //BOT

@@ -285,6 +285,81 @@ static int CheckArmor(edict_t* ent, vec3_t point, vec3_t normal, int damage, int
     return save;
 }
 
+void M_ReactToDamage(edict_t* targ, edict_t* attacker)
+{
+    if (!(attacker->client) && !(attacker->svflags & SVF_MONSTER))
+        return;
+
+    if (attacker == targ || attacker == targ->enemy)
+        return;
+
+    // if we are a good guy monster and our attacker is a player
+    // or another good guy, do not get mad at them
+    if (targ->monsterinfo.aiflags & AI_GOOD_GUY)
+    {
+        if (attacker->client || (attacker->monsterinfo.aiflags & AI_GOOD_GUY))
+            return;
+    }
+
+    // we now know that we are not both good guys
+
+    // if attacker is a client, get mad at them because he's good and we're not
+    if (attacker->client)
+    {
+        targ->monsterinfo.aiflags &= ~AI_SOUND_TARGET;
+
+        // this can only happen in coop (both new and old enemies are clients)
+        // only switch if can't see the current enemy
+        if (targ->enemy && targ->enemy->client)
+        {
+            if (visible(targ, targ->enemy))
+            {
+                targ->oldenemy = attacker;
+                return;
+            }
+            targ->oldenemy = targ->enemy;
+        }
+        targ->enemy = attacker;
+        if (!(targ->monsterinfo.aiflags & AI_DUCKED))
+            FoundTarget(targ);
+        return;
+    }
+
+    // it's the same base (walk/swim/fly) type and a different classname and it's not a tank
+    // (they spray too much), get mad at them
+    if (((targ->flags & (FL_FLY | FL_SWIM)) == (attacker->flags & (FL_FLY | FL_SWIM))) &&
+        (strcmp(targ->classname, attacker->classname) != 0) &&
+        (strcmp(attacker->classname, "monster_tank") != 0) &&
+        (strcmp(attacker->classname, "monster_supertank") != 0) &&
+        (strcmp(attacker->classname, "monster_makron") != 0) &&
+        (strcmp(attacker->classname, "monster_jorg") != 0))
+    {
+        if (targ->enemy && targ->enemy->client)
+            targ->oldenemy = targ->enemy;
+        targ->enemy = attacker;
+        if (!(targ->monsterinfo.aiflags & AI_DUCKED))
+            FoundTarget(targ);
+    }
+    // if they *meant* to shoot us, then shoot back
+    else if (attacker->enemy == targ)
+    {
+        if (targ->enemy && targ->enemy->client)
+            targ->oldenemy = targ->enemy;
+        targ->enemy = attacker;
+        if (!(targ->monsterinfo.aiflags & AI_DUCKED))
+            FoundTarget(targ);
+    }
+    // otherwise get mad at whoever they are mad at (help our buddy) unless it is us!
+    else if (attacker->enemy && attacker->enemy != targ)
+    {
+        if (targ->enemy && targ->enemy->client)
+            targ->oldenemy = targ->enemy;
+        targ->enemy = attacker->enemy;
+        if (!(targ->monsterinfo.aiflags & AI_DUCKED))
+            FoundTarget(targ);
+    }
+}
+
 qboolean CheckTeamDamage(edict_t* targ, edict_t* attacker)
 {
     //FIXME make the next line real and uncomment this block
@@ -320,8 +395,9 @@ void T_Damage(edict_t* targ, edict_t* inflictor, edict_t* attacker, vec3_t dir, 
     meansOfDeath = mod;
 
     // easy mode takes half damage
-    if (skill->value == 0 && deathmatch->value == 0 && targ->client)
+    if (skill->value == 0 && sp_dm->value && !(targ->flags & FL_BOT)) //client)
     {
+        //gi.dprintf("DMG/2\n");
         damage *= 0.5;
         if (!damage)
             damage = 1;
@@ -424,8 +500,7 @@ void T_Damage(edict_t* targ, edict_t* inflictor, edict_t* attacker, vec3_t dir, 
 
     if (targ->svflags & SVF_MONSTER)
     {
-        gi.dprintf(">>>M_ReactToDamageCall");
-        //M_ReactToDamage(targ, attacker);
+        M_ReactToDamage(targ, attacker);
         if (!(targ->monsterinfo.aiflags & AI_DUCKED) && (take))
         {
             targ->pain(targ, attacker, knockback, take);

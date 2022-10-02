@@ -1453,12 +1453,14 @@ void SP_misc_teleporter_dest(edict_t* ent)
     //  ent->s.effects |= EF_FLIES;
     VectorSet(ent->mins, -32, -32, -24);
     VectorSet(ent->maxs, 32, 32, -16);
-#ifdef ROCKETARENA
-    if (ra->value)
+//#ifdef ROCKETARENA
+//    if (ra->value)
+    if (ent->spawnflags & 1) // Setting "1" in spawnflags results in no visible pad in game :)
     {
         ent->svflags |= SVF_NOCLIENT;
         ent->solid = SOLID_NOT;
+        ent->spawnflags &= ~1;
     } //end if
-#endif //ROCKETARENA
+//#endif //ROCKETARENA
     gi.linkentity(ent);
 }

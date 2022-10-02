@@ -56,7 +56,7 @@ void SP_trigger_key(edict_t* ent);
 void SP_trigger_counter(edict_t* ent);
 void SP_trigger_elevator(edict_t* ent);
 void SP_trigger_gravity(edict_t* ent);
-void SP_trigger_monsterjump(edict_t* ent);
+//void SP_trigger_monsterjump(edict_t* ent);
 
 #ifdef TRIGGER_COUNTING
 void SP_trigger_counting(edict_t* ent);
@@ -87,6 +87,10 @@ void SP_target_string(edict_t* ent);
 void SP_worldspawn(edict_t* ent);
 void SP_viewthing(edict_t* ent);
 
+#ifdef BOT
+void SP_target_setgame(edict_t* ent);
+#endif
+
 //void SP_light(edict_t* self);
 void SP_light_mine1(edict_t* ent);
 void SP_light_mine2(edict_t* ent);
@@ -103,7 +107,7 @@ void SP_misc_satellite_dish(edict_t* self);
 void SP_misc_gib_arm(edict_t* self);
 void SP_misc_gib_leg(edict_t* self);
 void SP_misc_gib_head(edict_t* self);
-//void SP_misc_insane (edict_t *self);
+void SP_misc_insane (edict_t *self);
 //void SP_misc_deadsoldier (edict_t *self);
 void SP_misc_viper(edict_t* self);
 void SP_misc_viper_bomb(edict_t* self);
@@ -219,6 +223,9 @@ spawn_t spawns[] = {
     {"target_string", SP_target_string},
     {"worldspawn", SP_worldspawn},
     {"viewthing", SP_viewthing},
+#ifdef BOT
+    {"target_setgame", SP_target_setgame},
+#endif
 // *** Lights and Points
     {"light", SP_info_null},
     {"light_mine1", SP_light_mine1},
@@ -237,7 +244,7 @@ spawn_t spawns[] = {
     {"misc_gib_arm", SP_misc_gib_arm},
     {"misc_gib_leg", SP_misc_gib_leg},
     {"misc_gib_head", SP_misc_gib_head},
-    {"misc_insane", SP_info_null},                                  //Removed
+    {"misc_insane", SP_misc_insane},                               
     {"misc_deadsoldier", SP_info_null}, //SP_misc_deadsoldier},     //Removed
     {"misc_viper", SP_misc_viper},
     {"misc_viper_bomb", SP_misc_viper_bomb},

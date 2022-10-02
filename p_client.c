@@ -783,6 +783,11 @@ void player_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage
 
     self->s.modelindex2 = 0;    // remove linked weapon model
 
+#ifdef CH
+    if(ch->value)
+        self->s.modelindex3 = 0;    // Remove CH marker from corpse
+#endif
+
     self->s.angles[0] = 0;
     self->s.angles[2] = 0;
 
@@ -1117,7 +1122,7 @@ SelectSpawnPoint
 Chooses a player start, deathmatch start, coop start, etc
 ============
 */
-void    SelectSpawnPoint(edict_t* ent, vec3_t origin, vec3_t angles)
+void SelectSpawnPoint(edict_t* ent, vec3_t origin, vec3_t angles)
 {
     edict_t* spot = NULL;
 
@@ -1264,7 +1269,7 @@ void spectator_respawn(edict_t* ent)
         char* value = Info_ValueForKey(ent->client->pers.userinfo, "spectator");
         if (*spectator_password->string &&
             strcmp(spectator_password->string, "none") &&
-            strcmp(spectator_password->string, value)) 
+            strcmp(spectator_password->string, value))
         {
             gi.cprintf(ent, PRINT_HIGH, "Spectator password incorrect.\n");
             ent->client->pers.spectator = false;
@@ -1279,7 +1284,7 @@ void spectator_respawn(edict_t* ent)
             if (g_edicts[i].inuse && g_edicts[i].client->pers.spectator)
                 numspec++;
 
-        if (numspec >= maxspectators->value) 
+        if (numspec >= maxspectators->value)
         {
             gi.cprintf(ent, PRINT_HIGH, "Server spectator limit is full.");
             ent->client->pers.spectator = false;
@@ -1297,7 +1302,7 @@ void spectator_respawn(edict_t* ent)
         // he must have the right password
         char* value = Info_ValueForKey(ent->client->pers.userinfo, "password");
         if (*password->string && strcmp(password->string, "none") &&
-            strcmp(password->string, value)) 
+            strcmp(password->string, value))
         {
             gi.cprintf(ent, PRINT_HIGH, "Password incorrect.\n");
             ent->client->pers.spectator = true;
@@ -1363,7 +1368,7 @@ void PutClientInServer(edict_t* ent)
     client_persistant_t saved;
     client_respawn_t    resp;
 #ifdef CH
-    int chcolor;
+    int chcolor, n;
 #endif //CH
 
     // find a spawn point
@@ -2021,7 +2026,7 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
         if (ent->groundentity && !pm.groundentity && (pm.cmd.upmove >= 10) && (pm.waterlevel == 0))
         {
             gi.sound(ent, CHAN_VOICE, gi.soundindex("*jump1.wav"), 1, ATTN_NORM, 0);
-            //PlayerNoise(ent, ent->s.origin, PNOISE_SELF);
+            PlayerNoise(ent, ent->s.origin, PNOISE_SELF);
         }
 
         ent->viewheight = pm.viewheight;
@@ -2085,7 +2090,7 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
             ent->light_level = ucmd->lightlevel;
 
             // fire weapon from final position if needed
-            if ((client->latched_buttons & BUTTON_ATTACK) 
+            if ((client->latched_buttons & BUTTON_ATTACK)
                 || (!client->chase_mode && client->pers.spectator))
             {
                 if (ent->solid == SOLID_NOT && ent->deadflag != DEAD_DEAD)
@@ -2150,7 +2155,7 @@ void ClientThink(edict_t* ent, usercmd_t* ucmd)
         else
             client->ps.pmove.pm_flags &= ~PMF_JUMP_HELD;
 
-//FIREBLADE
+        //FIREBLADE
         ChaseTargetGone(ent);  // run a check...result not important.
 //FIREBLADE
     }

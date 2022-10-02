@@ -20,6 +20,28 @@ cvar_t* ch_colortime;
 int lastnumplayers;
 float colortime;
 
+#if 0
+// cursor positioning
+xl <value>
+xr <value>
+yb <value>
+yt <value>
+xv <value>
+yv <value>
+
+// drawing
+statpic <name>
+pic <stat>
+num <fieldwidth> <stat>
+string <stat>
+
+// control
+if <stat>
+ifeq <stat> <value>
+ifbit <stat> <value>
+endif
+
+#endif
 
 char* ch_statusbar =
 "yb -24 "
@@ -81,15 +103,39 @@ char* ch_statusbar =
 //  frags
 "xr -50 "
 "yt 2 "
-"num 3 14"
+"num 3 14 "
 
 // Colored Hitman color
 "yb -102 "
 "if 30 "
 "xr -26 "
 "pic 30 "
-"endif "
+"endif"
 ;
+
+#if 0
+// cursor positioning
+xl <value> X position from the left side of the physical screen
+xr <value> X position from the right side of the physical screen
+yb <value> Y position from the bottom of the physical screen
+yt <value> Y position from the top of the physical screen
+xv <value> X position on the virtual screen(virtual screensize is 320x200)
+yv <value> Y position on the virtual screen(virtual screensize is 320x200)
+
+// drawing
+statpic <name>
+pic <stat> // Icon field, imageindex in stat-array at index
+num <fieldwidth> <stat> // Number field, value in stat-array at index 
+string <stat>   // String field, display pickup-string from itemlist-array at 
+                // the index that the value in stat-array that index  points to.
+
+// control
+if <stat>
+ifeq <stat> <value>
+ifbit <stat> <value>
+endif
+
+#endif
 
 char* ch_colors[] =
 {
@@ -116,6 +162,7 @@ void PrecacheColoredHitman(void)
     for (i = 0; ch_colors[i]; i++)
     {
         gi.imageindex(ch_colors[i]);
+        gi.imageindex(va("%s%s", ch_colors[i], "_sb")); // added cacheing for added graphic for scoreboard
         sprintf(buf, "models/%s/tris.md2", ch_colors[i]);
         gi.modelindex(buf);
     } //end for
@@ -312,21 +359,24 @@ int InvalidColors(void)
 //===========================================================================
 void UpdateColoredHitman(void)
 {
+    if (Q_stricmp(level.mapname,"hub") == 0)
+        return;
+
     int numplayers;
 
     numplayers = NumPlayers();
     //if the number of players changed or someone has an invalid color
     //or it's time to change colors
-    if (numplayers != lastnumplayers || InvalidColors() ||
-        level.time > colortime + ch_colortime->value)
+    if ((numplayers != lastnumplayers || InvalidColors() ||
+        level.time > colortime + ch_colortime->value) && !level.intermissiontime)
     {
         lastnumplayers = numplayers;
         colortime = level.time;
         //reset the player colors
         ResetPlayerColors();
         //play sound to attent everyone about the color change
-        gi.sound(world, CHAN_RELIABLE + CHAN_NO_PHS_ADD + CHAN_VOICE, gi.soundindex("ch/flagcap.wav"), 1, ATTN_NONE, 0);
-        gi.dprintf("ch changed colors\n");
+        gi.sound(world, CHAN_RELIABLE + CHAN_NO_PHS_ADD + CHAN_VOICE, gi.soundindex("ch/change.wav"), 1, ATTN_NONE, 0);
+        gi.dprintf("Colors changed!\n");
     } //end if
 } //end of the function UpdateColoredHitman
 //===========================================================================

@@ -1,20 +1,5 @@
 /*
 Copyright (C) 1997-2001 Id Software, Inc.
-
-
-
-
-
-
-
-
-
-
-
-
-
-This file has many comments that are strangly inconsistent with actual programmed behaviors
-TODO Maybe come back and finish the apparent intentions?
 */
 
 #include "g_local.h"
@@ -68,6 +53,39 @@ TODO Maybe come back and finish the apparent intentions?
 #define DOOR_X_AXIS         64
 #define DOOR_Y_AXIS         128
 
+//
+// Added to provide a not 0,0,0 point for s.sound looping
+//
+void SpawnSpecker(edict_t* self)
+{
+    edict_t* other;
+    vec3_t   temp;
+    int i;
+
+    other = G_Spawn();
+
+
+        for (i = 0; i < 3; i++)
+        {
+            temp[i] = 0.5 * (self->mins[i] + self->maxs[i]);
+        }
+
+        if (strcmp(self->classname, "func_plat") == 0)
+        {
+            temp[2] = self->mins[2] + 8;
+        }
+
+    VectorCopy(temp, other->s.origin);
+    other->owner = self;
+    other->s.modelindex = gi.modelindex("models/red/tris.md2");
+    other->volume = 1.0;
+    other->attenuation = 1.0;
+    other->s.sound = 0;// other->noise_index;
+
+    self->oldenemy = other;// Let the door know which entity to impose the sound on instead of it's self.
+
+    gi.linkentity(other);
+}
 
 //
 // Support routines for movement (changes in origin using velocity)
@@ -361,7 +379,7 @@ void plat_hit_top(edict_t* ent)
     {
         if (ent->moveinfo.sound_end)
             gi.sound(ent, CHAN_NO_PHS_ADD + CHAN_VOICE, ent->moveinfo.sound_end, 1, ATTN_STATIC, 0);
-        ent->s.sound = 0;
+        ent->oldenemy->s.sound = 0;
     }
     ent->moveinfo.state = STATE_TOP;
 
@@ -375,7 +393,7 @@ void plat_hit_bottom(edict_t* ent)
     {
         if (ent->moveinfo.sound_end)
             gi.sound(ent, CHAN_NO_PHS_ADD + CHAN_VOICE, ent->moveinfo.sound_end, 1, ATTN_STATIC, 0);
-        ent->s.sound = 0;
+        ent->oldenemy->s.sound = 0;
     }
     ent->moveinfo.state = STATE_BOTTOM;
 }
@@ -386,7 +404,7 @@ void plat_go_down(edict_t* ent)
     {
         if (ent->moveinfo.sound_start)
             gi.sound(ent, CHAN_NO_PHS_ADD + CHAN_VOICE, ent->moveinfo.sound_start, 1, ATTN_STATIC, 0);
-        ent->s.sound = ent->moveinfo.sound_middle;
+        ent->oldenemy->s.sound = ent->moveinfo.sound_middle;
     }
     ent->moveinfo.state = STATE_DOWN;
     Move_Calc(ent, ent->moveinfo.end_origin, plat_hit_bottom);
@@ -398,7 +416,7 @@ void plat_go_up(edict_t* ent)
     {
         if (ent->moveinfo.sound_start)
             gi.sound(ent, CHAN_NO_PHS_ADD + CHAN_VOICE, ent->moveinfo.sound_start, 1, ATTN_STATIC, 0);
-        ent->s.sound = ent->moveinfo.sound_middle;
+        ent->oldenemy->s.sound = ent->moveinfo.sound_middle;
     }
     ent->moveinfo.state = STATE_UP;
     Move_Calc(ent, ent->moveinfo.start_origin, plat_hit_top);
@@ -440,7 +458,7 @@ void Touch_Plat_Center(edict_t* ent, edict_t* other, cplane_t* plane, csurface_t
 
     if (other->health <= 0)
         return;
-
+    // gi.dprintf("touched\n");
     ent = ent->enemy;   // now point at the plat, not the trigger
     if (ent->moveinfo.state == STATE_BOTTOM)
         plat_go_up(ent);
@@ -553,6 +571,8 @@ void SP_func_plat(edict_t* ent)
 
     plat_spawn_inside_trigger(ent); // the "start moving" trigger   
 
+    SpawnSpecker(ent);
+
     if (ent->targetname)
     {
         ent->moveinfo.state = STATE_UP;
@@ -573,9 +593,20 @@ void SP_func_plat(edict_t* ent)
     VectorCopy(ent->pos2, ent->moveinfo.end_origin);
     VectorCopy(ent->s.angles, ent->moveinfo.end_angles);
 
-    ent->moveinfo.sound_start = gi.soundindex("plats/pt1_strt.wav");
-    ent->moveinfo.sound_middle = gi.soundindex("plats/pt1_mid.wav");
-    ent->moveinfo.sound_end = gi.soundindex("plats/pt1_end.wav");
+    if (!ent->sounds)
+    {
+        ent->moveinfo.sound_start = gi.soundindex("plats/pt1_strt.wav");
+        ent->moveinfo.sound_middle = gi.soundindex("plats/pt1_mid.wav");
+        ent->moveinfo.sound_end = gi.soundindex("plats/pt1_end.wav");
+    }
+    if (ent->sounds == 2)
+    {
+        ent->moveinfo.sound_start = gi.soundindex("plats/pt2_strt.wav");
+        ent->moveinfo.sound_middle = gi.soundindex("plats/pt2_mid.wav");
+        ent->moveinfo.sound_end = gi.soundindex("plats/pt2_end.wav");
+    }
+
+    ent->classname = "func_plat";
 }
 
 //====================================================================
@@ -873,7 +904,8 @@ void door_hit_top(edict_t* self)
     {
         if (self->moveinfo.sound_end)
             gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_end, 1, ATTN_STATIC, 0);
-        self->s.sound = 0;
+        //self->s.sound = 0;
+        self->oldenemy->s.sound = 0;
     }
     self->moveinfo.state = STATE_TOP;
     if (self->spawnflags & DOOR_TOGGLE)
@@ -891,7 +923,8 @@ void door_hit_bottom(edict_t* self)
     {
         if (self->moveinfo.sound_end)
             gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_end, 1, ATTN_STATIC, 0);
-        self->s.sound = 0;
+        //self->s.sound
+        self->oldenemy->s.sound = 0;
     }
     self->moveinfo.state = STATE_BOTTOM;
     door_use_areaportals(self, false);
@@ -903,7 +936,8 @@ void door_go_down(edict_t* self)
     {
         if (self->moveinfo.sound_start)
             gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
-        self->s.sound = self->moveinfo.sound_middle;
+        //self->s.sound
+        self->oldenemy->s.sound = self->moveinfo.sound_middle;
     }
     if (self->max_health)
     {
@@ -934,7 +968,8 @@ void door_go_up(edict_t* self, edict_t* activator)
     {
         if (self->moveinfo.sound_start)
             gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
-        self->s.sound = self->moveinfo.sound_middle;
+        //self->s.sound
+        self->oldenemy->s.sound = self->moveinfo.sound_middle;
     }
     self->moveinfo.state = STATE_UP;
     if (strcmp(self->classname, "func_door") == 0)
@@ -1139,11 +1174,28 @@ void SP_func_door(edict_t* ent)
 {
     vec3_t  abs_movedir;
 
-    if (ent->sounds != 1)
+    //1)  silent
+    //2)  light
+    //3)  medium
+    //4)  heavy
+
+    if (!ent->sounds || ent->sounds == 2)
     {
         ent->moveinfo.sound_start = gi.soundindex("doors/dr1_strt.wav");
         ent->moveinfo.sound_middle = gi.soundindex("doors/dr1_mid.wav");
         ent->moveinfo.sound_end = gi.soundindex("doors/dr1_end.wav");
+    }
+    else if (ent->sounds == 3)
+    {
+        ent->moveinfo.sound_start = gi.soundindex("doors/dr2_strt.wav");
+        ent->moveinfo.sound_middle = gi.soundindex("doors/dr2_mid.wav");
+        ent->moveinfo.sound_end = gi.soundindex("doors/dr2_end.wav");
+    }
+    else if (ent->sounds == 4)
+    {
+        ent->moveinfo.sound_start = gi.soundindex("doors/dr3_strt.wav");
+        ent->moveinfo.sound_middle = gi.soundindex("doors/dr3_mid.wav");
+        ent->moveinfo.sound_end = gi.soundindex("doors/dr3_end.wav");
     }
 
     G_SetMovedir(ent->s.angles, ent->movedir);
@@ -1220,6 +1272,8 @@ void SP_func_door(edict_t* ent)
         ent->teammaster = ent;
 
     gi.linkentity(ent);
+
+    SpawnSpecker(ent);
 
     ent->nextthink = level.time + FRAMETIME;
     if (ent->health || ent->targetname)
@@ -1304,11 +1358,23 @@ void SP_func_door_rotating(edict_t* ent)
     if (!ent->dmg)
         ent->dmg = 2;
 
-    if (ent->sounds != 1)
+    if (!ent->sounds || ent->sounds == 2)
     {
         ent->moveinfo.sound_start = gi.soundindex("doors/dr1_strt.wav");
         ent->moveinfo.sound_middle = gi.soundindex("doors/dr1_mid.wav");
         ent->moveinfo.sound_end = gi.soundindex("doors/dr1_end.wav");
+    }
+    else if (ent->sounds == 3)
+    {
+        ent->moveinfo.sound_start = gi.soundindex("doors/dr2_strt.wav");
+        ent->moveinfo.sound_middle = gi.soundindex("doors/dr2_mid.wav");
+        ent->moveinfo.sound_end = gi.soundindex("doors/dr2_end.wav");
+    }
+    else if (ent->sounds == 4)
+    {
+        ent->moveinfo.sound_start = gi.soundindex("doors/dr3_strt.wav");
+        ent->moveinfo.sound_middle = gi.soundindex("doors/dr3_mid.wav");
+        ent->moveinfo.sound_end = gi.soundindex("doors/dr3_end.wav");
     }
 
     // if it starts open, switch the positions
@@ -1351,6 +1417,8 @@ void SP_func_door_rotating(edict_t* ent)
         ent->teammaster = ent;
 
     gi.linkentity(ent);
+
+    ent->oldenemy = ent; // For new speaker ent, this door doesn't need it so we set it to itsself here.
 
     ent->nextthink = level.time + FRAMETIME;
     if (ent->health || ent->targetname)
@@ -1883,11 +1951,16 @@ void door_secret_move5(edict_t* self);
 void door_secret_move6(edict_t* self);
 void door_secret_done(edict_t* self);
 
-void door_secret_use(edict_t* self, edict_t* other, edict_t* activator)
+void door_secret_use(edict_t* self, edict_t* other, edict_t* activator) // Slow down first slide?
 {
     // make sure we're not already moving
     if (!VectorCompare(self->s.origin, vec3_origin))
         return;
+
+    if (self->moveinfo.sound_start)
+        gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
+    if (self->moveinfo.sound_middle)
+        self->oldenemy->s.sound = self->moveinfo.sound_middle;
 
     Move_Calc(self, self->pos1, door_secret_move1);
     door_use_areaportals(self, true);
@@ -1895,41 +1968,76 @@ void door_secret_use(edict_t* self, edict_t* other, edict_t* activator)
 
 void door_secret_move1(edict_t* self)
 {
+    if (self->moveinfo.sound_end)
+        gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_end, 1, ATTN_STATIC, 0);
+    if (self->oldenemy->s.sound)
+        self->oldenemy->s.sound = 0;
+
     self->nextthink = level.time + 1.0;
     self->think = door_secret_move2;
 }
 
 void door_secret_move2(edict_t* self)
 {
+    if (self->moveinfo.sound_start)
+        gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
+    if (self->moveinfo.sound_middle)
+        self->oldenemy->s.sound = self->moveinfo.sound_middle;
+
     Move_Calc(self, self->pos2, door_secret_move3);
 }
 
 void door_secret_move3(edict_t* self)
 {
+    if (self->moveinfo.sound_end)
+        gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_end, 1, ATTN_STATIC, 0);
+    if (self->oldenemy->s.sound)
+        self->oldenemy->s.sound = 0;
+
     if (self->wait == -1)
         return;
     self->nextthink = level.time + self->wait;
     self->think = door_secret_move4;
 }
-
+// Closing
 void door_secret_move4(edict_t* self)
 {
+    if (self->moveinfo.sound_start)
+        gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
+    if (self->moveinfo.sound_middle)
+        self->oldenemy->s.sound = self->moveinfo.sound_middle;
+
     Move_Calc(self, self->pos1, door_secret_move5);
 }
 
 void door_secret_move5(edict_t* self)
 {
+    if (self->moveinfo.sound_end)
+        gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_end, 1, ATTN_STATIC, 0);
+    if (self->oldenemy->s.sound)
+        self->oldenemy->s.sound = 0;
+
     self->nextthink = level.time + 1.0;
     self->think = door_secret_move6;
 }
 
 void door_secret_move6(edict_t* self)
 {
-    Move_Calc(self, vec3_origin, door_secret_done);
+    if (self->moveinfo.sound_start)
+        gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
+    if (self->moveinfo.sound_middle)
+        self->oldenemy->s.sound = self->moveinfo.sound_middle;
+
+    Move_Calc(self, self->moveinfo.start_origin, door_secret_done);
 }
 
 void door_secret_done(edict_t* self)
 {
+    if (self->moveinfo.sound_end)
+        gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_end, 1, ATTN_STATIC, 0);
+    if (self->oldenemy->s.sound)
+        self->oldenemy->s.sound = 0;
+
     if (!(self->targetname) || (self->spawnflags & SECRET_ALWAYS_SHOOT))
     {
         self->health = 0;
@@ -1970,9 +2078,12 @@ void SP_func_door_secret(edict_t* ent)
     float   width;
     float   length;
 
-    ent->moveinfo.sound_start = gi.soundindex("doors/dr1_strt.wav");
-    ent->moveinfo.sound_middle = gi.soundindex("doors/dr1_mid.wav");
-    ent->moveinfo.sound_end = gi.soundindex("doors/dr1_end.wav");
+    if (ent->sounds == 1)
+    {
+        ent->moveinfo.sound_start = gi.soundindex("doors/stndr1.wav");
+        ent->moveinfo.sound_middle = gi.soundindex("doors/stndrlp.wav");
+        ent->moveinfo.sound_end = gi.soundindex("doors/stndr2.wav");
+    }
 
     ent->movetype = MOVETYPE_PUSH;
     ent->solid = SOLID_BSP;
@@ -1994,9 +2105,12 @@ void SP_func_door_secret(edict_t* ent)
     if (!ent->wait)
         ent->wait = 5;
 
-    ent->moveinfo.accel =
-        ent->moveinfo.decel =
+    if (!ent->speed)
         ent->moveinfo.speed = 50;
+    else
+        ent->moveinfo.speed = ent->speed;
+
+    ent->moveinfo.accel = ent->moveinfo.decel = ent->moveinfo.speed;
 
     // calculate positions
     AngleVectors(ent->s.angles, forward, right, up);
@@ -2013,6 +2127,8 @@ void SP_func_door_secret(edict_t* ent)
         VectorMA(ent->s.origin, side * width, right, ent->pos1);
     VectorMA(ent->pos1, length, forward, ent->pos2);
 
+    VectorCopy(ent->s.origin, ent->moveinfo.start_origin);
+
     if (ent->health)
     {
         ent->takedamage = DAMAGE_YES;
@@ -2028,6 +2144,8 @@ void SP_func_door_secret(edict_t* ent)
     ent->classname = "func_door";
 
     gi.linkentity(ent);
+
+    SpawnSpecker(ent);
 }
 
 

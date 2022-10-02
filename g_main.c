@@ -23,6 +23,7 @@ int meansOfDeath;
 #ifdef BOT
 int paused;
 cvar_t* sp_dm;
+cvar_t* sp_dm_tier;
 #endif //BOT
 
 edict_t* g_edicts;
@@ -231,7 +232,8 @@ void EndDMLevel(void)
     static const char* seps = " ,\n\r";
 #ifdef BOT
     qboolean sp_winner = false;
-    int i, highscore = -1;
+    int i, j, highscore = -1, hubs_index[4] = { 0 };
+    cvar_t* tier;
 
     if (sp_dm->value)
     {
@@ -269,17 +271,55 @@ void EndDMLevel(void)
         BeginIntermission(CreateTargetChangeLevel(level.mapname));
         return;
     }
-
-    // see if it's in the map list
-    if (*sv_maplist->string) {
+#ifdef BOT //Look for hub levels in sv_maplist to determine end of Tier.
+    if (sp_dm->value && *sv_maplist->string)
+    {
         s = strdup(sv_maplist->string);
         f = NULL;
         t = strtok(s, seps);
-        while (t != NULL) {
-            if (Q_stricmp(t, level.mapname) == 0) {
+        i = j = 0;
+        while (t != NULL)
+        {
+            if (Q_stricmp(t, "hub") == 0)
+            {
+                hubs_index[j] = i;
+                j++;
+            }
+            t = strtok(NULL, seps);
+            i++;
+        }
+        free(s);
+    }
+#endif
+    // see if it's in the map list
+    if (*sv_maplist->string) 
+    {
+        s = strdup(sv_maplist->string);
+        f = NULL;
+        t = strtok(s, seps);
+#ifdef BOT
+        i = 1;
+        tier = gi.cvar("sp_dm_tier", "", 0);
+#endif
+        while (t != NULL) 
+        {
+            if (Q_stricmp(t, level.mapname) == 0) 
+            {
                 // it's in the list, go to the next one
+#ifdef BOT
+                if (i == hubs_index[0])
+                    if (tier->value < 1)
+                        gi.cvar_forceset("sp_dm_tier", va("%d", (int)1));
+                if (i == hubs_index[1])
+                    if (tier->value < 2)
+                        gi.cvar_forceset("sp_dm_tier", va("%d", (int)2));
+                if (i == hubs_index[3])
+                    if (tier->value < 3)
+                        gi.cvar_forceset("sp_dm_tier", va("%d", (int)3));
+#endif
                 t = strtok(NULL, seps);
-                if (t == NULL) { // end of list, go to first one
+                if (t == NULL) // end of list, go to first one 
+                { 
                     if (f == NULL) // there isn't a first one, same level
                         BeginIntermission(CreateTargetChangeLevel(level.mapname));
                     else
@@ -293,6 +333,9 @@ void EndDMLevel(void)
             if (!f)
                 f = t;
             t = strtok(NULL, seps);
+#ifdef BOT
+            i++;
+#endif
         }
         free(s);
     }
@@ -436,7 +479,7 @@ void G_RunFrame(void)
     level.time = level.framenum * FRAMETIME;
 
     // choose a client for monsters to target this frame
-    //AI_SetSightClient (); 'cept theres no monsters no moar
+    AI_SetSightClient ();
 
     // exit intermissions
 
@@ -472,14 +515,14 @@ void G_RunFrame(void)
             VectorCopy(ent->s.origin, ent->s.old_origin);
 
         // if the ground entity moved, make sure we are still on it
-        //if ((ent->groundentity) && (ent->groundentity->linkcount != ent->groundentity_linkcount))
-        //{
-        ////    ent->groundentity = NULL;
-        ////    if ( !(ent->flags & (FL_SWIM|FL_FLY)) && (ent->svflags & SVF_MONSTER) )
-        ////    {
-        ////        M_CheckGround (ent);
-        ////    }
-        //}
+        if ((ent->groundentity) && (ent->groundentity->linkcount != ent->groundentity_linkcount))
+        {
+            ent->groundentity = NULL;
+            if ( !(ent->flags & (FL_SWIM|FL_FLY)) && (ent->svflags & SVF_MONSTER) )
+            {
+                M_CheckGround (ent);
+            }
+        }
 
         if (i > 0 && i <= maxclients->value)
         {

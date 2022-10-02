@@ -302,19 +302,7 @@ SV_AddGravity
 */
 void SV_AddGravity(edict_t* ent)
 {
-#ifdef ROGUE_GRAVITY
-    if (ent->gravityVector[2] > 0)
-    {
-        VectorMA(ent->velocity,
-            ent->gravity * sv_gravity->value * FRAMETIME,
-            ent->gravityVector,
-            ent->velocity);
-    }
-    else
-        ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
-#else
     ent->velocity[2] -= ent->gravity * sv_gravity->value * FRAMETIME;
-#endif
 }
 
 /*
@@ -670,8 +658,15 @@ void SV_Physics_Toss(edict_t* ent)
     qboolean    isinwater;
     vec3_t      old_origin;
 
+
+   // if (!ent)
+   //     return;
+
     // regular thinking
     SV_RunThink(ent);
+
+  //  if (!ent->inuse)
+ //       return;
 
     // if not a team captain, so movement will be handled elsewhere
     if (ent->flags & FL_TEAMSLAVE)
@@ -807,111 +802,109 @@ void SV_AddRotationalFriction(edict_t* ent)
 
 void SV_Physics_Step(edict_t* ent)
 {
-    gi.error("SV_Physics_Step Called\n");
-    //return;
-    //qboolean  wasonground;
-    //qboolean  hitsound = false;
-    //float* vel;
-    //float     speed, newspeed, control;
-    //float     friction;
-    //edict_t* groundentity;
-    //int           mask;
+    qboolean  wasonground;
+    qboolean  hitsound = false;
+    float* vel;
+    float     speed, newspeed, control;
+    float     friction;
+    edict_t* groundentity;
+    int           mask;
 
-    //groundentity = ent->groundentity;
+    groundentity = ent->groundentity;
 
-    //SV_CheckVelocity(ent);
+    SV_CheckVelocity(ent);
 
-    //if (groundentity)
-    //  wasonground = true;
-    //else
-    //  wasonground = false;
+    if (groundentity)
+        wasonground = true;
+    else
+        wasonground = false;
 
-    //if (ent->avelocity[0] || ent->avelocity[1] || ent->avelocity[2])
-    //  SV_AddRotationalFriction(ent);
+    if (ent->avelocity[0] || ent->avelocity[1] || ent->avelocity[2])
+        SV_AddRotationalFriction(ent);
 
-    //// add gravity except:
-    ////   flying monsters
-    ////   swimming monsters who are in the water
-    //if (!wasonground)
-    //  if (!(ent->flags & FL_FLY))
-    //      if (!((ent->flags & FL_SWIM) && (ent->waterlevel > 2)))
-    //      {
-    //          if (ent->velocity[2] < sv_gravity->value * -0.1)
-    //              hitsound = true;
-    //          if (ent->waterlevel == 0)
-    //              SV_AddGravity(ent);
-    //      }
+    // add gravity except:
+    //   flying monsters
+    //   swimming monsters who are in the water
+    if (!wasonground)
+        if (!(ent->flags & FL_FLY))
+            if (!((ent->flags & FL_SWIM) && (ent->waterlevel > 2)))
+            {
+                if (ent->velocity[2] < sv_gravity->value * -0.1)
+                    hitsound = true;
+                if (ent->waterlevel == 0)
+                    SV_AddGravity(ent);
+            }
 
-    //// friction for flying monsters that have been given vertical velocity
-    //if ((ent->flags & FL_FLY) && (ent->velocity[2] != 0))
-    //{
-    //  speed = fabs(ent->velocity[2]);
-    //  control = speed < sv_stopspeed ? sv_stopspeed : speed;
-    //  friction = sv_friction / 3;
-    //  newspeed = speed - (FRAMETIME * control * friction);
-    //  if (newspeed < 0)
-    //      newspeed = 0;
-    //  newspeed /= speed;
-    //  ent->velocity[2] *= newspeed;
-    //}
+    // friction for flying monsters that have been given vertical velocity
+    if ((ent->flags & FL_FLY) && (ent->velocity[2] != 0))
+    {
+        speed = fabs(ent->velocity[2]);
+        control = speed < sv_stopspeed ? sv_stopspeed : speed;
+        friction = sv_friction / 3;
+        newspeed = speed - (FRAMETIME * control * friction);
+        if (newspeed < 0)
+            newspeed = 0;
+        newspeed /= speed;
+        ent->velocity[2] *= newspeed;
+    }
 
-    //// friction for flying monsters that have been given vertical velocity
-    //if ((ent->flags & FL_SWIM) && (ent->velocity[2] != 0))
-    //{
-    //  speed = fabs(ent->velocity[2]);
-    //  control = speed < sv_stopspeed ? sv_stopspeed : speed;
-    //  newspeed = speed - (FRAMETIME * control * sv_waterfriction * ent->waterlevel);
-    //  if (newspeed < 0)
-    //      newspeed = 0;
-    //  newspeed /= speed;
-    //  ent->velocity[2] *= newspeed;
-    //}
+    // friction for flying monsters that have been given vertical velocity
+    if ((ent->flags & FL_SWIM) && (ent->velocity[2] != 0))
+    {
+        speed = fabs(ent->velocity[2]);
+        control = speed < sv_stopspeed ? sv_stopspeed : speed;
+        newspeed = speed - (FRAMETIME * control * sv_waterfriction * ent->waterlevel);
+        if (newspeed < 0)
+            newspeed = 0;
+        newspeed /= speed;
+        ent->velocity[2] *= newspeed;
+    }
 
-    //if (ent->velocity[2] || ent->velocity[1] || ent->velocity[0])
-    //{
-    //      gi.dprintf("STEP\n");       // apply friction
-    //  // let dead monsters who aren't completely onground slide
-    //  if ((wasonground) || (ent->flags & (FL_SWIM | FL_FLY)))
+    if (ent->velocity[2] || ent->velocity[1] || ent->velocity[0])
+    {
+        // apply friction
+        // let dead monsters who aren't completely onground slide
+        if ((wasonground) || (ent->flags & (FL_SWIM | FL_FLY)))
 
-    //      if (!(ent->health <= 0.0 && !M_CheckBottom(ent)))
-    //      {
-    //          vel = ent->velocity;
-    //          speed = sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
-    //          if (speed)
-    //          {
-    //              friction = sv_friction;
+            if (!(ent->health <= 0.0 && !M_CheckBottom(ent)))
+            {
+                vel = ent->velocity;
+                speed = sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
+                if (speed)
+                {
+                    friction = sv_friction;
 
-    //              control = speed < sv_stopspeed ? sv_stopspeed : speed;
-    //              newspeed = speed - FRAMETIME * control * friction;
+                    control = speed < sv_stopspeed ? sv_stopspeed : speed;
+                    newspeed = speed - FRAMETIME * control * friction;
 
-    //              if (newspeed < 0)
-    //                  newspeed = 0;
-    //              newspeed /= speed;
+                    if (newspeed < 0)
+                        newspeed = 0;
+                    newspeed /= speed;
 
-    //              vel[0] *= newspeed;
-    //              vel[1] *= newspeed;
-    //          }
-    //      }
+                    vel[0] *= newspeed;
+                    vel[1] *= newspeed;
+                }
+            }
 
-    //  if (ent->svflags & SVF_MONSTER)
-    //      mask = MASK_MONSTERSOLID;
-    //  else
-    //      mask = MASK_SOLID;
-    //  SV_FlyMove(ent, FRAMETIME, mask);
+        if (ent->svflags & SVF_MONSTER)
+            mask = MASK_MONSTERSOLID;
+        else
+            mask = MASK_SOLID;
+        SV_FlyMove(ent, FRAMETIME, mask);
 
-    //  gi.linkentity(ent);
-    //  G_TouchTriggers(ent);
-    //  if (!ent->inuse)
-    //      return;
+        gi.linkentity(ent);
+        G_TouchTriggers(ent);
+        if (!ent->inuse)
+            return;
 
-    //  if (ent->groundentity)
-    //      if (!wasonground)
-    //          if (hitsound)
-    //              gi.sound(ent, 0, gi.soundindex("world/land.wav"), 1, 1, 0);
-    //}
+        if (ent->groundentity)
+            if (!wasonground)
+                if (hitsound)
+                    gi.sound(ent, 0, gi.soundindex("world/land.wav"), 1, 1, 0);
+    }
 
-    //// regular thinking
-    //SV_RunThink(ent);
+    // regular thinking
+    SV_RunThink(ent);
 }
 
 //============================================================================
@@ -939,7 +932,6 @@ void G_RunEntity(edict_t* ent)
         SV_Physics_Noclip(ent);
         break;
     case MOVETYPE_STEP: //Monsters only...
-        gi.dprintf("MT-STEP\n");
         SV_Physics_Step(ent);
         break;
     case MOVETYPE_TOSS:
@@ -948,6 +940,11 @@ void G_RunEntity(edict_t* ent)
     case MOVETYPE_FLYMISSILE:
         SV_Physics_Toss(ent);
         break;
+#ifdef BOT
+    case MOVETYPE_WALK:
+        SV_RunThink(ent);
+        break;
+#endif //BOT
     default:
         gi.error("SV_Physics: bad movetype %i", (int)ent->movetype);
     }

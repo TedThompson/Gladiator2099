@@ -355,6 +355,38 @@ This trigger will always fire.  It is activated by the world.
 */
 void SP_trigger_always(edict_t* ent)
 {
+#ifdef BOT
+    // sp_dm_tier increments via map cfg files
+    // marking and saving progress thru the SP DM chain 
+    // unused spawnflags allow "lockout" walls in a level
+    // 
+    // Since these flags could have been set in a DM level and
+    // had no effect before, we restrict checking to the "hub" map
+    // 
+    // 1 =  must have cleared tier 1 (Easy)
+    // 2 =  must have cleared tier 2 (Normal)
+    // 4 =  must have cleared tier 3 (Hard)
+    // etc.
+    // -- TG626
+    if (!Q_stricmp(level.mapname, "hub")) {
+        if ((ent->spawnflags & SPAWNFLAG_SP_DM_T1 && sp_dm_tier->value == 0) ||
+            (ent->spawnflags & SPAWNFLAG_SP_DM_T2 && sp_dm_tier->value == 1) ||
+            (ent->spawnflags & SPAWNFLAG_SP_DM_T3 && sp_dm_tier->value == 2) ||
+            (ent->spawnflags & SPAWNFLAG_SP_DM_T4 && sp_dm_tier->value == 3) ||
+            (ent->spawnflags & SPAWNFLAG_SP_DM_T5 && sp_dm_tier->value == 4) ||
+            (ent->spawnflags & SPAWNFLAG_SP_DM_T6 && sp_dm_tier->value == 5) ||
+            (ent->spawnflags & SPAWNFLAG_SP_DM_T7 && sp_dm_tier->value == 6) ||
+            (ent->spawnflags & SPAWNFLAG_SP_DM_T8 && sp_dm_tier->value == 7))
+        {
+            G_FreeEdict(ent);
+            return;
+        }
+        // Again, they use to have no effect, so lets remove them now that
+        // we're done with them.
+        ent->spawnflags &= ~(SPAWNFLAG_SP_DM_T1 | SPAWNFLAG_SP_DM_T2 | SPAWNFLAG_SP_DM_T3 | SPAWNFLAG_SP_DM_T4 | SPAWNFLAG_SP_DM_T5 | SPAWNFLAG_SP_DM_T6 | SPAWNFLAG_SP_DM_T7 | SPAWNFLAG_SP_DM_T8);
+    }// TG626
+#endif
+
     // we must have some delay to make sure our use targets are present
     if (ent->delay < 0.2)
         ent->delay = 0.2;
