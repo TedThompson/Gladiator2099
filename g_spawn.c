@@ -43,7 +43,7 @@ void SP_func_clock(edict_t* ent);
 void SP_func_killbox(edict_t* ent);
 
 #ifdef FUNC_BUTTON_ROTATING //Where did this come from!? Not found in Xatrix, Rogue, CTF, RA, AQ2...
-void SP_func_button_rotating(edict_t* ent);
+//void SP_func_button_rotating(edict_t* ent);
 #endif //FUNC_BUTTON_ROTATING
 
 void SP_trigger_always(edict_t* ent);
@@ -94,7 +94,7 @@ void SP_target_setgame(edict_t* ent);
 //void SP_light(edict_t* self);
 void SP_light_mine1(edict_t* ent);
 void SP_light_mine2(edict_t* ent);
-void SP_rotating_light(edict_t* ent); //Stolen, Xatrix
+//void SP_rotating_light(edict_t* ent); //Stolen, Xatrix
 void SP_info_null(edict_t* self);
 void SP_info_notnull(edict_t* self);
 void SP_path_corner(edict_t* self);
@@ -231,7 +231,7 @@ spawn_t spawns[] = {
     {"light_mine1", SP_light_mine1},
     {"light_mine2", SP_light_mine2},
     {"info_null", SP_info_null},
-    {"rotating_light", SP_rotating_light},
+    {"rotating_light", SP_info_null},
     {"func_group", SP_info_null},
     {"info_notnull", SP_info_notnull},
     {"path_corner", SP_path_corner},
