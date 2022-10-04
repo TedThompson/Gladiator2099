@@ -2086,7 +2086,7 @@ void door_secret_use(edict_t* self, edict_t* other, edict_t* activator) // Slow 
 
     if (self->moveinfo.sound_start)
         gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
-    if (self->moveinfo.sound_middle)
+    if (self->moveinfo.sound_middle && self->oldenemy)
         self->oldenemy->s.sound = self->moveinfo.sound_middle;
 
     Move_Calc(self, self->pos1, door_secret_move1);
@@ -2097,7 +2097,7 @@ void door_secret_move1(edict_t* self)
 {
     if (self->moveinfo.sound_end)
         gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_end, 1, ATTN_STATIC, 0);
-    if (self->oldenemy->s.sound)
+    if (self->oldenemy)
         self->oldenemy->s.sound = 0;
 
     self->nextthink = level.time + 1.0;
@@ -2108,7 +2108,7 @@ void door_secret_move2(edict_t* self)
 {
     if (self->moveinfo.sound_start)
         gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
-    if (self->moveinfo.sound_middle)
+    if (self->moveinfo.sound_middle && self->oldenemy)
         self->oldenemy->s.sound = self->moveinfo.sound_middle;
 
     Move_Calc(self, self->pos2, door_secret_move3);
@@ -2118,7 +2118,7 @@ void door_secret_move3(edict_t* self)
 {
     if (self->moveinfo.sound_end)
         gi.sound(self, CHAN_NO_PHS_ADD + CHAN_VOICE, self->moveinfo.sound_end, 1, ATTN_STATIC, 0);
-    if (self->oldenemy->s.sound)
+    if (self->oldenemy)
         self->oldenemy->s.sound = 0;
 
     if (self->wait == -1)
