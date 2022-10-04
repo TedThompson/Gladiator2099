@@ -99,8 +99,12 @@ void SpawnSpecker(edict_t* ent)
 
     VectorCopy(center, self->s.origin);
     self->owner = self;
+    
     // Debug aid, to visualize where the sound will come from.
     //self->s.modelindex = gi.modelindex("models/objects/grenade2/tris.md2");
+    //self->s.effects = 0x80000000; // EF_TRACKERTRAIL
+    //self->s.renderfx = RF_SHELL_RED;
+    
     self->volume = 1.0;
     self->attenuation = 1.0;
     self->s.sound = 0;
