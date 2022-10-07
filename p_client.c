@@ -118,6 +118,15 @@ void SP_info_player_deathmatch(edict_t* self)
         G_FreeEdict(self);
         return;
     }
+
+    if (Q_stricmp(level.mapname, "q2duel6") == 0) //move one spawn that gets bots stuck under a ceiling.
+    {
+        if ((self->s.origin[0] == -672) && (self->s.origin[1] == -736) && (self->s.origin[2] == 216))
+        {
+            self->s.origin[1] = -672;
+        }
+    }
+
     SP_misc_teleporter_dest(self);
 }
 

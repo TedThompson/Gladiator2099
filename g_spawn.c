@@ -148,6 +148,9 @@ void SP_turret_breach (edict_t *self);
 void SP_turret_base (edict_t *self);
 void SP_turret_driver (edict_t *self);
 */
+#ifdef FWALL_INC
+void SP_func_force_wall(edict_t* self);
+#endif
 #ifdef BOT
 void SP_bot(edict_t* self);
 #endif //BOT
@@ -285,6 +288,10 @@ spawn_t spawns[] = {
     {"turret_breach", SP_info_null},
     {"turret_base", SP_info_null},
     {"turret_driver", SP_info_null},
+        
+#ifdef FWALL_INC
+    {"func_force_wall", SP_func_force_wall},
+#endif
 
 #ifdef BOT
     {"bot", SP_bot},

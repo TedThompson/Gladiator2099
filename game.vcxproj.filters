@@ -123,6 +123,9 @@
     <ClCompile Include="p_trail.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="g_forcewall.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="game.def">

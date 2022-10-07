@@ -229,6 +229,7 @@ void EndDMLevel(void)
 {
     edict_t* ent;
     char* s, * t, * f;
+    char cinematic[64], bsp[64];
     static const char* seps = " ,\n\r";
 #ifdef BOT
     qboolean sp_winner = false;
@@ -292,7 +293,7 @@ void EndDMLevel(void)
     }
 #endif
     // see if it's in the map list
-    if (*sv_maplist->string) 
+    if (*sv_maplist->string)
     {
         s = strdup(sv_maplist->string);
         f = NULL;
@@ -301,11 +302,16 @@ void EndDMLevel(void)
         i = 1;
         tier = gi.cvar("sp_dm_tier", "", 0);
 #endif
-        while (t != NULL) 
+        while (t != NULL)
         {
-            if (Q_stricmp(t, level.mapname) == 0) 
+            // check for *.cin+mapname and throw out *.cin+ for mapname matching
+            if (sscanf(t, "%[^+]%*c%s", cinematic, bsp) != 2)
             {
-                // it's in the list, go to the next one
+                strcpy(bsp, t);
+            }
+
+            if (Q_stricmp(bsp, level.mapname) == 0)
+            {
 #ifdef BOT
                 if (i == hubs_index[0])
                     if (tier->value < 1)
@@ -313,13 +319,14 @@ void EndDMLevel(void)
                 if (i == hubs_index[1])
                     if (tier->value < 2)
                         gi.cvar_forceset("sp_dm_tier", va("%d", (int)2));
-                if (i == hubs_index[3])
+                if (i == hubs_index[2])
                     if (tier->value < 3)
                         gi.cvar_forceset("sp_dm_tier", va("%d", (int)3));
 #endif
+                // it's in the list, go to the next one
                 t = strtok(NULL, seps);
                 if (t == NULL) // end of list, go to first one 
-                { 
+                {
                     if (f == NULL) // there isn't a first one, same level
                         BeginIntermission(CreateTargetChangeLevel(level.mapname));
                     else
@@ -479,7 +486,7 @@ void G_RunFrame(void)
     level.time = level.framenum * FRAMETIME;
 
     // choose a client for monsters to target this frame
-    AI_SetSightClient ();
+    AI_SetSightClient();
 
     // exit intermissions
 
@@ -518,9 +525,9 @@ void G_RunFrame(void)
         if ((ent->groundentity) && (ent->groundentity->linkcount != ent->groundentity_linkcount))
         {
             ent->groundentity = NULL;
-            if ( !(ent->flags & (FL_SWIM|FL_FLY)) && (ent->svflags & SVF_MONSTER) )
+            if (!(ent->flags & (FL_SWIM | FL_FLY)) && (ent->svflags & SVF_MONSTER))
             {
-                M_CheckGround (ent);
+                M_CheckGround(ent);
             }
         }
 

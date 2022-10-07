@@ -9,6 +9,7 @@
 #define CLIENTLAG                       //client lag
 #define CH                              //Colored Hitman
 #define MOTD                            //MOTD support
+#define FWALL_INC                       //Add Rogue "Forcewall"
 
 //#define BOT_DEBUG                     //bot debug
 //#define TRIGGER_COUNTING              //trigger counting
@@ -1188,6 +1189,10 @@ struct edict_s
     // common data blocks
     moveinfo_t      moveinfo;
     monsterinfo_t   monsterinfo;
+
+#ifdef FWALL_INC
+    vec3_t  offset;
+#endif
 
 #ifdef BOT
     visiblebbox_t box;

@@ -224,6 +224,45 @@ void SP_target_changelevel(edict_t* ent)
     if ((Q_stricmp(level.mapname, "fact1") == 0) && (Q_stricmp(ent->map, "fact3") == 0))
         ent->map = "fact3$secret1";
 
+    // you think that's ugly? ... Hold my beer. TG626
+    if (Q_stricmp(level.mapname, "hub") == 0)
+    {
+        char* s, * t, * f, tier_start_map[10][64];
+        static const char* seps = " ,\n\r";
+        int i, j;
+
+        if (sp_dm->value && *sv_maplist->string)
+        {
+            s = strdup(sv_maplist->string);
+            f = NULL;
+            t = strtok(s, seps);
+            j = 0;
+            strcpy(tier_start_map[j++], t); //first map is Tier1
+
+            while (t != NULL)
+            {
+                if (Q_stricmp(t, "hub") == 0)
+                {
+                    t = strtok(NULL, seps);
+                    if (t != NULL)
+                        strcpy(tier_start_map[j++], t);
+                }
+                t = strtok(NULL, seps);
+            }
+            free(s);
+        }
+
+        for (i = 0; i < j; i++)
+        {
+                sprintf(s, "tier%i", i + 1);
+                if (Q_stricmp(ent->map, s) == 0)
+                {
+                    strcpy(ent->map, tier_start_map[i]); //Substitute the desired maps for special token names "tier#"
+                    break;
+                }
+        }
+    }
+
     ent->use = use_target_changelevel;
     ent->svflags = SVF_NOCLIENT;
 }
