@@ -36,7 +36,7 @@ void SP_func_train(edict_t* ent);
 void SP_func_conveyor(edict_t* self);
 void SP_func_wall(edict_t* self);
 void SP_func_object(edict_t* self);
-//void SP_func_explosive(edict_t* self);
+void SP_func_explosive(edict_t* self);
 void SP_func_timer(edict_t* self);
 void SP_func_areaportal(edict_t* ent);
 void SP_func_clock(edict_t* ent);
@@ -88,6 +88,7 @@ void SP_worldspawn(edict_t* ent);
 void SP_viewthing(edict_t* ent);
 
 #ifdef BOT
+void SP_trigger_tier(edict_t* ent);
 void SP_target_setgame(edict_t* ent);
 #endif
 
@@ -108,7 +109,7 @@ void SP_misc_gib_arm(edict_t* self);
 void SP_misc_gib_leg(edict_t* self);
 void SP_misc_gib_head(edict_t* self);
 void SP_misc_insane (edict_t *self);
-//void SP_misc_deadsoldier (edict_t *self);
+void SP_misc_deadsoldier (edict_t *self);
 void SP_misc_viper(edict_t* self);
 void SP_misc_viper_bomb(edict_t* self);
 void SP_misc_bigviper(edict_t* self);
@@ -119,6 +120,7 @@ void SP_misc_blackhole(edict_t* self);
 void SP_misc_eastertank(edict_t* self);
 void SP_misc_easterchick(edict_t* self);
 void SP_misc_easterchick2(edict_t* self);
+void SP_monster_commander_body (edict_t *self);
 /*
 void SP_monster_berserk (edict_t *self);
 void SP_monster_gladiator (edict_t *self);
@@ -142,7 +144,7 @@ void SP_monster_boss2 (edict_t *self);
 void SP_monster_jorg (edict_t *self);
 void SP_monster_boss3_stand (edict_t *self);
 
-void SP_monster_commander_body (edict_t *self);
+
 
 void SP_turret_breach (edict_t *self);
 void SP_turret_base (edict_t *self);
@@ -180,7 +182,7 @@ spawn_t spawns[] = {
     {"func_wall", SP_func_wall},
     {"func_object", SP_func_object},
     {"func_timer", SP_func_timer},
-    {"func_explosive", SP_info_null},                           //Removed
+    {"func_explosive", SP_func_explosive},                           
     {"func_killbox", SP_func_killbox},
 
 #ifdef FUNC_BUTTON_ROTATING
@@ -228,6 +230,7 @@ spawn_t spawns[] = {
     {"viewthing", SP_viewthing},
 #ifdef BOT
     {"target_setgame", SP_target_setgame},
+    {"trigger_tier", SP_trigger_tier},
 #endif
 // *** Lights and Points
     {"light", SP_info_null},
@@ -248,7 +251,7 @@ spawn_t spawns[] = {
     {"misc_gib_leg", SP_misc_gib_leg},
     {"misc_gib_head", SP_misc_gib_head},
     {"misc_insane", SP_misc_insane},                               
-    {"misc_deadsoldier", SP_info_null}, //SP_misc_deadsoldier},     //Removed
+    {"misc_deadsoldier", SP_misc_deadsoldier},
     {"misc_viper", SP_misc_viper},
     {"misc_viper_bomb", SP_misc_viper_bomb},
     {"misc_bigviper", SP_misc_bigviper},
@@ -283,7 +286,7 @@ spawn_t spawns[] = {
     {"monster_boss3_stand", SP_info_null},
     {"monster_jorg", SP_info_null},
 
-    {"monster_commander_body", SP_info_null},
+    {"monster_commander_body", SP_monster_commander_body},
 
     {"turret_breach", SP_info_null},
     {"turret_base", SP_info_null},

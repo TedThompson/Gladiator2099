@@ -227,7 +227,7 @@ void SP_target_changelevel(edict_t* ent)
     // you think that's ugly? ... Hold my beer. TG626
     if (Q_stricmp(level.mapname, "hub") == 0)
     {
-        char* s, * t, * f, tier_start_map[10][64];
+        char* s, * t, * f, **tier_start_map = malloc(sizeof(level.mapname));
         static const char* seps = " ,\n\r";
         int i, j;
 
@@ -237,7 +237,7 @@ void SP_target_changelevel(edict_t* ent)
             f = NULL;
             t = strtok(s, seps);
             j = 0;
-            strcpy(tier_start_map[j++], t); //first map is Tier1
+            tier_start_map[j++] = strdup(t); //first map is Tier1
 
             while (t != NULL)
             {
@@ -245,21 +245,21 @@ void SP_target_changelevel(edict_t* ent)
                 {
                     t = strtok(NULL, seps);
                     if (t != NULL)
-                        strcpy(tier_start_map[j++], t);
+                        tier_start_map[j++] = strdup(t);//grrr
                 }
                 t = strtok(NULL, seps);
             }
             free(s);
-        }
 
-        for (i = 0; i < j; i++)
-        {
+            for (i = 0; i < j; i++)
+            {
                 sprintf(s, "tier%i", i + 1);
                 if (Q_stricmp(ent->map, s) == 0)
                 {
-                    strcpy(ent->map, tier_start_map[i]); //Substitute the desired maps for special token names "tier#"
+                    ent->map = strdup(tier_start_map[i]); //Substitute the desired maps for special token names "tier#"
                     break;
                 }
+            }
         }
     }
 

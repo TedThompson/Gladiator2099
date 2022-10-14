@@ -95,6 +95,7 @@ void Killed(edict_t* targ, edict_t* inflictor, edict_t* attacker, int damage, ve
 
     if ((targ->svflags & SVF_MONSTER) && (targ->deadflag != DEAD_DEAD))
     {
+
         if (!(targ->monsterinfo.aiflags & AI_GOOD_GUY))
         {
             level.killed_monsters++;
@@ -109,11 +110,11 @@ void Killed(edict_t* targ, edict_t* inflictor, edict_t* attacker, int damage, ve
         return;
     }
 
-    //if ((targ->svflags & SVF_MONSTER) && (targ->deadflag != DEAD_DEAD))
-    //{
-    //  targ->touch = NULL;
-    //  monster_death_use(targ);
-    //}
+    if ((targ->svflags & SVF_MONSTER) && (targ->deadflag != DEAD_DEAD))
+    {
+        targ->touch = NULL;
+        monster_death_use(targ);
+    }
 
     targ->die(targ, inflictor, attacker, damage, point);
 }
