@@ -40,15 +40,15 @@ have been used in combination with conditional compilation to mark the
 different parts of the source code added to the Quake2 v3.20 game source code.
 The following defines have been used:
 
-#define BOT			         //Gladiator Bot
-#define BOT_IMPORT		   //bot import redirection
-#define BOT_DEBUG		      //bot debug
-#define OBSERVER		      //observer mode
+#define BOT			//Gladiator Bot
+#define BOT_IMPORT		//bot import redirection
+#define BOT_DEBUG		//bot debug
+#define OBSERVER		//observer mode
 #define TRIGGER_COUNTING	//trigger counting
-#define TRIGGER_LOG		   //trigger log
-#define LOGFILE			   //log file
-#define VWEP			      //VWep patch
-#define CH			         //Colored Hitman
+#define TRIGGER_LOG		//trigger log
+#define LOGFILE			//log file
+#define VWEP			//VWep patch
+#define CH			//Colored Hitman
 
 Copyright and distribution permissions 
 --------------------------------------
