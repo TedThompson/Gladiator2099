@@ -85,27 +85,3 @@ Version Changes
 ---------------
 
 n/a
-	g_spawn.c
-	p_botmenu.c
-	p_view.c
-
-new modules:
-
-	anorms.h
-
-- changed the DM, RA2 and CTF bot menus
-- added minimum players option to g_main.c and bl_spawn.c
-- added PrecacheCTFItems() to SP_worldspawn in g_spawn.c
-- changed offhand CTF hook on/off commands in g_cmd.c
-- changed BotServerCmd() in bl_cmd.c
-- added BotServerCommand() to bl_redirgi.c
-- changed BotServerCommand() in p_botmenu.c
-- added rcon password to ToggleBotMenu() in p_botmenu.c
-- added ent->client->showscores set to false for bots in ClientEndServerFrame in p_view.c
-- changed full game network message redirection in bl_redirgi.c to remove unicast messages for bots
-- added anorms.h to the source for the Bot_WriteDir() function in bl_redirgi.c
-- changed botlib.h
-- added BotLib_BotAddPointLight
-- changed BotLib_BotUpdateSound into BotLib_BotAddSound
-- added "cddir" libvar to library setup
-
