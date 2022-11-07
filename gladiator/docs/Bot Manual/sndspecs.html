@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+	<META NAME="GENERATOR" CONTENT="Mr Elusive's C2HTML">
+	<TITLE>Sound specifications</TITLE>
+</HEAD>
+<BODY TEXT="#FFFFFF" BGCOLOR="#000046" LINK="#666666" VLINK="#808080" ALINK="#FF0000">
+<FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">
+
+<BR>
+
+<P>
+<br>
+<table  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">About: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">This document contains editing information for the Gladiator bot.<br>
+        The Gladiator bot is an artificial player for Quake2.<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Author: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Mr Elusive (MrElusive@demigod.demon.nl)<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Gladiator page: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA"><A HREF="http://www.botepidemic.com/gladiator">http://www.botepidemic.com/gladiator</A><br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Last update: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">1999-05-05<br></font></td>
+  </tr>
+</table><br><br>
+</P>
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>
+The Gladiator bot uses the sound specifications to figure out what sounds to listen for.
+The sound specifications are stored in a file sounds.c in the .pak file included with the Gladiator bot.
+</font>
+</P>
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>A sound specification is constructed as follows:</font><br><br>
+</P>
+
+<P>
+<FONT COLOR="#00CC00">soundinfo</FONT><FONT COLOR="#999999">&nbsp;</FONT><BR>
+<FONT COLOR="#FFFF00">{</FONT><FONT COLOR="#999999"></FONT><BR>
+<FONT COLOR="#FFFF00">}</FONT><BR>
+</P>
+
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>The specification fields listed below are placed between the braces.<br>
+Every field is assigned a value according to the field type.<br><br><br></font>
+</P>
+
+<P>
+<font face="Fixedsys" color="#C0C0C0" size=-1>name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description:</font>
+</P>
+
+<P>
+<FONT COLOR="#00CC00">name</FONT><FONT COLOR="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name of the sound</FONT><BR>
+<FONT COLOR="#00CC00">volume</FONT><FONT COLOR="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volume of the sound</FONT><BR>
+<FONT COLOR="#00CC00">duration</FONT><FONT COLOR="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duration of the sound</FONT><BR>
+<FONT COLOR="#00CC00">type</FONT><FONT COLOR="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    integer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sound type</FONT><BR>
+<FONT COLOR="#00CC00">recognition</FONT><FONT COLOR="#999999">&nbsp;&nbsp;
+    float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recognition of the sound</FONT><BR>
+<FONT COLOR="#00CC00">string</FONT><FONT COLOR="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extra string field</FONT><BR>
+</P>
+
+<BR>
+</font>
+</BODY>
+</HTML>

@@ -1,0 +1,56 @@
+01/22/1998
+================================================================
+Title                   : Painkiller
+Filename                : ztn2dm1.bsp
+Author                  : Sten Uusvali
+Email Address           : ztn@eliminator.estnet.ee
+Description             : Quake II deathmatch level
+                          suited for 1-on-1 play
+================================================================
+
+* Play Information *
+
+Single Player           : No
+Cooperative             : No
+Deathmatch              : Yes, 5 respawn spots
+Player load		: 2 - 4
+Difficulty Settings     : No
+New Sounds              : No
+New Graphics            : No
+
+
+* Construction *
+
+Base                    : New level from scratch
+Editor(s) used          : Worldcraft 1.5b
+Build Time              : ~2 weeks
+
+
+* Credits *
+
+- id Software
+- Ben Morris for Worldcraft
+- Danimal, Copy & Headshot for some good advises
+- Jeff Yost, Bill Brown, Rich Schmidt, Jay Pilcher,
+  Greg Arnold and Dave Yunger for playtesting this map and giving
+  me a very valuable info to make this map a worth of play.
+
+
+* Author *
+
+Name  : Sten Uusvali
+E-mail: ztn@eliminator.estnet.ee
+ICQ   :	312250
+Alias : pistolero, ztn
+
+
+* Copyright / Permissions *
+
+You may distribute this level and include it in any deathmatch compilation
+etc., as long as you: 
+
+1. Include this text file untouched and give me credit.
+2. E-mail me and let me know what you're doing with it.
+
+Thank you,
+Sten Uusvali

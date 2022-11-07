@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+	<META NAME="GENERATOR" CONTENT="Mr Elusive's C2HTML">
+	<TITLE>Gladiaor bot character</TITLE>
+</HEAD>
+<BODY TEXT="#FFFFFF" BGCOLOR="#000046" LINK="#666666" VLINK="#808080" ALINK="#FF0000">
+<FONT FACE="Fixedsys"><FONT SIZE=-1><FONT COLOR="#999999">
+
+<BR>
+</FONT>
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>
+
+<P>
+<br>
+<table  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">About: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">This document contains editing information for the Gladiator bot.<br>
+        The Gladiator bot is an artificial player for Quake2.<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Author: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Mr Elusive (MrElusive@demigod.demon.nl)<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Gladiator page: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA"><A HREF="http://www.botepidemic.com/gladiator">http://www.botepidemic.com/gladiator</A><br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Last update: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">1999-05-05<br></font></td>
+  </tr>
+</table><br><br>
+</P>
+
+<P>
+<font color="#EEEEEE">Creating a new bot character<br><br></font>
+</P>
+
+<P>
+Each bot character includes the following files:<br><br>
+</P>
+
+<P>
+[name].cfg file used to load the bot<br>
+[name]_c.c file with the characteristics<br>
+[name]_t.c file with ichats used to initiate a chat *<br>
+[name]_w.c file with weapon fuzzy weights used for weapon selection *<br>
+[name]_i.c file with item fuzzy weights used for goal evaluation *<br><br>
+</P>
+
+<P>
+The files with the * are optional because they can be shared with other
+bots.<br><br>
+</P>
+
+<P>
+The custum bot characters are stored in the 'bots' sub-folder in the
+'gladiator' folder.<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>[name].cfg file<br><br></P></font>
+
+<P>
+A "[name].cfg" should be included with every bot character. All the *.cfg
+files from the 'bots' sub-folder are loaded automatically and the bots from
+these *.cfg files will appear in the bot menu.
+Each line in a .cfg file contains one bot. Every string in this file is
+enclosed with double quotes "". This allows people to specify a bot name or
+character file folder with spaces. Such a line with a bot contains the
+following information:<br><br>
+</P>
+
+<P>
+"sv" "addbot" "[name]" "[model]/[skin]" "[characterfile]" "[charactername]"<br><br>
+</P>
+
+<P>
+[name] is the name of the bot<br>
+[model] is the model used by the bot<br>
+[skin] is the skin used by the bot<br>
+[characterfile] is the file that contains the bot character<br>
+[charactername] is the name of the character loaded from the character file<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>[name]_c file<br><br></P></font>
+
+<P>
+This file contains the <A HREF="characteristics.html">characteristics</A> of the bot.
+References to the [name]_t.c, [name]_w.c and [name]_i.c are included with these characteristics.<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>[name]_t file<br><br></P></font>
+
+<P>
+This file contains the <A HREF="chatsystem.html">chat</A> lines the bot will use to initiate a chat.<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>[name]_w file<br><br></P></font>
+
+<P>
+This file contains the weapon <A HREF="fuzzy.html">fuzzy relations/weights</A> used for weapon selection.<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>[name]_i file<br><br></P></font>
+
+<P>
+This file contains the item <A HREF="fuzzy.html">fuzzy relations/weights</A> used for goal evaluation.<br><br><br>
+</P>
+
+</font><br><br>
+
+<BR>
+</BODY>
+</HTML>

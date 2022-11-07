@@ -1,0 +1,338 @@
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+	<META NAME="GENERATOR" CONTENT="Mr Elusive's C2HTML">
+	<TITLE>Gladiator bot chat system</TITLE>
+</HEAD>
+<BODY TEXT="#FFFFFF" BGCOLOR="#000046" LINK="#666666" VLINK="#808080" ALINK="#FF0000">
+  <FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">
+
+<P>
+<br>
+<table  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">About: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">This document contains editing information for the Gladiator bot.<br>
+        The Gladiator bot is an artificial player for Quake2.<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Author: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Mr Elusive (MrElusive@demigod.demon.nl)<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Gladiator page: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA"><A HREF="http://www.botepidemic.com/gladiator">http://www.botepidemic.com/gladiator</A><br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Last update: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">1999-05-05<br></font></td>
+  </tr>
+</table><br><br>
+</P>
+
+  <br>
+  <P><font COLOR="#FFFFFF">Gladiator bot chat system<br><br><br></font></P>
+
+  <P>The bot chat system has five parts:</P>
+
+  <UL>
+    <LI>synonyms</LI>
+    <LI>random strings</LI>
+    <LI>match templates</LI>
+    <LI>initial chats (bot character specific)</LI>
+    <LI>reply chats</LI>
+  </UL>
+
+  <P>Below is shown how the several parts are used in sequence.<br></P>
+
+  <P>environmental change -> initial chat + random strings -> synonyms -> output</P>
+
+  <P>
+  <table cellspacing=0 border=0 CELLPADDING=0>
+    <tr>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">console message -> </font></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">synonym -> </font></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">match template strings </font></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">- (match) -> </font></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">action</font></td>
+    </tr>
+    <tr>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">- (no match) -> </font></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">reply chat + random strings -> </font></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">synonyms -> </font></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">output</font></td>
+    </tr>
+  </table>
+  </P><br>
+
+  <P><br><font COLOR="#FFFFFF">Synonyms</font></P>
+
+  <P>
+  The synonyms are used to unify strings before processing and also used to
+  create some variation when outputting a message. The synonyms are stored
+  in the file syn.c in the .pak file included with the bot. The bot uses context
+  dependent synonyms. Every context has a flag which is defined in the file
+  syn.h in the .pak file included with the bot.
+  </P>
+
+  <P>
+  A context with synonyms is constructed as follows:
+  </P>
+
+  <P>
+  <FONT COLOR="#00CC00">context flag</FONT><BR>
+  <FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">[</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"first synonym"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">X</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"second synonym"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">Y</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#FFFF00"> ...</FONT><FONT COLOR="#FFFF00">]</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">...</FONT><BR>
+  <FONT COLOR="#FFFF00">}</FONT><BR>
+  </P>
+
+  <P>
+  The X and Y are values in the range [0-1]. These values are chances the synonyms are
+  used in chat messages the bot creates.
+  </P>
+
+  <P>
+  A few examples:<br>
+  </P>
+
+  <P>
+  <FONT COLOR="#00CC00">CONTEXT_NEARBYITEM</FONT><BR>
+  <FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">[</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"Body Armor"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">1</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"red armor"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">1</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"armor red"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">0</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"armor body"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">0</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">]</FONT><BR>
+  <FONT COLOR="#FFFF00">}</FONT><BR>
+  <BR>
+  <FONT COLOR="#00CC00">CONTEXT_NORMAL</FONT><BR>
+  <FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">[</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"do not"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">1</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"don't"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">1</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"dont"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">1</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">]</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">[</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"checkpoint"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">1</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"check-point"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">1</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#33CCFF">"cp"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">1</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">]</FONT><BR>
+  <FONT COLOR="#FFFF00">}</FONT>
+  </P>
+
+  <P><br><font COLOR="#FFFFFF">Random strings</font></P>
+
+  <P>
+  The random strings are used in the initial and replay chat messsage to
+  add some variation. The random strings are stored in the file rnd.c in
+  the .pak file included with the bot.
+  </P>
+
+  <P>
+  A random string is constructed as follows:
+  </P>
+
+  <P>
+  <FONT COLOR="#00CC00">name</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">=</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">{</FONT><FONT COLOR="#33CCFF">"first random string"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">"second random string"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">...</FONT><FONT COLOR="#FFFF00">}</FONT>
+  </P>
+
+  <P>
+  A random string is used in a chat message as follows:
+  </P>
+
+  <P>
+  <FONT COLOR="#33CCFF">" part of the chat message "<FONT COLOR="#FFFF00">, </FONT><FONT COLOR="#00CC00">randomstringname</FONT><FONT COLOR="#FFFF00">, </FONT>" part of the chat message "</FONT><FONT COLOR="#FFFF00">;</FONT><br>
+  </P>
+
+  <P>
+  Multiple random strings can be used in a chat messages. Multiple random
+  strings seperated by commas can also be used directly after each other.
+  </P>
+
+
+  <P><br><font COLOR="#FFFFFF">Match templates</font></P>
+
+  <P>
+  The bot uses the match templates to 'understand' chat- and other console
+  messages. The match templates are stored in the file match.c in the .pak
+  file included with the bot.
+  </P>
+
+  <P>
+  A match template is constructed as follows:
+  </P>
+
+  <P>
+  <FONT COLOR="#00CC00">match template </FONT><FONT COLOR="#FFFF00">= </FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#00CC00">id</FONT><FONT COLOR="#FFFF00">, </FONT><FONT COLOR="#00CC00">type</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#00CC00">flags</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">;</FONT><FONT COLOR="#999999"><br><br>
+  </P>
+
+  Fixed strings and variables alternate in this match template and they are seperated by commas.
+  For instance:
+  <FONT COLOR="#33CCFF">"you are "</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">0</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">" aren't you?"</FONT>
+  Here the 0 is the index of a variable. Currently a maximum of 10 variables is
+  allowed (index in the range [0-9]).
+  The bot will try to match several fixed strings in the template when they are
+  seperated by the <FONT FACE="Fixedsys" SIZE=-1 COLOR="#FFFF00">|</FONT> token.
+  For instance:
+  <FONT COLOR="#33CCFF">"you"</FONT><FONT COLOR="#FFFF00">|</FONT><FONT COLOR="#33CCFF">"we"</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">" are "</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#C0C0C0">0</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">" aren't "</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">"you"</FONT><FONT COLOR="#FFFF00">|</FONT><FONT COLOR="#33CCFF">"we"</FONT>
+  will match to both
+  <FONT COLOR="#33CCFF">"you are crazy aren't you"</FONT> and
+  <FONT COLOR="#33CCFF">"we are crazy aren't we"</FONT>. It is not allowed
+  to have a variable directly after another variable.<BR>
+
+  <P>
+  The id is used to identify the message. The type flags specify certain
+  characteristics of the message. The id and type flags are defined in the
+  file match.h in the .pak file included with the bot.
+  </P>
+
+  <P>
+  The bot uses context dependent match templates. Every context has an
+  id flag and several match templates are grouped with a context. The id
+  flags are stored in the match.h file.
+  </P>
+
+  <P>
+  <FONT COLOR="#00CC00">context flag</FONT><BR>
+  <FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">...</FONT><BR>
+  <FONT COLOR="#FFFF00">}</FONT><BR>
+  </P>
+
+  <P>
+  An example:<br>
+  </P>
+
+  <P>
+  <FONT COLOR="#00CC00">MTCONTEXT_INITIALTEAMCHAT</FONT><BR>
+  <FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#33CCFF">"("</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#00CC00">NETNAME</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">"): "</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#00CC00">ADDRESSEE</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">" camp at "</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#00CC00">KEYAREA</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">" for "</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#00CC00">TIME</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">=</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#00CC00">MSG_CAMP</FONT><FONT COLOR="#FFFF00">,</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">$</FONT><FONT COLOR="#00CC00">evalint</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#00CC00">ST_ADDRESSED</FONT><FONT COLOR="#FFFF00">|</FONT><FONT COLOR="#00CC00">ST_NEARITEM</FONT><FONT COLOR="#FFFF00">|</FONT><FONT COLOR="#00CC00">ST_TIME</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#FFFF00">;</FONT><br>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">...</FONT><BR>
+  <FONT COLOR="#FFFF00">}</FONT><BR>
+  </P>
+
+  <P>
+  Before using the match templates the synonyms in the templates are replaced.
+  The bot tries to match the templates in the order they are listed in the
+  match.c file. The first found match is used.<br>
+  </P>
+
+  <P><br><font COLOR="#FFFFFF">Initial chats</font></P>
+
+  <P>
+  The initial chats are used by the bot to initiate a chat when something in the
+  environment changes or the bot just feels like chatting. Each bot has a personal
+  set of initial chats. The initial chats are stored with the bot characters in
+  the 'bots' sub-folder in the .pak file included with the bot. In the
+  <A HREF="characteristics.html">characteristics</A> of a bot there's a reference to the
+  file with the initial chats for that bot and the name of the initial chats.
+  </P>
+
+  <P>
+  The initial chats for a bot are constructed as follows:
+  </P>
+
+  <P>
+  <FONT COLOR="#00CC00">chat </FONT><FONT COLOR="#33CCFF">"name"</FONT><BR>
+  <FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#00CC00">type </FONT><FONT COLOR="#33CCFF">"type name"</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT COLOR="#33CCFF">"initial chat message"</FONT><FONT COLOR="#FFFF00">;</FONT><BR>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT COLOR="#33CCFF">"another initial chat message"</FONT><FONT COLOR="#FFFF00">;</FONT><BR>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">...</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">}</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#00CC00">type </FONT><FONT COLOR="#33CCFF">"type name"</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">}</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">...</FONT><BR>
+  <FONT COLOR="#FFFF00">}</FONT><BR>
+  </P>
+
+  <P><br><font COLOR="#FFFFFF">Reply chats</font></P>
+
+  <P>
+  The bot uses the reply chats to reply to chat messages from other players.
+  All bots use the same reply chats because the number of reply chats tends
+  to get pretty large. Creating different reply chats for each bot character would be
+  too much work and also take up to much memory.
+  </P>
+
+  <P>
+  The reply chats are stored in the file rchats.c in the .pak file included with the bot.
+  The reply chats in this file have keys, a priority and several reply chat messages.
+  </P>
+
+  <P>
+  <br>
+  <FONT COLOR="#FFFF00">[</FONT><FONT COLOR="#00CC00">key1<FONT COLOR="#FFFF00">,</FONT> key2<FONT COLOR="#FFFF00">,</FONT> <FONT COLOR="#FFFF00">...</FONT></FONT><FONT COLOR="#FFFF00">]</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFF00">= </FONT><FONT COLOR="#00CC00">priority</FONT><BR>
+  <FONT COLOR="#FFFF00">{</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#33CCFF">"reply chat message"</FONT><FONT COLOR="#FFFF00">;</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#33CCFF">"another reply chat message"</FONT><FONT COLOR="#FFFF00">;</FONT><BR>
+  &nbsp;&nbsp;&nbsp;<FONT COLOR="#FFFF00">...</FONT><BR>
+  <FONT COLOR="#FFFF00">}</FONT><BR><BR></P>
+
+  <P>key prefixes:<br><br></P>
+
+  <P>
+  <table cellspacing=0 border=0 CELLPADDING=0>
+    <tr>
+       <td width="20"><FONT FACE="Fixedsys" SIZE=-1 COLOR="#FFFF00">&</FONT></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">key must be true</FONT></td>
+    </tr>
+    <tr>
+       <td width="20"><FONT FACE="Fixedsys" SIZE=-1 COLOR="#FFFF00">!</FONT></td>
+       <td><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">key may not be true</FONT></td>
+    </tr>
+  </table><br><br></P>
+
+  <P>keys:<br><br></P>
+
+  <P>
+  <table cellspacing=0 border=0 CELLPADDING=0>
+    <tr>
+       <td VALIGN=TOP width="80"><FONT FACE="Fixedsys" SIZE=-1 COLOR="#00CC00">name</FONT></td>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">key is true when the name of the bot is present in the chat message the bot wants to reply to<BR></FONT></td>
+    </tr>
+    <tr>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#00CC00">female</FONT></td>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">key is true when the bot is female<BR></FONT></td>
+    </tr>
+    <tr>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#00CC00">male</FONT></td>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">key is true when the bot is male<BR></FONT></td>
+    </tr>
+    <tr>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#00CC00">it</FONT></td>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">key is true when the bot is genderless<BR></FONT></td>
+    </tr>
+    <tr>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#FFFF00">{<FONT COLOR="#33CCFF">""</FONT><FONT COLOR="#FFFF00">}</FONT></FONT></td>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">key is true when the bot has this name<BR></FONT></td>
+    </tr>
+    <tr>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#33CCFF">""</FONT></td>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">key is true when the string is present in the message to reply to<BR></FONT></td>
+    </tr>
+    <tr>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#FFFF00">( )</FONT></td>
+       <td VALIGN=TOP><FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">
+       Key is true when the chat message to reply to matches the template between the
+       <FONT COLOR="#FFFF00">( )</FONT><BR>
+       The match templates work in exactly the same way as the match templates described above.
+       The matched variables can be used in the reply chat messages. For instance:
+       <FONT COLOR="#33CCFF">"yes you are "</FONT><FONT COLOR="#FFFF00">, </FONT><FONT COLOR="#C0C0C0">0</FONT><FONT COLOR="#FFFF00">;</FONT>
+       where the variable 0 might be <FONT COLOR="#33CCFF">"crazy"</FONT><br>
+       </FONT></td>
+    </tr>
+  </table><br><br></P>
+
+  <P>
+  The bot evaluates the keys to find out if the reply chat can be used
+  to reply to a certain chat message.
+  When all the keys with the prefix <FONT FACE="Fixedsys" SIZE=-1 COLOR="#FFFF00">&</FONT>
+  are true and all the keys with the prefix <FONT FACE="Fixedsys" SIZE=-1 COLOR="#FFFF00">!</FONT>
+  are not true and there's at least one key true then the bot may use the reply chat.
+  When several reply chats could be used to reply to a message the one with the
+  highest priority is chosen.<br><br><br><br>
+  </P>
+
+  </FONT>
+
+</BODY>
+</HTML>

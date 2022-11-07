@@ -1,0 +1,63 @@
+- Extract to your "Quake2\baseq2\" folder
+- Start the game, press ~ and type: map omf
+
+=========================================================
+ Quake2 Tourney / FFA map
+ 
+ Mapname	: One Must Fall
+ Date		: Mar. 2015
+ Filename		: omf.bsp
+
+ Contact		: dj_pantera@hotmail.com
+ Website		: http://panjoo.tastyspleen.net
+ old site		: (http://www.home.versatel.nl/djbloot)
+=========================================================
+  
+Game info: 
+
+ Gametype	: Tourney duel / small FFA.
+ Players		: 2 - 6 seems about right  (8 spawnpoints).
+ New Textures	: No !
+ New Sounds	: No !
+ New Env		: Yes ! (env/jal)
+
+Build info:
+
+ Editor		: NetRadiant
+ Compile time	: BSP 1 sec. / VIS 7 sec. / RAD (-extra) 20 sec.
+ Construction time	: 8 weeks, on and off.
+ Base		: New map from scratch, baby.
+
+
+Previous Quake2 work:
+  - Iraq attack (iraq.bsp)
+  - Red Rooster (pandm2.bsp)
+  - Kryptonite (krypton.bsp)
+  - in2 Oblivion (in2obl.bsp)
+  - Rigor Mortis (mortis.bsp)
+  - When Pigs Fly (pigs.bsp)
+  - Grunt No More (grunt.bsp)
+  - Built For The Kill (pandm8.bsp)
+  - The Slimy Place[mod] (dm7mod.bsp)
+  - Monsterkill DM1 (mkdm1.bsp)
+  - InstaKilla (instakilla.bsp)
+  - Gym Nastium (gym.bsp)
+  - La Niebla (sgmist.bsp)
+  - Camp City (campcity.bsp)
+  - Torment (torment.bsp)
+  - Sub Zero (subzero.bsp)
+  - TurboNerd (turbo.bsp)
+
+(*) dm7mod is a modified version of id Software's q2dm7.
+(*) mkdm1 is a modified version of id Software's q2dm1.
+
+Legal bs:
+
+ Quake2 is Copyright (c)1997 by id Software Inc. All rights reserved.
+ You may distribute this .rar in any electronic format, just include all
+ files intact in the original archive. 
+
+Thank You for downloading. Stay cool. 
+
+DJ Pan(joo) B.
+========================================================

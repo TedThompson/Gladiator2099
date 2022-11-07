@@ -1,0 +1,534 @@
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+	<META NAME="GENERATOR" CONTENT="Mr Elusive's C2HTML">
+	<TITLE>Gladiator bot chat system</TITLE>
+</HEAD>
+<BODY TEXT="#FFFFFF" BGCOLOR="#000046" LINK="#666666" VLINK="#808080" ALINK="#FF0000">
+
+  <FONT FACE="Fixedsys" SIZE=-1 COLOR="#999999">
+
+<P>
+<br>
+<table  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">About: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">This document contains editing information for the Gladiator bot.<br>
+        The Gladiator bot is an artificial player for Quake2.<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Author: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Mr Elusive (MrElusive@demigod.demon.nl)<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Gladiator page: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA"><A HREF="http://www.botepidemic.com/gladiator">http://www.botepidemic.com/gladiator</A><br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Last update: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">1999-06-04<br></font></td>
+  </tr>
+</table><br><br>
+</P>
+
+  <P>
+  <FONT COLOR="#FFFFFF"><br><br>Game source description</FONT><br><br>
+  </P>
+
+  <blockquote>
+    <P>The game source code incorporates the following parts:</P>
+
+    <P>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">1. </FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">The Quake2 v3.20 game source code by id Software.<br></FONT></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"></FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"><A HREF="ftp://ftp.idsoftware.com/idstuff/quake2/source/">ftp://ftp.idsoftware.com/idstuff/quake2/source/</A></FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">2. </FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">The additional Quake2 v3.20 mission pack 1 "The Reckoning" game source code by Xatrix.</FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"></FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"><A HREF="ftp://ftp.idsoftware.com/idstuff/quake2/source/">ftp://ftp.idsoftware.com/idstuff/quake2/source/</A></FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">3. </FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">The additional Quake2 v3.20 mission pack 2 "Ground Zero" game source code by Rogue.</FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"></FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"><A HREF="ftp://ftp.idsoftware.com/idstuff/quake2/source/">ftp://ftp.idsoftware.com/idstuff/quake2/source/</A></FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">4. </FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">The Quake2 CTF game source code.</FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"></FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"><A HREF="ftp://ftp.idsoftware.com/idstuff/quake2/ctf/source/">ftp://ftp.idsoftware.com/idstuff/quake2/ctf/source/</A></FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">5. </FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Parts of the Rocket Arena 2 Bot Support Routines by David Wright</FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"></FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999"><A HREF="http://www.planetquake.com/arena">http://www.planetquake.com/arena</A></FONT><BR></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">6. </FONT></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">The Gladiator Bot game source code by MrElusive.</FONT></td>
+      </tr>
+    </table>
+    </P>
+
+    <P><FONT FACE="Fixedsys" COLOR="#FF0000" SIZE=-2>The source code of the Gladiator Bot DLL is NOT included!</FONT><BR></P>
+  </blockquote><BR>
+
+  <P>
+  <FONT COLOR="#FFFFFF">Game source code notes</FONT><br>
+  </P>
+
+  <blockquote>
+    <P>
+    The source file g_local.h includes several defines at the top. These defines
+    have been used in combination with conditional compilation to mark the
+    different parts of the source code added to the Quake2 v3.20 game source code.
+    The following defines have been used:
+    </P>
+
+    <P>
+    <table COLS=2 WIDTH="80%" cellspacing="0" cellpadding="0">
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> BOT</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//Gladiator Bot</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> BOT_IMPORT</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//bot import redirection</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> BOT_DEBUG</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//bot debug</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> OBSERVER</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//observer mode</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> TRIGGER_COUNTING</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//trigger counting</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> TRIGGER_LOG</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//trigger log</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> FUNC_BUTTON_ROTATING</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//rotating button</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> LOGFILE</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//log file</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> VWEP</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//VWep patch</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> ZOID</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//CTF</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> CTF_HOOK</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//CTF offhand hook</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> ROCKETARENA</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//Rocket Arena 2</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> CH</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//crazy color mod</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> XATRIX</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//Xatrix mission pack 1</font></td></tr>
+      <tr><td><FONT FACE="Fixedsys" COLOR="#008080">#define<FONT COLOR="#00CC00"> ROGUE</font></font></td><td><FONT FACE="Fixedsys" COLOR="#999999">//Rogue mission pack 2</font></td></tr>
+    </table><br>
+    </P>
+
+    <P>
+    Makefiles for MSVC, LCC and Linux-i386 are included with the game source code.<br>
+    </P>
+
+  </blockquote><br>
+
+  <P><FONT COLOR="#FFFFFF">Game source compile trouble shooting</FONT><br><br></P>
+
+  <blockquote>
+    <P>compiling with Microsoft Visual C++ 5.0/6.0<br><br></P>
+
+    <P>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Problem:</font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#FDF9BD" size=-2>Compiling the source the compiler generates up to 18 "unresolved external symbol" errors.</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Solution:</font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Open the 'm_move2_rogue.c' module, save it and build again.</font></td>
+      </tr>
+      <tr><td height="15"></td><td height="15"></td></tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Problem:</font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#FDF9BD">In Quake2 the following error message appears when loading a map:<br>
+           ****************<br>
+           ERROR: failed to load game DLL<br>
+           ****************</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Solution:</font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Make sure you included the game.def in your project.</font></td>
+      </tr>
+      <tr><td height="15"></td><td height="15"></td></tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Problem:</font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#FDF9BD">Quake2 crashes when loading the first bot.</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Solution 1: </font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">do NOT use the compile option "/Gz", this option changes the calling convention.
+           The GetBotAPI function from the gladiator.dll should be called with the right
+           calling convention.</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Solution 2: </font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">do NOT use the compile option "/O2", with this option the fastest code is created
+          in the majority of cases (it's a default setting for release builds). For some dark
+          and mysterious reason this can cause problems.</font></td>
+      </tr>
+      <tr><td height="15"></td><td height="15"></td></tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Problem:</font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#FDF9BD">Quake2 crashes with the following message when loading the first bot:<br>
+            Debug Error!<br>
+            The value of ESP was not properly saved across a function call. This is usually
+            a result of calling a function declared with one calling convention with a
+            function pointer declared with a different calling convention.</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">Solution:</font></td>
+        <td VALIGN=TOP><font FACE="Fixedsys" COLOR="#999999">do NOT use the compile option "/Gz", this option changes the calling convention.
+            The GetBotAPI function from the gladiator.dll should be called with the right
+            calling convention.</font></td>
+      </tr>
+    </table><br><br> 
+    </P>
+  </blockquote>
+
+  <P><FONT COLOR="#FFFFFF">Library Interface</FONT><br><br></P>
+
+  <blockquote>
+    <P>
+    <br>In the future the documentation of the bot library interface will be available here.<br><br><br>
+    </P>
+  </blockquote>
+
+  <P><FONT COLOR="#FFFFFF">Library Variables</FONT><br><br></P>
+
+  <blockquote>
+
+    <P>
+    The library variables are used for several (game specific) settings.
+    For instance physics settings, buffer sizes and game mode settings. 
+    The value of a library variable can be set with the interface function BotLibVarSet.<br><br>
+    </P>
+
+    <P>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys">name:</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys">default value: &nbsp;</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys">description:</font></td>
+      </tr>
+      <tr><td height=10></td><td></td><td></td></tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"basedir"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">""</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">Quake2 base directory</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"gamedir"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">""</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">Quake2 game directory</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"cddir"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">""</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">Quake2 CD directory</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP height=10><FONT FACE="Fixedsys" color="#33CCFF"></font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF"></font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999"></font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"autolaunchbspc"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">automatically launch (Win)BSPC</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"log"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"1"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable creating a log file</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"maxclients"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"4"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of clients</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"maxentities"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"1024"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of entities</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_friction"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"6"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">ground friction</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_stopspeed"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"100"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">stop speed</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_gravity"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"800"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">gravity value</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_waterfriction"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"1"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">water friction</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_watergravity"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"400"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">gravity in water</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxvelocity"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"300"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum velocity</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxwalkvelocity"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"300"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum walk velocity</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxcrouchvelocity" </font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"100"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum crouch velocity</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxswimvelocity"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"150"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum swim velocity</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxacceleration"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"2200"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum acceleration</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_airaccelerate"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum air acceleration</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxstep"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"18"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum step height</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxbarrier"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"50"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum barrier height</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxsteepness"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0.7"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum floor steepness</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_jumpvel"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"224"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">jump z velocity</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sv_maxwaterjump"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"20"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum waterjump height</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP height=10><FONT FACE="Fixedsys" color="#33CCFF"></font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF"></font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999"></font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_aaslinks"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"4096"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum links in the AAS</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_bsplinks"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"4096"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum links in the BSP</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP height=10><FONT FACE="Fixedsys" color="#33CCFF"></font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF"></font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999"></font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"notspawnflags"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"2048"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">entities with these spawnflags will be removed</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"weaponconfig"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"weapons.c"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">weapon configuration file</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"itemconfig"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"items.c"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">item configuration file</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"soundconfig"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"sounds.c"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">sound configuration file</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"matchfile"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"match.c"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">file with match strings</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_messages"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"1024"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">console message heap size</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_weaponinfo"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"32"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of weapon info</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_projectileinfo"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"32"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of projectile info</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_iteminfo"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"256"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of item info</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_levelitems"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"256"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of level items</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_weights"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"256"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of item weights</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_soundinfo"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"256"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of sound info</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"max_aassounds"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"256"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">maximum number of playing AAS sounds</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"framereachability"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">""</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">number of reachabilities to calucate per frame</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"forceclustering"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">force recalculation of clusters</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"forcereachability"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">force recalculation of reachabilities</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"forcewrite"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">force writing of aas file</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"nooptimize"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">no aas optimization</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP height=10><FONT FACE="Fixedsys" color="#33CCFF"></font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF"></font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999"></font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"usehook"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable grapple hook</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"laserhook"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">0 = CTF hook, 1 = laser hook</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"rocketjump"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"1"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable rocket jumping</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"techs"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable bot CTF tech ussage</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"teamplay"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable tourney teamplay</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"teamplay_shell"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable teamplay based on shell color</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"assimilation"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable assimilation</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"dmflags"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">deathmatch flags</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"ctf"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable CTF</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"ch"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable Colored Hitman</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"ra"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable Rocket Arena 2</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"nochat"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">enable/disable bot chatting</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"altnames"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">have the bots use their alternative names</font></td>
+      </tr>
+      <tr>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"fastchat"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#33CCFF">"0"</font></td>
+        <td VALIGN=TOP><FONT FACE="Fixedsys" color="#999999">fast chatting for debugging</font></td>
+      </tr>
+    </table>
+    </P>
+  </blockquote>
+  </font>
+</body>
+</html>

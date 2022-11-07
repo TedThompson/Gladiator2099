@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+	<META NAME="GENERATOR" CONTENT="text edit">
+	<TITLE>Inventory</TITLE>
+</HEAD>
+<BODY TEXT="#FFFFFF" BGCOLOR="#000046" LINK="#666666" VLINK="#808080" ALINK="#FF0000">
+<FONT FACE="Fixedsys"><FONT SIZE=-1><FONT COLOR="#999999"><BR><BR>
+</FONT>
+
+<P>
+<br>
+<table  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">About: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">This document contains editing information for the Gladiator bot.<br>
+        The Gladiator bot is an artificial player for Quake2.<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Author: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Mr Elusive (MrElusive@demigod.demon.nl)<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Gladiator page: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA"><A HREF="http://www.botepidemic.com/gladiator">http://www.botepidemic.com/gladiator</A><br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Last update: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">1999-05-05<br></font></td>
+  </tr>
+</table><br><br>
+</P>
+
+<P>
+<FONT COLOR="#CCCCCC">The inventory.</FONT><BR>
+</P>
+
+<P>
+<FONT COLOR="#999999">
+In Quake2 the inventory stores for every ammo type, weapon, powerup, armor type etc. the amount available of the item.
+The decisions the Gladiator bot makes are partly based on the inventory. The inventory is stored as an array of values.
+Each value denotes the amount of a specific item. To have fast access to these amounts the array is indexed directly
+using the index values defined below. These defines are stored in the file <A HREF="source/inv.html">inv.h</A> in
+the .pak file included with the Gladiator bot.<BR>
+<BR>
+
+When using the Gladiator bot, typing "sv inventory" in the console will print all the inventory indexes. The indexes
+shown below should be exactly the same as those printed indexes.
+</FONT><BR><BR><BR>
+</P>
+
+<P>
+<FONT COLOR="#CCCCCC">Adding new items.</FONT><BR>
+</P>
+
+<P>
+<FONT COLOR="#999999">
+A list with items (gitem_t itemlist[]) is stored in the file g_items.c in the <A HREF="http://www.telefragged.com/mirrors/mirror.pl?be/gladiator/gladq2092gamesrca.zip">game source code</A>.
+This list stores item definitions. New definitions should always be added to the end of this list.
+When a new item is added the Gladiator bot inventory indexes should be updated as well.
+Just add a new define to the inv.h file for the new item. For instance if a new weapon is added with the name
+"Flame Thrower" the define "#define INVENTORY_FLAMETHROWER  75" should be added to the inv.h file.
+</FONT><BR><BR>
+</P>
+
+</BODY>
+</HTML>

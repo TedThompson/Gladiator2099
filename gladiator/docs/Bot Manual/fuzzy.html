@@ -1,0 +1,200 @@
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+	<META NAME="GENERATOR" CONTENT="Mr Elusive's C2HTML">
+	<TITLE>item and weapon weights</TITLE>
+</HEAD>
+<BODY TEXT="#FFFFFF" BGCOLOR="#000046" LINK="#666666" VLINK="#808080" ALINK="#FF0000">
+<FONT FACE="Fixedsys"><FONT SIZE=-1><FONT COLOR="#999999">
+
+<BR>
+</FONT>
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>
+
+<P>
+<br>
+<table  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">About: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">This document contains editing information for the Gladiator bot.<br>
+        The Gladiator bot is an artificial player for Quake2.<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Author: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Mr Elusive (MrElusive@demigod.demon.nl)<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Gladiator page: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA"><A HREF="http://www.botepidemic.com/gladiator">http://www.botepidemic.com/gladiator</A><br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Last update: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">1999-05-05<br></font></td>
+  </tr>
+</table><br><br>
+</P>
+
+<P>
+First a brief introduction to fuzzy logic and how it is used in the Gladiator bot.<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>Fuzzy Logic<br><br></P></font>
+
+<P>
+Fuzzy logic is a superset of conventional (Boolean) logic. This logic was extended to
+handle the concept of partial truth, also using values between "completely true"
+and "completely false".  It was introduced by Dr. Lotfi Zadeh of UC/Berkeley in the
+1960's as a means to model the uncertainty of natural language.<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>Fuzzy Subsets<br><br></P></font>
+
+<P>
+Just as there is a strong relationship between Boolean logic and the concept of a subset,
+there is a similar strong relationship between fuzzy logic and fuzzy subset theory.<br><br>
+</P>
+
+<P>
+Let's assume there's a set S and to all it's elements there's one element of the set {0,1}
+attached. The subset U of the set S is defined as all the elements of S that have an '1'
+attached. The truth or falsity of the statement "x is in U" can be determined. The
+statement is true if there's a '1' attached to the element 'x' in S. Otherwise the
+statement is false.<br><br>
+</P>
+
+<P>
+Similarly for the fuzzy case there's a set S. But now a value from the interval [0, 1] is
+attached to every element of S. The subset U of the set S isn't strictly defined in this
+case. However it can be determined how much an element from the set S belongs to the fuzzy
+subset U. A value of zero attached to an element from S represents complete non membership
+of U. A value of one represents complete membership. The values between zero an one represent
+intermediate degrees of membership. The degree to which the statement "x is in U" is true can
+also be determined. The degree of truth of the statement is given by the attached value to
+the element x in the set S.<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>Fuzzy functions and relations<br><br></P></font>
+
+<P>
+Often a value from the interval [0, 1] is attached to an element of the set S using a function,
+the membership function. Such a function is one-dimensional because it's based solely on one
+criterium. In practice functions are based on two or even more criteria. Such a function gives a
+value from the interval [0, 1] to a combination of criteria and is often referred to as a
+"fuzzy relation". The criteria don't have to be elements from the same set they could just as
+well be elements from different sets. The criteria also don't have to be elements from sets.
+Variables of some kind could also be used as criteria.<br><br><br>
+</P>
+
+<font color="#EEEEEE"><P>Gladiator bot and fuzzy logic<br><br></P></font>
+
+<P>
+The Gladiator bot uses fuzzy relations to specify how much the bot wants to do, have or
+use something. For instance a value is attached to how much the bot wants to have a certain
+item. The 'fuzzy relation' is based on the current situation and environment of the bot. The
+situation and environment are represented by a set of variables.<br><br>
+</P>
+
+<P>
+The fuzzy relations which the Gladiator bot uses are stored using a tree-like structures. The leaves
+of this tree store fuzzy values. A node in the tree can link to either a leaf or one of the
+nodes on the next level of the tree. Linking to another node is based on one of the criteria
+of the fuzzy relation.<br><br>
+</P>
+
+<P>
+The fuzzy relations are stored in plain text using a C-like syntax.<br>
+Here is an example of a fuzzy relation:<br><br>
+</P>
+
+<FONT FACE="Fixedsys"><FONT SIZE=-1><FONT COLOR="#999999"><BR>
+</FONT><FONT COLOR="#00CC00">weight</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#33CCFF">"name"</FONT><FONT COLOR="#999999"><BR>
+</FONT><FONT COLOR="#FFFF00">{</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">switch</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#999999">&nbsp;/*one&nbsp;of&nbsp;the&nbsp;criteria*/&nbsp;</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFF00">{</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">case</FONT><FONT COLOR="#999999">&nbsp;/*smaller&nbsp;than&nbsp;a&nbsp;certain&nbsp;value*/</FONT><FONT COLOR="#FFFF00">:</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFF00">{</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">switch</FONT><FONT COLOR="#FFFF00">(</FONT><FONT COLOR="#999999">&nbsp;/*one&nbsp;of&nbsp;the&nbsp;criteria*/&nbsp;</FONT><FONT COLOR="#FFFF00">)</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFF00">{</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">case</FONT><FONT COLOR="#999999">&nbsp;/*smaller&nbsp;than&nbsp;a&nbsp;certain&nbsp;value*/</FONT><FONT COLOR="#FFFF00">:</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFFFF">return</FONT><FONT COLOR="#999999">&nbsp;/*a&nbsp;fuzzy&nbsp;value*/</FONT><FONT COLOR="#FFFF00">;</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">case</FONT><FONT COLOR="#999999">&nbsp;/*smaller&nbsp;than&nbsp;a&nbsp;certain&nbsp;value*/</FONT><FONT COLOR="#FFFF00">:</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFFFF">return</FONT><FONT COLOR="#999999">&nbsp;/*a&nbsp;fuzzy&nbsp;value*/</FONT><FONT COLOR="#FFFF00">;</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">default</FONT><FONT COLOR="#FFFF00">:</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFFFF">return</FONT><FONT COLOR="#999999">&nbsp;/*a&nbsp;fuzzy&nbsp;value*/</FONT><FONT COLOR="#FFFF00">;</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFF00">}</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFF00">}</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">case</FONT><FONT COLOR="#999999">&nbsp;/*smaller&nbsp;than&nbsp;a&nbsp;certain&nbsp;value*/</FONT><FONT COLOR="#FFFF00">:</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFFFF">return</FONT><FONT COLOR="#999999">&nbsp;/*a&nbsp;fuzzy&nbsp;value*/</FONT><FONT COLOR="#FFFF00">;</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">case</FONT><FONT COLOR="#999999">&nbsp;/*smaller&nbsp;than&nbsp;a&nbsp;certain&nbsp;value*/</FONT><FONT COLOR="#FFFF00">:</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFFFF">return</FONT><FONT COLOR="#999999">&nbsp;/*a&nbsp;fuzzy&nbsp;value*/</FONT><FONT COLOR="#FFFF00">;</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFFFF">default</FONT><FONT COLOR="#FFFF00">:</FONT><FONT COLOR="#999999">&nbsp;</FONT><FONT COLOR="#FFFFFF">return</FONT><FONT COLOR="#999999">&nbsp;/*a&nbsp;fuzzy&nbsp;value*/</FONT><FONT COLOR="#FFFF00">;</FONT><FONT COLOR="#999999"><BR>
+&nbsp;&nbsp;&nbsp;</FONT><FONT COLOR="#FFFF00">}</FONT><FONT COLOR="#999999"><BR>
+</FONT><FONT COLOR="#FFFF00">}</FONT><FONT COLOR="#999999"><BR>
+</FONT></FONT></FONT><br><br>
+
+First of all every fuzzy relation (called a weight) has a name. Different fuzzy relations
+are identified by their name.<br>
+The nodes of the tree-like structure are represented by C-like switch statements.
+The switch statement selects one of the criteria of the fuzzy relation. The case keywords
+divide the value range of the criterium into several chunks. A divisions of the value range
+is made at the value that appears after the case keyword. The number of case keywords
+determines the number of divisions. A case statement 'links' to a node or leaf on the next
+level of the tree when the value of the criterium is below the value that appears after the
+case keyword. A switch always has a 'default' statement. If the value of the criterium is
+higher than the value that appears after last case statement then the default keyword links
+to the next node or leaf in the tree. A leaf of the tree denoted by the keyword 'return'
+stores a fuzzy value.<br>
+The criteria used in the fuzzy relations are the inventory item amounts extended with
+several other variables. To select one of the criteria an index from the
+<A HREF="source/inv.html">inv.h</A> file is used.<br><br><br>
+
+<font color="#EEEEEE"><P>Evaluation of a fuzzy relation<br><br></P></font>
+
+A fuzzy relation could be evaluated as follows. Evaluate a criterium and go to
+the next node or leaf depending on the value of the criterium. When a leaf is reached the
+fuzzy value is 'returned'. However this is not the best way to evaluate the fuzzy relation.
+Evaluating the fuzzy relation recursively with interpolation between criterium divisions
+results in a continuing range of fuzzy values.<br><br><br>
+
+<font color="#EEEEEE"><P>Fuzzy relation code pros and cons<br><br></P></font>
+
+pros:<br>
+<ul>
+ <li>structure is easy to understand</li>
+ <li>the fuzzy relation can be deduced from situations</li>
+ <li>the fuzzy relation can be created with logical reasoning</li>
+ <li>the bot can easily update and write the structure</li>
+ <li>structure can be used with bot interbreeding schemes</li>
+ <li>in combination with the recursive evalution of the fuzzy relation with interpolation
+     between criterium divisions the structure is suitable to generalise from situations</li>
+</ul>
+
+cons:<br>
+<ul>
+ <li>pretty much every relation can be expressed but sometimes
+     the realisation takes way to much code</li>
+</ul><br>
+
+<font color="#EEEEEE"><P>Item weights<br><br></P></font>
+
+The bot uses the item weights to decide what item it wants most. Fuzzy relations
+as described above are used for the item weights. Every bot character has it's own
+item weights. The fuzzy relations are stored in the file <A HREF="source/fw_items.html">fw_items.c</A> in the .pak file
+included with the bot.<br><br><br>
+
+<font color="#EEEEEE"><P>Weapon weights<br><br></P></font>
+
+The bot uses the weapon weights to decide what weapon to use during combat. Fuzzy
+relations as described above are used for the weapon weights. Every bot character has it's
+own weapon weights. The fuzzy relations are stored in the file <A HREF="source/fw_weap.html">fw_weap.c</A> in the .pak
+file included with the bot.<br><br><br>
+
+
+</font><br><br>
+</P>
+
+
+<BR>
+</BODY>
+</HTML>

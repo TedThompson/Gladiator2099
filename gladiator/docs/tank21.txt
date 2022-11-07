@@ -1,0 +1,65 @@
+Date: 24 January, 1998
+==================================================
+Title                   : Da Tank                        
+Filename                : tank21.bsp			 
+
+Author                  : Invictus
+Email Address           : Invictus@stomped.com
+
+Description             : A dismal, dank holding tank situated somewhere in the asteroid
+                          belt.  Very symmetrical layout with a not-so-large multi-tier center 
+                          hub; all weapons present EXCEPT the cheater's choice BFG.  This
+                          level is best suited for >4 players.  GL multi-colored lighting is in,
+                          (since I have a Voodoo!) but is used in a subtle manner - I felt 
+                          garish red and blue tones would have ruined the "atmosphere" of the
+                          map.
+                          
+Installation		: Place the tank21.bsp file into c:\quake2\baseq2\maps.
+			        Run quake2 with: quake2 +map tww2dm
+
+Additional Credits to   : Team Phoenix for "being there", ID software, Yahn Bernier for his
+                          fantastic BSP, and also the buds I LAN-match with on the weekends, Ryan,
+                          Baron, Joe, Newton, brother Kevin, et al for testing this sucker out. 
+			 
+                          
+===================================================
+* Play Information *
+
+Game                    : Quake 2 Registered Version
+Map Name                : Tank21.bsp
+Single Player           : Yes - for looking around
+Co-op                   : No.
+Deathmatch 2-16         : YES - >4 perferred
+Difficulty Settings     : No.
+New Graphics            : No. 
+                               
+
+==================================================
+* Construction *
+
+Base                    : New level from scratch
+Editor used             : BSP 0.90b
+Other Programs          : QBSP3.EXE, QVIS3.EXE, QRAD3.EXE
+Construction time       : 1 week
+Known bugs              : No exit
+
+==================================================
+
+* Copyright / Permissions *
+
+
+You are NOT authorized to put this BSP on any CD or distribute it in
+any way without my permission. 
+
+* Where to get this BSP *
+
+Within ftp.cdrom.com/pub/idgames2/quake2 
+and maybe http://fantasy.stomped.com :-)
+
+* Comments *
+
+
+Drop me some mail, tell me what you think of the level.
+
+ 
+                           

@@ -1,0 +1,160 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mr Elusive's C2HTML">
+   <title>Weapon specifications</title>
+</head>
+<body text="#FFFFFF" bgcolor="#000046" link="#666666" vlink="#808080" alink="#FF0000">
+<font face="Fixedsys" color="#999999" size=-1>
+<br>
+
+<P>
+<br>
+<table  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">About: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">This document contains editing information for the Gladiator bot.<br>
+        The Gladiator bot is an artificial player for Quake2.<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Author: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Mr Elusive (MrElusive@demigod.demon.nl)<br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Gladiator page: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA"><A HREF="http://www.botepidemic.com/gladiator">http://www.botepidemic.com/gladiator</A><br></font></td>
+  </tr>
+  <tr>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">Last update: </font></td>
+    <td VALIGN=TOP width=10></td>
+    <td VALIGN=TOP><font face="Fixedsys" color="#AAAAAA">1999-05-05<br></font></td>
+  </tr>
+</table><br><br>
+</P>
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>
+The Gladiator bot uses the weapon specifications to figure out how to use a weapon.
+The weapon specifications are stored in a file weapons.c in the .pak file included with the Gladiator bot.
+</FONT>
+</P>
+
+<font face="Fixedsys" color="#999999" size=-1>A weapon specification is constructed as follows:</font><br>
+
+<P>
+<font face="Fixedsys" color="#00CC00"><font size=-1>weaponinfo<br></font>
+<font face="Fixedsys" color="#FFFF00"><font size=-1>{<br></font>
+<font face="Fixedsys" color="#FFFF00"><font size=-1>}<br><br></font>
+</P>
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>The specification fields listed below are placed between the braces.</font><br>
+<font face="Fixedsys" color="#999999" size=-1>Every field is assigned a value according to the field type.</font>
+</P>
+
+<P>
+<font face="Fixedsys" color="#C0C0C0" size=-1>name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; description:</font>
+</P>
+
+<p>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">name</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name of the weapon</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">model</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model of the weapon</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">weaponindex</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; index of weapon in inventory</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">flags</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; special flags</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">projectile</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; projectile used by the weapon</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">numprojectiles&nbsp;</font><font color="#999999">
+integer&nbsp;&nbsp;&nbsp;&nbsp; number of projectiles</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">hspread</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; horizontal spread of projectiles (degrees from middle)</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">vspread</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vertical spread of projectiles (degrees from middle)</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">speed</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; speed of the projectile (0 = instant hit)</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">acceleration</font><font color="#999999">&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "acceleration" * time (in seconds) + "speed" = projectile speed</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">recoil</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 floats&nbsp;&nbsp;&nbsp; amount of recoil the player gets from the weapon</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">offset</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 floats&nbsp;&nbsp;&nbsp; projectile start offset relative to eye and view angles</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">angleoffset</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;
+3 floats&nbsp;&nbsp;&nbsp; offset of the shoot angles relative to the view angles</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">extrazvelocity</font><font color="#999999">&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; extra z velocity the projectile gets</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">ammoamount</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; ammo amount used per shot</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">ammoindex</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; index of ammo in inventory</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">activate</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time it takes to select the weapon</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">reload</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time it takes to reload the weapon</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">spinup</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time it takes before first shot</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">spindown</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time it takes before weapon stops firing</font></font></font><br>
+&nbsp;
+</P>
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>A projectile specification is constructed as follows:</font>
+</P>
+
+<P>
+<font face="Fixedsys"><font color="#00CC00"><font size=-1>projectileinfo</font></font></font><br>
+<font face="Fixedsys"><font color="#FFFF00"><font size=-1>{</font></font></font><br>
+<font face="Fixedsys"><font color="#FFFF00"><font size=-1>}</font></font></font><br>
+</P>
+
+<P>
+<font face="Fixedsys" color="#999999" size=-1>The specification fields listed below are placed between the braces.<br>
+Every field is assigned a value according to the field type.</font>
+</P>
+
+<P>
+<font face="Fixedsys" color="#C0C0C0" size=-1>name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; description:</font>
+</P>
+
+<P>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">name</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name of the projectile</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">model</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model of the projectile</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">flags</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; special flags</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">gravity</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; amount of gravity applied to the projectile [0,1]</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">damage</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; damage of the projectile</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">radius</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; radius of damage</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">visdamage</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; damage of the projectile to visible entities</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">damagetype</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; type of damage (combination of the DAMAGETYPE_? flags)</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">healthinc</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+integer&nbsp;&nbsp;&nbsp;&nbsp; health increase the owner gets</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">push</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; amount a player is pushed away from the projectile impact</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">detonation</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time before projectile explodes after fire pressed</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">bounce</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; amount the projectile bounces</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">bouncefric</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; amount the bounce decreases per bounce</font></font></font><br>
+<font face="Fixedsys"><font size=-1><font color="#00CC00">bouncestop</font><font color="#999999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; minimum bounce value before bouncing stops</font></font></font><br>
+</P>
+
+</font>
+</body>
+</html>
