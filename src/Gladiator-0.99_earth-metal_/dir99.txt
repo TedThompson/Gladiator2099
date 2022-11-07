@@ -1,0 +1,18 @@
+ Volume in drive E is DataHDD SATA1
+ Volume Serial Number is 6859-4102
+
+ Directory of E:\Ted\Documents\Gladiator-0.99
+
+08/30/2022  19:54    <DIR>          .
+08/30/2022  19:54    <DIR>          ..
+10/09/2018  05:11                 9 .gitignore
+10/09/2018  05:11             2,330 CHANGELOG
+08/30/2022  19:54                 0 dir99.txt
+10/09/2018  05:11         1,277,284 gamei386.so
+10/09/2018  05:11         1,151,859 gamex86.dll
+10/09/2018  05:11            16,777 LICENSE
+10/09/2018  05:11             2,902 Makefile
+10/09/2018  05:11             4,482 README.md
+08/30/2022  19:52    <DIR>          src
+               8 File(s)      2,455,643 bytes
+               3 Dir(s)  330,115,518,464 bytes free
