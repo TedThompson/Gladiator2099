@@ -1,5 +1,23 @@
 #include "g_local.h"
 
+#ifdef BOT
+
+/* target_setgame (1 0 0) (-8 -8 -8) (8 8 8)
+When triggered, sets cvar "CH" to message value.
+Similar to trigger_setskill in Quake
+*/
+
+void Use_Target_Setgame(edict_t* ent, edict_t* other, edict_t* activator)
+{
+    gi.cvar_set("ch", ent->message);
+}
+
+void SP_target_setgame(edict_t* ent)
+{
+    ent->use = Use_Target_Setgame;
+}
+#endif
+
 /*QUAKED target_temp_entity (1 0 0) (-8 -8 -8) (8 8 8)
 Fire an origin based temp entity event to the clients.
 "style"     type byte
@@ -148,6 +166,7 @@ Changes level to "map" when fired
 */
 void use_target_changelevel(edict_t* self, edict_t* other, edict_t* activator)
 {
+    //gi.dprintf("dink\n");
     if (level.intermissiontime)
         return;     // already activated
 
@@ -158,17 +177,17 @@ void use_target_changelevel(edict_t* self, edict_t* other, edict_t* activator)
     }
 
     // if noexit, do a ton of damage to other
-    if (deathmatch->value && !((int)dmflags->value & DF_ALLOW_EXIT) && other != world)
+    if (deathmatch->value && !((int)dmflags->value & DF_ALLOW_EXIT) && other != world && Q_stricmp("hub", level.mapname))// allows exit from HUB level regardless of DM flags
     {
         T_Damage(other, self, self, vec3_origin, other->s.origin, vec3_origin, 10 * other->max_health, 1000, 0, MOD_EXIT);
         return;
     }
 
     // if multiplayer, let everyone know who hit the exit
-    if (deathmatch->value)
+    if (deathmatch->value && !sp_dm->value)
     {
         // hack to direct SP-DM newgame to the correct map for selected skill
-        if (Q_stricmp("sp_dm", level.mapname) == 0)
+ /*       if (Q_stricmp("sp_dm", level.mapname) == 0)
         {
             if (skill->value == 0)
                 gi.AddCommandString("exec sp_dm/ngeasy.cfg\n");
@@ -179,7 +198,7 @@ void use_target_changelevel(edict_t* self, edict_t* other, edict_t* activator)
             else
                 gi.AddCommandString("exec sp_dm/nghtmare.cfg\n");
             return;
-        }
+        }*/
 
         if (activator && activator->client)
             gi.bprintf(PRINT_HIGH, "%s exited the level.\n", activator->client->pers.netname);
@@ -204,6 +223,45 @@ void SP_target_changelevel(edict_t* ent)
     // ugly hack because *SOMEBODY* screwed up their map
     if ((Q_stricmp(level.mapname, "fact1") == 0) && (Q_stricmp(ent->map, "fact3") == 0))
         ent->map = "fact3$secret1";
+
+    // you think that's ugly? ... Hold my beer. TG626
+    if (Q_stricmp(level.mapname, "hub") == 0)
+    {
+        char* s, * t, * f, **tier_start_map = malloc(sizeof(level.mapname));
+        static const char* seps = " ,\n\r";
+        int i, j;
+
+        if (sp_dm->value && *sv_maplist->string)
+        {
+            s = strdup(sv_maplist->string);
+            f = NULL;
+            t = strtok(s, seps);
+            j = 0;
+            tier_start_map[j++] = strdup(t); //first map is Tier1
+
+            while (t != NULL)
+            {
+                if (Q_stricmp(t, "hub") == 0)
+                {
+                    t = strtok(NULL, seps);
+                    if (t != NULL)
+                        tier_start_map[j++] = strdup(t);//grrr
+                }
+                t = strtok(NULL, seps);
+            }
+            free(s);
+
+            for (i = 0; i < j; i++)
+            {
+                sprintf(s, "tier%i", i + 1);
+                if (Q_stricmp(ent->map, s) == 0)
+                {
+                    ent->map = strdup(tier_start_map[i]); //Substitute the desired maps for special token names "tier#"
+                    break;
+                }
+            }
+        }
+    }
 
     ent->use = use_target_changelevel;
     ent->svflags = SVF_NOCLIENT;

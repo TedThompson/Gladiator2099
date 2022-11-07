@@ -1,4 +1,23 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // q_shared.h -- included first by ALL program modules
 
 #ifdef _WIN32
@@ -167,21 +186,21 @@ int BoxOnPlaneSide(vec3_t emins, vec3_t emaxs, struct cplane_s* plane);
 float   anglemod(float a);
 float LerpAngle(float a1, float a2, float frac);
 
-#define BOX_ON_PLANE_SIDE(emins, emaxs, p)  \
-    (((p)->type < 3)?                       \
-    (                                       \
-        ((p)->dist <= (emins)[(p)->type])?  \
-            1                               \
-        :                                   \
-        (                                   \
-            ((p)->dist >= (emaxs)[(p)->type])?\
-                2                           \
-            :                               \
-                3                           \
-        )                                   \
-    )                                       \
-    :                                       \
-        BoxOnPlaneSide( (emins), (emaxs), (p)))
+#define BOX_ON_PLANE_SIDE(emins, emaxs, p)	\
+	(((p)->type < 3)?						\
+	(										\
+		((p)->dist <= (emins)[(p)->type])?	\
+			1								\
+		:									\
+		(									\
+			((p)->dist >= (emaxs)[(p)->type])?\
+				2							\
+			:								\
+				3							\
+		)									\
+	)										\
+	:										\
+		BoxOnPlaneSide( (emins), (emaxs), (p)))
 
 void ProjectPointOnPlane(vec3_t dst, const vec3_t p, const vec3_t normal);
 void PerpendicularVector(vec3_t dst, const vec3_t src);
@@ -902,8 +921,8 @@ typedef enum
     TE_GREENBLOOD,
     TE_BLUEHYPERBLASTER,
     TE_PLASMA_EXPLOSION,
-    TE_TUNNEL_SPARKS//,
-/*
+    TE_TUNNEL_SPARKS,
+//ROGUE
     TE_BLASTER2,
     TE_RAILTRAIL2,
     TE_FLAME,
@@ -930,7 +949,7 @@ typedef enum
     TE_EXPLOSION1_BIG,
     TE_EXPLOSION1_NP,
     TE_FLECHETTE
-*/ //ROGUE
+//ROGUE
 } temp_event_t;
 
 #define SPLASH_UNKNOWN      0

@@ -362,6 +362,77 @@ void SP_trigger_always(edict_t* ent)
 }
 
 
+#ifdef BOT
+/*
+==============================================================================
+
+trigger_tier
+
+==============================================================================
+*/
+// sp_dm_tier increments via map cfg files
+// marking and saving progress thru the SP DM chain 
+// 
+// 1 =  must have cleared tier 1 (Easy)
+// 2 =  must have cleared tier 2 (Normal)
+// 4 =  must have cleared tier 3 (Hard)
+// etc.
+// -- TG626
+void SP_trigger_tier(edict_t* ent)
+{
+    int i = sp_dm_tier->value;
+
+    switch (i)
+    {
+    case 0:
+        if (ent->spawnflags & SPAWNFLAG_SP_DM_T1)
+            i = -1;
+        break;
+    case 1:
+        if (ent->spawnflags & SPAWNFLAG_SP_DM_T2)
+            i = -1;
+        break;
+    case 2:
+        if (ent->spawnflags & SPAWNFLAG_SP_DM_T3)
+            i = -1;
+        break;
+    case 3:
+        if (ent->spawnflags & SPAWNFLAG_SP_DM_T4)
+            i = -1;
+        break;
+    case 4:
+        if (ent->spawnflags & SPAWNFLAG_SP_DM_T5)
+            i = -1;
+        break;
+    case 5:
+        if (ent->spawnflags & SPAWNFLAG_SP_DM_T6)
+            i = -1;
+        break;
+    case 6:
+        if (ent->spawnflags & SPAWNFLAG_SP_DM_T7)
+            i = -1;
+        break;
+    case 7:
+        if (ent->spawnflags & SPAWNFLAG_SP_DM_T8)
+            i = -1;
+        break;
+    default:
+        gi.dprintf("WARNING: cvar SP_DM_TIER out of range\n     sp_dm_tier = %d\n", (int)sp_dm_tier->value);
+    }
+    if (i == sp_dm_tier->value)
+    {
+        // we must have some delay to make sure our use targets are present
+        if (ent->delay < 0.2)
+            ent->delay = 0.2;
+        G_UseTargets(ent, ent);
+    }
+    else
+        G_FreeEdict(ent);
+
+    return;
+}
+#endif
+
 /*
 ==============================================================================
 

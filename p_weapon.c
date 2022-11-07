@@ -36,64 +36,64 @@ Monsters that don't directly see the player can move
 to a noise in hopes of seeing the player from there.
 ===============
 */
-//void PlayerNoise(edict_t *who, vec3_t where, int type)
-//{
-//  edict_t     *noise;
-//
-//  if (type == PNOISE_WEAPON)
-//  {
-//      if (who->client->silencer_shots)
-//      {
-//          who->client->silencer_shots--;
-//          return;
-//      }
-//  }
-//
-//  if (deathmatch->value)
-//      return;
-//
-//  if (who->flags & FL_NOTARGET)
-//      return;
-//
-//
-//  if (!who->mynoise)
-//  {
-//      noise = G_Spawn();
-//      noise->classname = "player_noise";
-//      VectorSet (noise->mins, -8, -8, -8);
-//      VectorSet (noise->maxs, 8, 8, 8);
-//      noise->owner = who;
-//      noise->svflags = SVF_NOCLIENT;
-//      who->mynoise = noise;
-//
-//      noise = G_Spawn();
-//      noise->classname = "player_noise";
-//      VectorSet (noise->mins, -8, -8, -8);
-//      VectorSet (noise->maxs, 8, 8, 8);
-//      noise->owner = who;
-//      noise->svflags = SVF_NOCLIENT;
-//      who->mynoise2 = noise;
-//  }
-//
-//  if (type == PNOISE_SELF || type == PNOISE_WEAPON)
-//  {
-//      noise = who->mynoise;
-//      level.sound_entity = noise;
-//      level.sound_entity_framenum = level.framenum;
-//  }
-//  else // type == PNOISE_IMPACT
-//  {
-//      noise = who->mynoise2;
-//      level.sound2_entity = noise;
-//      level.sound2_entity_framenum = level.framenum;
-//  }
-//
-//  VectorCopy (where, noise->s.origin);
-//  VectorSubtract (where, noise->maxs, noise->absmin);
-//  VectorAdd (where, noise->maxs, noise->absmax);
-//  noise->teleport_time = level.time;
-//  gi.linkentity (noise);
-//}
+void PlayerNoise(edict_t* who, vec3_t where, int type)
+{
+    edict_t* noise;
+
+    if (type == PNOISE_WEAPON)
+    {
+        if (who->client->silencer_shots)
+        {
+            who->client->silencer_shots--;
+            return;
+        }
+    }
+
+    if (deathmatch->value)
+        return;
+
+    if (who->flags & FL_NOTARGET)
+        return;
+
+
+    if (!who->mynoise)
+    {
+        noise = G_Spawn();
+        noise->classname = "player_noise";
+        VectorSet(noise->mins, -8, -8, -8);
+        VectorSet(noise->maxs, 8, 8, 8);
+        noise->owner = who;
+        noise->svflags = SVF_NOCLIENT;
+        who->mynoise = noise;
+
+        noise = G_Spawn();
+        noise->classname = "player_noise";
+        VectorSet(noise->mins, -8, -8, -8);
+        VectorSet(noise->maxs, 8, 8, 8);
+        noise->owner = who;
+        noise->svflags = SVF_NOCLIENT;
+        who->mynoise2 = noise;
+    }
+
+    if (type == PNOISE_SELF || type == PNOISE_WEAPON)
+    {
+        noise = who->mynoise;
+        level.sound_entity = noise;
+        level.sound_entity_framenum = level.framenum;
+    }
+    else // type == PNOISE_IMPACT
+    {
+        noise = who->mynoise2;
+        level.sound2_entity = noise;
+        level.sound2_entity_framenum = level.framenum;
+    }
+
+    VectorCopy(where, noise->s.origin);
+    VectorSubtract(where, noise->maxs, noise->absmin);
+    VectorAdd(where, noise->maxs, noise->absmax);
+    noise->teleport_time = level.time;
+    gi.linkentity(noise);
+}
 
 
 qboolean Pickup_Weapon(edict_t* ent, edict_t* other)
@@ -715,7 +715,7 @@ void weapon_grenadelauncher_fire(edict_t* ent)
 
     ent->client->ps.gunframe++;
 
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 
     if (!((int)dmflags->value & DF_INFINITE_AMMO))
         ent->client->pers.inventory[ent->client->ammo_index]--;
@@ -771,7 +771,7 @@ void Weapon_RocketLauncher_Fire(edict_t* ent)
 
     ent->client->ps.gunframe++;
 
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 
     if (!((int)dmflags->value & DF_INFINITE_AMMO))
         ent->client->pers.inventory[ent->client->ammo_index]--;
@@ -821,7 +821,7 @@ void Blaster_Fire(edict_t* ent, vec3_t g_offset, int damage, qboolean vhyper, in
         gi.WriteByte(MZ_BLASTER | is_silenced);
     gi.multicast(ent->s.origin, MULTICAST_PVS);
 
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 }
 
 
@@ -999,7 +999,7 @@ void Machinegun_Fire(edict_t* ent)
     gi.WriteByte(MZ_MACHINEGUN | is_silenced);
     gi.multicast(ent->s.origin, MULTICAST_PVS);
 
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 
     if (!((int)dmflags->value & DF_INFINITE_AMMO))
         ent->client->pers.inventory[ent->client->ammo_index]--;
@@ -1138,7 +1138,7 @@ void Chaingun_Fire(edict_t* ent)
     gi.WriteByte((MZ_CHAINGUN1 + shots - 1) | is_silenced);
     gi.multicast(ent->s.origin, MULTICAST_PVS);
 
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 
     if (!((int)dmflags->value & DF_INFINITE_AMMO))
         ent->client->pers.inventory[ent->client->ammo_index] -= shots;
@@ -1202,7 +1202,7 @@ void weapon_shotgun_fire(edict_t* ent)
     gi.multicast(ent->s.origin, MULTICAST_PVS);
 
     ent->client->ps.gunframe++;
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 
     if (!((int)dmflags->value & DF_INFINITE_AMMO))
         ent->client->pers.inventory[ent->client->ammo_index]--;
@@ -1256,7 +1256,7 @@ void weapon_supershotgun_fire(edict_t* ent)
     gi.multicast(ent->s.origin, MULTICAST_PVS);
 
     ent->client->ps.gunframe++;
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 
     if (!((int)dmflags->value & DF_INFINITE_AMMO))
         ent->client->pers.inventory[ent->client->ammo_index] -= 2;
@@ -1321,7 +1321,7 @@ void weapon_railgun_fire(edict_t* ent)
     gi.multicast(ent->s.origin, MULTICAST_PVS);
 
     ent->client->ps.gunframe++;
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 
 #ifdef RAILGUNRELOAD
     if (is_silenced)
@@ -1374,7 +1374,7 @@ void weapon_bfg_fire(edict_t* ent)
 
         ent->client->ps.gunframe++;
 
-        //PlayerNoise(ent, start, PNOISE_WEAPON);
+        PlayerNoise(ent, start, PNOISE_WEAPON);
         return;
     }
 
@@ -1404,7 +1404,7 @@ void weapon_bfg_fire(edict_t* ent)
 
     ent->client->ps.gunframe++;
 
-    //PlayerNoise(ent, start, PNOISE_WEAPON);
+    PlayerNoise(ent, start, PNOISE_WEAPON);
 
     if (!((int)dmflags->value & DF_INFINITE_AMMO))
         ent->client->pers.inventory[ent->client->ammo_index] -= 50;

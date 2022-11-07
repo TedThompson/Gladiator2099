@@ -227,7 +227,7 @@ void DeathmatchScoreboardMessage(edict_t* ent, edict_t* killer)
         if (ch->value)
         {
             Com_sprintf(entry, sizeof(entry),
-                "xv %i yv %i picn %s ", x + 32, y, ColorImageName(cl_ent->client->chcolor));
+                "xv %i yv %i picn %s_sb ", x + 32, y, ColorImageName(cl_ent->client->chcolor));
             j = strlen(entry);
             if (stringlength + j > 1024) break;
             strcpy(string + stringlength, entry);
