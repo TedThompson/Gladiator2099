@@ -35,23 +35,20 @@ The source code of the Gladiator Bot DLL is NOT included!
 Source code notes
 -----------------
 
+First and foremost, the source here is not _quite_ the same as the DLL in the
+release. Due to an unfortunate data loss, the very final final tweaks 
+(implimenting damage modifiers {Easy 0.5 dmg, Medium 1.0 dmg, hard 1.2 dmg, 
+hard+ 0.5 maxhealth} and a few minor tweaks) are not reflected in the 
+uncompiled code. Sorry, but I'm not going to wade back in just to try and 
+remember minor changes made over the course of a month. 
+
 The source file g_local.h includes several defines at the top. These defines
 have been used in combination with conditional compilation to mark the
 different parts of the source code added to the Quake2 v3.20 game source code.
-The following defines have been used:
 
-#define BOT			//Gladiator Bot
-#define BOT_IMPORT		//bot import redirection
-#define BOT_DEBUG		//bot debug
-#define OBSERVER		//observer mode
-#define TRIGGER_COUNTING	//trigger counting
-#define TRIGGER_LOG		//trigger log
-#define LOGFILE			//log file
-#define VWEP			//VWep patch
-#define CH			//Colored Hitman
 
-Copyright and distribution permissions 
---------------------------------------
+Copyright and distribution permissions (from the original author)
+-----------------------------------------------------------------
 
 By using this source code you agree to exempt, without reservation,
 the authors and owners of this production or components thereof
@@ -64,8 +61,7 @@ or implied, regarding the usage, functionality, or implied operability
 of this source code. All elements are available solely on an "as-is"
 basis. Usage is subject to the user's own risk.
 
-id Software, Xatrix, Rogue and David Wright do not distribute,
-nor support this source code.
+id Software does not distribute, nor support this source code.
 
 The Gladiator Bot game source code may NOT be sold or used in
 commercial products in ANY form.
@@ -73,13 +69,23 @@ commercial products in ANY form.
 Please read the included liscense.txt for the copyright information
 regarding those files belonging to Id Software, Inc.
 
-Contact David Wright for the copyright information regarding the
-Rocket Arena 2 Bot Support Routines.
-
 Should you decide to release a modified version of the
 Gladiator Bot game source code or parts of it, in source
 code or compiled form, you MUST add the following text to the
 documentation included with your product.
+
+    This product incorporates source code from the Gladiator bot.
+    The Gladiator bot is available at the Gladiator Bot page
+    https://mrelusive.com/oldprojects/gladiator/gladiator.html.
+
+    This program is in NO way supported by MrElusive.
+
+    This program may NOT be sold in ANY form whatsoever. If you have paid
+    for this product, you should contact MrElusive immediately via the
+    Gladiator bot page or at MrElusive@botepidemic.com
+    
+    (Mr. Elusive is no longer with us, RIP 
+    https://twitter.com/ID_AA_Carmack/status/826531007381794817)
 
 Version Changes
 ---------------
