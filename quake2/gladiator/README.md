@@ -1,4 +1,4 @@
-# Quake-II-Gladiator
+# Quake II: Gladiator
 ![gladiator banner graphic](https://github.com/TedThompson/Quake-II-Gladiator/blob/6e89ffc10142f30d409bdd38b91a8091398b9ad4/media/1662930308086.jpg)
 ## Introduction
 This is an adaptation of the "[Gladiator Bot](https://mrelusive.com/oldprojects/gladiator/gladiator.html)" originally created by Jan Paul "Mr. Elusive" van Waveren and expanded on by "[earth metal](https://github.com/earth-metal)" found [here on github](https://github.com/earth-metal/ugladq2). 
@@ -15,6 +15,8 @@ This is stiched together a loose and vague narrative that should be instantly re
 
 ## Playing the game
 If you use a source port (I recommend Yamagi) you can use the built in "mod" menu to select "gladiator" and simply start a new game using "Game->Easy/Medium/Hard".
+
+Otherwise, it's the old `"quake2.exe +set game gladiator"` by batch file or shortcut.
 
 ### Saving for later / reloading a saved game:
 Progress will be saved in the form of unlocked tiers as you progress - however if you quit today and restart tomorrow you'll start back at the beginning of the last tier you were playing.
