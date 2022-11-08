@@ -90,4 +90,6 @@ documentation included with your product.
 Version Changes
 ---------------
 
-n/a
+1.0.0 - Initial Release
+1.0.1 - Changed CFGs to prevent issues with pure ID Quake2 executable.
+        Yamagi Quake2 still HIGHLY recommended.
